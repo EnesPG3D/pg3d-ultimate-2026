@@ -3,114 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PG3D ULTIMATE 2026 | MEGA ARCHIVE</title>
+    <title>PG3D ULTIMATE 2026 | Definitive Wiki & Loadouts</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --p: #00f2ff; --s: #bc13fe; --a: #ff0055; --bg: #020205;
+            --p: #00f2ff; --s: #bc13fe; --a: #ff0055; --bg: #010103;
             --mythical: #ff00ff; --legendary: #ffcc00; --epic: #9d00ff;
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             background: var(--bg); color: white; font-family: 'Rajdhani', sans-serif; 
-            overflow: hidden; /* Girişte kaydırmayı kapatıyoruz */
+            overflow: hidden; 
         }
 
-        /* Warp Speed Background */
-        #main-canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        #main-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
 
-        /* --- SAYFA 1: GİRİŞ (HERO) --- */
-        #landing-page {
+        /* --- LANDING --- */
+        #landing {
             height: 100vh; display: flex; flex-direction: column;
             justify-content: center; align-items: center; text-align: center;
-            transition: 1s ease-in-out; position: relative; z-index: 10;
+            background: radial-gradient(circle, rgba(0, 242, 255, 0.05) 0%, transparent 70%);
         }
 
-        .mega-title {
-            font-family: 'Orbitron'; font-size: clamp(3rem, 15vw, 8rem);
-            font-weight: 900; background: linear-gradient(to bottom, #fff, var(--p));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px var(--p)); margin-bottom: 20px;
+        .glitch-title {
+            font-family: 'Orbitron'; font-size: clamp(2rem, 10vw, 6rem);
+            color: #fff; text-shadow: 0 0 20px var(--p); letter-spacing: 15px;
+            margin-bottom: 30px; position: relative;
         }
 
-        .enter-btn {
-            padding: 20px 60px; font-family: 'Orbitron'; font-size: 1.5rem;
-            background: transparent; border: 3px solid var(--p); color: var(--p);
-            cursor: pointer; position: relative; overflow: hidden; transition: 0.4s;
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        .main-nav-btns { display: flex; gap: 20px; }
+
+        .btn-core {
+            padding: 15px 40px; font-family: 'Orbitron'; font-weight: bold;
+            background: transparent; border: 2px solid var(--p); color: var(--p);
+            cursor: pointer; transition: 0.3s; text-decoration: none;
+            clip-path: polygon(0 0, 90% 0, 100% 30%, 100% 100%, 10% 100%, 0 70%);
         }
 
-        .enter-btn:hover {
-            background: var(--p); color: black; box-shadow: 0 0 50px var(--p);
-            transform: scale(1.1);
-        }
+        .btn-core:hover { background: var(--p); color: #000; box-shadow: 0 0 30px var(--p); }
 
-        /* --- SAYFA 2: DEV ARŞİV --- */
-        #archive-page {
+        /* --- APP CONTAINER --- */
+        #app-overlay {
             position: fixed; top: 100%; left: 0; width: 100%; height: 100vh;
-            background: var(--bg); z-index: 20; transition: 1s cubic-bezier(0.85, 0, 0.15, 1);
-            overflow-y: auto; padding: 40px 5%; visibility: hidden;
+            background: var(--bg); z-index: 100; transition: 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+            overflow-y: auto; padding: 30px 5%; visibility: hidden;
+        }
+        #app-overlay.active { top: 0; visibility: visible; }
+
+        .header-bar {
+            position: sticky; top: 0; background: var(--bg); padding: 10px 0;
+            z-index: 101; border-bottom: 2px solid var(--s); margin-bottom: 30px;
         }
 
-        #archive-page.active { top: 0; visibility: visible; }
-
-        .archive-header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px solid var(--s); padding-bottom: 20px; margin-bottom: 40px;
+        .search-bar {
+            width: 100%; padding: 15px; border-radius: 5px; background: #111;
+            border: 1px solid var(--p); color: white; font-family: 'Orbitron'; margin-top: 15px;
         }
 
-        .search-box {
-            width: 100%; max-width: 500px; padding: 15px; background: rgba(255,255,255,0.05);
-            border: 1px solid var(--p); border-radius: 10px; color: white; font-family: 'Orbitron';
+        /* --- TABS --- */
+        .tab-system { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .tab-item {
+            padding: 10px 20px; background: var(--glass); border: 1px solid #333;
+            cursor: pointer; font-size: 0.8rem; font-family: 'Orbitron'; transition: 0.3s;
         }
+        .tab-item.active { border-color: var(--p); color: var(--p); background: rgba(0, 242, 255, 0.1); }
 
-        .filter-bar {
-            display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px;
-        }
-
-        .f-btn {
-            padding: 8px 15px; background: #111; border: 1px solid #333; color: #fff;
-            cursor: pointer; border-radius: 4px; font-size: 0.8rem; transition: 0.3s;
-        }
-
-        .f-btn.active { background: var(--s); border-color: var(--s); box-shadow: 0 0 15px var(--s); }
-
-        /* GRID VE KARTLAR */
-        .mega-grid {
+        /* --- CARDS --- */
+        .wiki-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px; padding-bottom: 100px;
+            gap: 20px; margin-top: 20px;
         }
 
-        .item-card {
-            background: rgba(20, 20, 30, 0.7); border: 1px solid #222; border-radius: 15px;
-            padding: 20px; transition: 0.4s; position: relative; backdrop-filter: blur(10px);
+        .card {
+            background: rgba(10, 10, 15, 0.8); border: 1px solid #222;
+            padding: 20px; border-radius: 10px; position: relative; overflow: hidden;
+            transition: 0.3s;
         }
+        .card:hover { border-color: var(--p); transform: translateY(-5px); }
 
-        .item-card:hover {
-            border-color: var(--p); transform: translateY(-10px);
-            background: rgba(0, 242, 255, 0.05);
+        .rarity-pill {
+            position: absolute; top: 10px; right: 10px; font-size: 10px;
+            padding: 2px 8px; border-radius: 4px; font-weight: 900;
         }
+        .M { background: var(--mythical); color: #fff; }
+        .L { background: var(--legendary); color: #000; }
 
-        .rarity {
-            position: absolute; top: 15px; right: 15px; font-size: 0.7rem;
-            padding: 2px 10px; border-radius: 10px; font-weight: bold;
+        .stats-wrap { margin-top: 15px; }
+        .stat-line { font-size: 12px; color: #aaa; margin-bottom: 5px; }
+        .progress-bg { height: 4px; background: #111; border-radius: 2px; }
+        .progress-fill { height: 100%; background: var(--p); box-shadow: 0 0 10px var(--p); }
+
+        /* --- LOADOUT SECTION --- */
+        .loadout-card {
+            background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), transparent);
+            border: 1px solid var(--s); margin-bottom: 20px; padding: 25px; border-radius: 15px;
         }
+        .loadout-title { color: var(--s); font-family: 'Orbitron'; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .loadout-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .loadout-item { font-size: 13px; color: #ccc; background: rgba(0,0,0,0.3); padding: 5px 10px; border-left: 2px solid var(--p); }
 
-        .m { background: var(--mythical); color: white; }
-        .l { background: var(--legendary); color: black; }
-        .e { background: var(--epic); color: white; }
-
-        .stat-group { margin-top: 15px; }
-        .stat-label { font-size: 0.7rem; color: #888; display: flex; justify-content: space-between; }
-        .stat-bar { height: 5px; background: #000; border-radius: 10px; margin: 4px 0 10px; overflow: hidden; }
-        .stat-fill { height: 100%; background: linear-gradient(90deg, var(--p), var(--s)); }
-
-        .back-btn {
-            position: fixed; bottom: 30px; right: 30px; padding: 15px 30px;
-            background: var(--a); color: white; border: none; border-radius: 50px;
-            font-family: 'Orbitron'; cursor: pointer; z-index: 100; box-shadow: 0 0 20px var(--a);
+        .back-home {
+            position: fixed; bottom: 20px; right: 20px; background: var(--a);
+            color: white; border: none; padding: 15px 30px; font-family: 'Orbitron';
+            cursor: pointer; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
         }
 
     </style>
@@ -119,151 +117,188 @@
 
     <canvas id="main-canvas"></canvas>
 
-    <div id="landing-page">
-        <p style="letter-spacing: 10px; color: var(--p); font-weight: bold;">SYSTEM STATUS: ONLINE</p>
-        <h1 class="mega-title">ENESPG3D</h1>
-        <button class="enter-btn" onclick="toggleArchive()">SİLAH ARŞİVİNE GİR</button>
+    <div id="landing">
+        <p style="letter-spacing: 5px; color: var(--p);">PIXEL GUN 3D DATABASE v2.6</p>
+        <h1 class="glitch-title">ENESPG3D</h1>
+        <div class="main-nav-btns">
+            <button class="btn-core" onclick="openApp('wiki')">WIKI ARŞİVİ</button>
+            <button class="btn-core" onclick="openApp('loadout')" style="border-color: var(--s); color: var(--s);">2026 LOADOUTS</button>
+        </div>
     </div>
 
-    <div id="archive-page">
-        <div class="archive-header">
-            <h2 style="font-family: 'Orbitron'; color: var(--p);">ULTIMATE ARCHIVE v2.0</h2>
-            <input type="text" class="search-box" id="search" placeholder="1000+ Eşya İçinde Ara..." onkeyup="filterItems()">
+    <div id="app-overlay">
+        <div class="header-bar">
+            <h2 id="view-title" style="font-family: 'Orbitron';">ULTIMATE WIKI</h2>
+            <input type="text" class="search-bar" id="search" placeholder="Eşya veya Set ara..." onkeyup="render()">
         </div>
 
-        <div class="filter-bar" id="filters">
-            <button class="f-btn active" onclick="setFilter('all')">HEPSİ</button>
-            <button class="f-btn" onclick="setFilter('Primary')">PRIMARY</button>
-            <button class="f-btn" onclick="setFilter('Backup')">BACKUP</button>
-            <button class="f-btn" onclick="setFilter('Melee')">MELEE</button>
-            <button class="f-btn" onclick="setFilter('Special')">SPECIAL</button>
-            <button class="f-btn" onclick="setFilter('Sniper')">SNIPER</button>
-            <button class="f-btn" onclick="setFilter('Heavy')">HEAVY</button>
-            <button class="f-btn" onclick="setFilter('Armor')">ARMOR</button>
-            <button class="f-btn" onclick="setFilter('Gadget')">GADGETS</button>
+        <div id="wiki-controls">
+            <div class="tab-system">
+                <div class="tab-item active" onclick="setCat('ALL')">HEPSİ</div>
+                <div class="tab-item" onclick="setCat('Primary')">PRIMARY</div>
+                <div class="tab-item" onclick="setCat('Backup')">BACKUP</div>
+                <div class="tab-item" onclick="setCat('Melee')">MELEE</div>
+                <div class="tab-item" onclick="setCat('Special')">SPECIAL</div>
+                <div class="tab-item" onclick="setCat('Sniper')">SNIPER</div>
+                <div class="tab-item" onclick="setCat('Heavy')">HEAVY</div>
+                <div class="tab-item" onclick="setCat('Wearable')">WEARABLES</div>
+            </div>
         </div>
 
-        <div class="mega-grid" id="grid">
+        <div class="wiki-grid" id="main-grid">
             </div>
 
-        <button class="back-btn" onclick="toggleArchive()">ANA MENÜYE DÖN</button>
+        <button class="back-home" onclick="closeApp()">ANA MENÜ</button>
     </div>
 
     <script>
-        // --- STARFIELD MOTORU ---
+        // --- DATA ENGINE (FULL WIKI) ---
+        const WIKI_DATA = [
+            // PRIMARY
+            { name: "Ultimatum", cat: "Primary", rarity: "M", dmg: 100, mob: 85, fr: 65 },
+            { name: "Viking", cat: "Primary", rarity: "M", dmg: 92, mob: 75, fr: 72 },
+            { name: "Golden Friend", cat: "Primary", rarity: "M", dmg: 88, mob: 85, fr: 98 },
+            { name: "Tactical Scorcher", cat: "Primary", rarity: "M", dmg: 94, mob: 85, fr: 92 },
+            { name: "Nachos Shotgun", cat: "Primary", rarity: "M", dmg: 90, mob: 80, fr: 68 },
+            { name: "Casanova", cat: "Primary", rarity: "E", dmg: 70, mob: 80, fr: 90 },
+
+            // BACKUP
+            { name: "Laser Cycler", cat: "Backup", rarity: "M", dmg: 82, mob: 90, fr: 88 },
+            { name: "Fake Pistol", cat: "Backup", rarity: "M", dmg: 95, mob: 90, fr: 75 },
+            { name: "Exterminator", cat: "Backup", rarity: "L", dmg: 88, mob: 65, fr: 40 },
+            { name: "Thunderer", cat: "Backup", rarity: "L", dmg: 89, mob: 65, fr: 38 },
+            { name: "Sneaky Pistol", cat: "Backup", rarity: "M", dmg: 84, mob: 95, fr: 85 },
+
+            // MELEE
+            { name: "Heroic Epee", cat: "Melee", rarity: "M", dmg: 65, mob: 100, fr: 92 },
+            { name: "Thermal Ultra Scythe", cat: "Melee", rarity: "M", dmg: 85, mob: 95, fr: 78 },
+            { name: "Ban Hammer", cat: "Melee", rarity: "M", dmg: 92, mob: 85, fr: 70 },
+            { name: "Spirit Staff", cat: "Melee", rarity: "L", dmg: 80, mob: 80, fr: 85 },
+            { name: "One Punch Gauntlet", cat: "Melee", rarity: "M", dmg: 100, mob: 85, fr: 60 },
+
+            // SPECIAL
+            { name: "Vertical Grip Device", cat: "Special", rarity: "M", dmg: 40, mob: 100, fr: 50 },
+            { name: "Notik (Necklace of the Ice King)", cat: "Special", rarity: "M", dmg: 88, mob: 85, fr: 60 },
+            { name: "Poison Dart", cat: "Special", rarity: "E", dmg: 85, mob: 95, fr: 75 },
+            { name: "Cyber Cat Lantern", cat: "Special", rarity: "M", dmg: 82, mob: 80, fr: 80 },
+            { name: "Sly Wolf", cat: "Special", rarity: "M", dmg: 50, mob: 70, fr: 40 },
+
+            // SNIPER
+            { name: "Anti-Champion Rifle", cat: "Sniper", rarity: "M", dmg: 98, mob: 50, fr: 32 },
+            { name: "Prototype X", cat: "Sniper", rarity: "M", dmg: 94, mob: 60, fr: 35 },
+            { name: "Demon Catcher", cat: "Sniper", rarity: "M", dmg: 100, mob: 45, fr: 25 },
+            { name: "Dream Warden", cat: "Sniper", rarity: "M", dmg: 95, mob: 65, fr: 30 },
+            { name: "Anniversary Anti-Virus", cat: "Sniper", rarity: "M", dmg: 97, mob: 55, fr: 34 },
+            { name: "Sakura", cat: "Sniper", rarity: "M", dmg: 93, mob: 70, fr: 45 },
+
+            // HEAVY
+            { name: "Destruction System", cat: "Heavy", rarity: "M", dmg: 95, mob: 65, fr: 48 },
+            { name: "Christmas Ultimatum", cat: "Heavy", rarity: "M", dmg: 98, mob: 50, fr: 42 },
+            { name: "Pixel Cola Refresher", cat: "Heavy", rarity: "M", dmg: 85, mob: 95, fr: 60 },
+            { name: "Bedivere", cat: "Heavy", rarity: "M", dmg: 96, mob: 55, fr: 35 },
+            { name: "Dislike", cat: "Heavy", rarity: "M", dmg: 94, mob: 65, fr: 45 },
+
+            // WEARABLES
+            { name: "Ultimate Armor", cat: "Wearable", rarity: "M", dmg: 100, mob: 10, fr: 0 },
+            { name: "Burning Tiara", cat: "Wearable", rarity: "L", dmg: 15, mob: 15, fr: 0 },
+            { name: "Ultimate Crown", cat: "Wearable", rarity: "M", dmg: 20, mob: 5, fr: 0 },
+            { name: "Cyber Ninja Mask", cat: "Wearable", rarity: "L", dmg: 10, mob: 20, fr: 0 }
+        ];
+
+        const LOADOUTS = [
+            { title: "3-CAT SPAM GOD", items: ["Ultimatum", "Exterminator", "Heroic Epee", "Notik", "Anti-Champion", "Destruction System"], set: "Ultimate Set" },
+            { title: "THE SNIPER KING", items: ["Viking", "Laser Cycler", "Ultra Scythe", "Poison Darts", "Sakura", "Pixel Cola"], set: "Invis-Set" },
+            { title: "2026 META (FAST)", items: ["Tactical Scorcher", "Fake Pistol", "Epee", "VGD", "Dream Warden", "Christmas Ultimatum"], set: "Cyber Ninja" },
+            { title: "VETERAN TANK", items: ["Golden Friend", "Thunderer", "Ban Hammer", "Sly Wolf", "Demon Catcher", "Bedivere"], set: "Titan Armor" }
+            // Buraya 30'a kadar loadout ekleyebilirsiniz.
+        ];
+
+        let currentView = 'wiki';
+        let currentFilter = 'ALL';
+
+        function openApp(view) {
+            currentView = view;
+            document.getElementById('app-overlay').classList.add('active');
+            document.getElementById('view-title').innerText = view === 'wiki' ? 'PG3D ARŞİV' : '2026 LOADOUTS';
+            document.getElementById('wiki-controls').style.display = view === 'wiki' ? 'block' : 'none';
+            render();
+        }
+
+        function closeApp() {
+            document.getElementById('app-overlay').classList.remove('active');
+        }
+
+        function setCat(c) {
+            currentFilter = c;
+            document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            render();
+        }
+
+        function render() {
+            const grid = document.getElementById('main-grid');
+            const search = document.getElementById('search').value.toLowerCase();
+            grid.innerHTML = '';
+
+            if (currentView === 'wiki') {
+                const filtered = WIKI_DATA.filter(w => {
+                    return (currentFilter === 'ALL' || w.cat === currentFilter) && 
+                           (w.name.toLowerCase().includes(search));
+                });
+
+                filtered.forEach(w => {
+                    grid.innerHTML += `
+                        <div class="card">
+                            <div class="rarity-pill ${w.rarity}">${w.rarity === 'M' ? 'MYTHICAL' : 'LEGENDARY'}</div>
+                            <div style="font-size:10px; color:var(--p)">${w.cat.toUpperCase()}</div>
+                            <h3 style="margin-top:5px; font-size:16px;">${w.name}</h3>
+                            <div class="stats-wrap">
+                                <div class="stat-line">HASAR: ${w.dmg}</div>
+                                <div class="progress-bg"><div class="progress-fill" style="width:${w.dmg}%"></div></div>
+                                <div class="stat-line" style="margin-top:8px">HAREKET: ${w.mob}</div>
+                                <div class="progress-bg"><div class="progress-fill" style="width:${w.mob}%; background:var(--s); box-shadow:0 0 10px var(--s);"></div></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                LOADOUTS.forEach(l => {
+                    grid.innerHTML += `
+                        <div class="loadout-card">
+                            <h3 class="loadout-title">${l.title}</h3>
+                            <div class="loadout-items">
+                                ${l.items.map(i => `<div class="loadout-item">${i}</div>`).join('')}
+                            </div>
+                            <div style="margin-top:15px; font-size:12px; color:var(--p)">ZIRH SETİ: ${l.set}</div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        // --- STAR ENGINE ---
         const canvas = document.getElementById('main-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
         function initStars() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             stars = [];
-            for(let i=0; i<400; i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, z: Math.random()*canvas.width });
+            for(let i=0; i<300; i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, z: Math.random()*canvas.width });
         }
         function draw() {
             ctx.fillStyle = "black"; ctx.fillRect(0,0,canvas.width, canvas.height);
             stars.forEach(s => {
                 let x = (s.x - canvas.width/2) * (canvas.width/s.z) + canvas.width/2;
                 let y = (s.y - canvas.height/2) * (canvas.width/s.z) + canvas.height/2;
-                let sz = (1 - s.z/canvas.width) * 3;
+                let sz = (1 - s.z/canvas.width) * 2;
                 ctx.fillStyle = `rgba(0, 242, 255, ${1 - s.z/canvas.width})`;
                 ctx.fillRect(x, y, sz, sz);
-                s.z -= 5; if(s.z <= 0) s.z = canvas.width;
+                s.z -= 4; if(s.z <= 0) s.z = canvas.width;
             });
             requestAnimationFrame(draw);
         }
         window.addEventListener('resize', initStars);
         initStars(); draw();
-
-        // --- DEV VERİ SİSTEMİ (1000+ EŞYA ÜRETİCİ) ---
-        const weapons = [
-            { n: "Ultimatum", c: "Primary", r: "m", d: 100, m: 85 },
-            { n: "Anti-Champion Rifle", c: "Sniper", r: "m", d: 98, m: 50 },
-            { n: "Viking", c: "Primary", r: "m", d: 92, m: 75 },
-            { n: "Heroic Epee", c: "Melee", r: "m", d: 65, m: 100 },
-            { n: "Destruction System", c: "Heavy", r: "m", d: 95, m: 65 },
-            { n: "Laser Cycler", c: "Backup", r: "m", d: 85, m: 90 },
-            { n: "Vertical Grip Device", c: "Special", r: "m", d: 40, m: 100 },
-            { n: "Prototype", c: "Sniper", r: "l", d: 90, m: 60 },
-            { n: "Exterminator", c: "Backup", r: "l", d: 88, m: 65 },
-            { n: "Anniversary Anti-Virus", c: "Sniper", r: "m", d: 96, m: 55 },
-            { n: "Crystal Laser Cannon", c: "Special", r: "l", d: 75, m: 80 },
-            { n: "Demon Catcher", c: "Sniper", r: "m", d: 100, m: 45 },
-            { n: "Falcon", c: "Heavy", r: "m", d: 90, m: 70 },
-            { n: "Notik", c: "Special", r: "m", d: 88, m: 85 },
-            { n: "Casanova", c: "Primary", r: "e", d: 70, m: 80 },
-            { n: "Tactical Scorcher", c: "Primary", r: "m", d: 94, m: 85 },
-            { n: "Fake Pistol", c: "Backup", r: "m", d: 92, m: 90 },
-            { n: "Jetpack", c: "Gadget", r: "m", d: 0, m: 100 },
-            { n: "Cyber Bee Swarm", c: "Gadget", r: "m", d: 85, m: 0 },
-            { n: "Ultimate Armor", c: "Armor", r: "m", d: 100, m: 10 }
-        ];
-
-        // 1000+ Eşyaya tamamlamak için varyasyon üretici
-        const prefixes = ["Neo", "Dark", "Cyber", "Void", "Infinity", "Golden", "Plasma", "Nuclear", "Shadow", "Ancient"];
-        const weaponTypes = ["Slayer", "Blaster", "Revolver", "Sword", "Launcher", "Sniper", "Shotgun", "Bow", "Staff", "Hammer"];
-        
-        for(let i=0; i<980; i++) {
-            const pre = prefixes[Math.floor(Math.random()*prefixes.length)];
-            const typ = weaponTypes[Math.floor(Math.random()*weaponTypes.length)];
-            const cats = ["Primary", "Backup", "Melee", "Special", "Sniper", "Heavy", "Gadget", "Armor"];
-            const rarities = ["m", "l", "e"];
-            weapons.push({
-                n: `${pre} ${typ} #${i+21}`,
-                c: cats[Math.floor(Math.random()*cats.length)],
-                r: rarities[Math.floor(Math.random()*rarities.length)],
-                d: Math.floor(Math.random()*50)+50,
-                m: Math.floor(Math.random()*60)+40
-            });
-        }
-
-        const grid = document.getElementById('grid');
-        let currentFilter = 'all';
-
-        function render() {
-            grid.innerHTML = '';
-            const search = document.getElementById('search').value.toLowerCase();
-            const filtered = weapons.filter(w => {
-                const matchesSearch = w.n.toLowerCase().includes(search);
-                const matchesCat = currentFilter === 'all' || w.c === currentFilter;
-                return matchesSearch && matchesCat;
-            });
-
-            filtered.forEach(w => {
-                const card = document.createElement('div');
-                card.className = 'item-card';
-                card.innerHTML = `
-                    <span class="rarity ${w.r}">${w.r === 'm' ? 'MYTHICAL' : w.r === 'l' ? 'LEGENDARY' : 'EPIC'}</span>
-                    <h3 style="font-family: Orbitron; font-size: 1rem; color: var(--p);">${w.n}</h3>
-                    <p style="font-size: 0.7rem; color: #555;">CATEGORY: ${w.c}</p>
-                    <div class="stat-group">
-                        <div class="stat-label"><span>POWER</span><span>${w.d}</span></div>
-                        <div class="stat-bar"><div class="stat-fill" style="width:${w.d}%"></div></div>
-                        <div class="stat-label"><span>MOBILITY</span><span>${w.m}</span></div>
-                        <div class="stat-bar"><div class="stat-fill" style="width:${w.m}%; background:var(--s)"></div></div>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-        }
-
-        function toggleArchive() {
-            const archive = document.getElementById('archive-page');
-            archive.classList.toggle('active');
-            if(archive.classList.contains('active')) {
-                document.body.style.overflowY = "hidden"; 
-                render();
-            } else {
-                document.body.style.overflowY = "hidden";
-            }
-        }
-
-        function filterItems() { render(); }
-        function setFilter(c) {
-            currentFilter = c;
-            document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            render();
-        }
     </script>
 </body>
 </html>
