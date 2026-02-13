@@ -1,141 +1,65 @@
-index.html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PG3D Ultimate 2026</title>
-
-<style>
-:root{
---bg-dark:#0f0f1a;
---bg-light:#ffffff;
---text-dark:#ffffff;
---text-light:#000000;
---neon:#00f7ff;
-}
-
-body{
-margin:0;
-font-family:Arial, sans-serif;
-transition:0.3s;
-}
-
-body.dark{
-background:var(--bg-dark);
-color:var(--text-dark);
-}
-
-body.light{
-background:var(--bg-light);
-color:var(--text-light);
-}
-
-header{
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
-
-.neon{
-color:var(--neon);
-text-shadow:0 0 10px var(--neon),
-0 0 20px var(--neon),
-0 0 40px var(--neon);
-}
-
-.toggle{
-position:fixed;
-top:10px;
-right:10px;
-padding:8px 12px;
-border:none;
-border-radius:20px;
-cursor:pointer;
-}
-
-.card{
-margin:15px;
-padding:15px;
-border-radius:20px;
-box-shadow:0 0 15px rgba(0,255,255,0.3);
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-}
-
-button{
-padding:10px;
-border-radius:10px;
-border:none;
-margin-top:10px;
-cursor:pointer;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PG3D 2026 Ultimate</title>
+  <style>
+    body { font-family: Arial; background-color: #121212; color: #fff; margin: 0; padding: 0; }
+    header { padding: 15px; text-align: center; background: #0ff; color: #000; font-size: 24px; font-weight: bold; }
+    .container { padding: 20px; }
+    button { padding: 10px 20px; margin-bottom: 15px; background: #0ff; color: #000; border: none; border-radius: 5px; cursor: pointer; }
+    .item-card { padding: 10px; margin: 5px 0; border: 1px solid #0ff; border-radius: 8px; box-shadow: 0 0 10px #0ff; }
+  </style>
 </head>
+<body>
+  <header>PG3D 2026 Ultimate</header>
+  <div class="container">
+    <button id="loadBtn">Load Weapons</button>
+    <div id="weapon-list"></div>
+  </div>
 
-<body class="dark">
+  <!-- JS Kodunu En Alta Ekliyoruz -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-<header class="neon">PG3D ULTIMATE 2026 🔥</header>
+    // Firestore config (senin mevcut)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCYlrHvFLCZ1NxokDacDXWOHtzR3_HXJ_A",
+      authDomain: "pg3d-ultimate-2026.firebaseapp.com",
+      projectId: "pg3d-ultimate-2026",
+      storageBucket: "pg3d-ultimate-2026.appspot.com",
+      messagingSenderId: "903222763332",
+      appId: "1:903222763332:web:ad69029e9dd9f550508111"
+    };
 
-<button class="toggle" onclick="toggleMode()">Dark/Light</button>
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-<div class="card">
-<h3>AI Loadout Assistant 🤖</h3>
-<input type="text" id="question" placeholder="Ask best weapon 2026..." style="width:100%;padding:8px;border-radius:10px;">
-<button onclick="askAI()">Ask</button>
-<p id="answer"></p>
-</div>
+    async function loadWeapons() {
+      try {
+        const weaponsCol = collection(db, "weapons");
+        const snapshot = await getDocs(weaponsCol);
+        const listDiv = document.getElementById("weapon-list");
+        listDiv.innerHTML = "";
 
-<div class="card">
-<h3>Weapon Database 📦</h3>
-<button onclick="loadWeapons()">Load Weapons</button>
-<div id="weapons"></div>
-</div>
+        snapshot.docs.forEach(doc => {
+          const w = doc.data();
+          const el = document.createElement("div");
+          el.className = "item-card";
+          el.textContent = `Name: ${w.name} | Damage: ${w.damage || "-"} | Speed: ${w.speed || "-"}`;
+          listDiv.appendChild(el);
+        });
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        alert("Weapons loaded! Scroll down to see them.");
+      } catch (err) {
+        console.error("Error loading weapons:", err);
+        alert("Failed to load weapons. Check console.");
+      }
+    }
 
-/* BURAYA KENDİ FIREBASE CONFIG'İNİ YAPIŞTIR */
-const firebaseConfig = {
-apiKey: "XXXX",
-authDomain: "XXXX",
-projectId: "XXXX",
-storageBucket: "XXXX",
-messagingSenderId: "XXXX",
-appId: "XXXX"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-window.loadWeapons = async function(){
-const querySnapshot = await getDocs(collection(db,"weapons"));
-let html="";
-querySnapshot.forEach(doc=>{
-let w = doc.data();
-html += `<div class="card">
-<b>${w.name}</b><br>
-Damage: ${w.damage}<br>
-Fire Rate: ${w.fireRate}<br>
-Special: ${w.special}
-</div>`;
-});
-document.getElementById("weapons").innerHTML = html;
-}
-
-window.askAI = async function(){
-let q = document.getElementById("question").value;
-document.getElementById("answer").innerText = "AI response will be connected next step 🔥";
-}
-
-window.toggleMode = function(){
-document.body.classList.toggle("dark");
-document.body.classList.toggle("light");
-}
-</script>
-
-</body><button id="loadBtn">Load Weapons</button>
-<div id="weapon-list"></div>
-  </html>
+    document.getElementById("loadBtn").addEventListener("click", loadWeapons);
+  </script>
+</body>
+</html>
