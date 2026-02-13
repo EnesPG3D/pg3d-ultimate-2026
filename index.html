@@ -1,132 +1,166 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PG3D 2026 Ultimate</title>
-  <style>
-    /* Temel body ve tema */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #fff;
-      overflow-x: hidden;
-    }
-    /* Yıldızlı arka plan */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(#fff 1px, transparent 1px);
-      background-size: 3px 3px;
-      animation: starMove 100s linear infinite;
-      z-index: -1;
-    }
-    @keyframes starMove {
-      0% { transform: translate(0,0); }
-      100% { transform: translate(-100px,-100px); }
-    }
-    header {
-      padding: 15px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
-      color: #0ff;
-      text-shadow: 0 0 10px #0ff;
-    }
-    .container {
-      padding: 20px;
-    }
-    button {
-      padding: 10px 20px;
-      margin-bottom: 15px;
-      background: #0ff;
-      color: #000;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-      box-shadow: 0 0 10px #0ff;
-    }
-    .item-card {
-      padding: 10px;
-      margin: 5px 0;
-      border: 1px solid #0ff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #0ff;
-      background: rgba(0,0,0,0.4);
-    }
-    /* Dark/Light toggle */
-    .dark-mode { background: #000; color: #fff; }
-    .light-mode { background: #fff; color: #000; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PG3D 2026 Ultimate Hub</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Yıldızlı arka plan */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0;
+  width: 200%; height: 200%;
+  background: radial-gradient(#fff 1px, transparent 1px);
+  background-size: 3px 3px;
+  animation: starMove 100s linear infinite;
+  z-index: -1;
+}
+@keyframes starMove {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(-100px,-100px); }
+}
+
+header {
+  padding: 20px;
+  text-align: center;
+  font-size: 28px;
+  color: #0ff;
+  text-shadow: 0 0 10px #0ff;
+}
+
+.container { padding: 20px; }
+button {
+  padding: 10px 20px;
+  margin: 5px 0;
+  background: #0ff;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 0 10px #0ff;
+}
+
+.item-card {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #0ff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #0ff;
+  background: rgba(0,0,0,0.4);
+}
+
+.dark-mode { background: #000; color: #fff; }
+.light-mode { background: #fff; color: #000; }
+
+</style>
 </head>
 <body class="dark-mode">
-  <header>PG3D 2026 Ultimate 🔥</header>
-  <div class="container">
-    <button id="loadBtn">Load Weapons</button>
-    <div id="weapon-list"></div>
-    <button id="toggleTheme">Toggle Dark/Light</button>
-  </div>
+<header>PG3D 2026 Ultimate Hub</header>
+<div class="container">
+  <button id="loadWeaponsBtn">Load Weapons</button>
+  <button id="loadArmorsBtn">Load Armors</button>
+  <button id="loadMasksBtn">Load Masks</button>
+  <button id="loadEquipmentBtn">Load Equipment</button>
+  <button id="loadGemsBtn">Load Gems</button>
+  <button id="aiLoadoutBtn">AI Loadout</button>
+  <button id="toggleTheme">Toggle Dark/Light</button>
+  <div id="itemsContainer"></div>
+</div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-    // Firestore config
-    const firebaseConfig = {
-      apiKey: "AIzaSyCYlrHvFLCZ1NxokDacDXWOHtzR3_HXJ_A",
-      authDomain: "pg3d-ultimate-2026.firebaseapp.com",
-      projectId: "pg3d-ultimate-2026",
-      storageBucket: "pg3d-ultimate-2026.appspot.com",
-      messagingSenderId: "903222763332",
-      appId: "1:903222763332:web:ad69029e9dd9f550508111"
-    };
+// FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyCYlrHvFLCZ1NxokDacDXWOHtzR3_HXJ_A",
+  authDomain: "pg3d-ultimate-2026.firebaseapp.com",
+  projectId: "pg3d-ultimate-2026",
+  storageBucket: "pg3d-ultimate-2026.appspot.com",
+  messagingSenderId: "903222763332",
+  appId: "1:903222763332:web:ad69029e9dd9f550508111"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    // Load Weapons
-    async function loadWeapons() {
-      try {
-        const weaponsCol = collection(db, "weapons");
-        const snapshot = await getDocs(weaponsCol);
-        const listDiv = document.getElementById("weapon-list");
-        listDiv.innerHTML = "";
+const itemsContainer = document.getElementById("itemsContainer");
 
-        snapshot.docs.forEach(doc => {
-          const w = doc.data();
-          const el = document.createElement("div");
-          el.className = "item-card";
-          el.textContent = `Name: ${w.name} | Damage: ${w.damage || "-"} | Speed: ${w.speed || "-"} | FireRate: ${w.fireRate || "-"} | Range: ${w.range || "-"}`;
-          listDiv.appendChild(el);
-        });
-
-        alert("Weapons loaded! Scroll down to see them.");
-      } catch (err) {
-        console.error("Error loading weapons:", err);
-        alert("Failed to load weapons. Check console.");
-      }
-    }
-
-    document.getElementById("loadBtn").addEventListener("click", loadWeapons);
-
-    // Dark/Light toggle
-    document.getElementById("toggleTheme").addEventListener("click", () => {
-      const body = document.body;
-      if(body.classList.contains("dark-mode")) {
-        body.classList.remove("dark-mode");
-        body.classList.add("light-mode");
-      } else {
-        body.classList.remove("light-mode");
-        body.classList.add("dark-mode");
-      }
+// Generic Load function
+async function loadCollection(collectionName) {
+  try {
+    const colRef = collection(db, collectionName);
+    const snapshot = await getDocs(colRef);
+    itemsContainer.innerHTML = "";
+    snapshot.docs.forEach(doc => {
+      const data = doc.data();
+      const el = document.createElement("div");
+      el.className = "item-card";
+      el.textContent = Object.entries(data).map(([k,v]) => `${k}: ${v}`).join(" | ");
+      itemsContainer.appendChild(el);
     });
-  </script>
+  } catch(e) {
+    console.error("Error loading " + collectionName, e);
+    alert("Failed to load " + collectionName);
+  }
+}
+
+// Buttons
+document.getElementById("loadWeaponsBtn").addEventListener("click", ()=>loadCollection("weapons"));
+document.getElementById("loadArmorsBtn").addEventListener("click", ()=>loadCollection("armors"));
+document.getElementById("loadMasksBtn").addEventListener("click", ()=>loadCollection("masks"));
+document.getElementById("loadEquipmentBtn").addEventListener("click", ()=>loadCollection("equipment"));
+document.getElementById("loadGemsBtn").addEventListener("click", ()=>loadCollection("gems"));
+
+// AI Loadout
+document.getElementById("aiLoadoutBtn").addEventListener("click", async () => {
+  try {
+    const weapons = (await getDocs(collection(db, "weapons"))).docs;
+    const armors = (await getDocs(collection(db, "armors"))).docs;
+    const masks = (await getDocs(collection(db, "masks"))).docs;
+    const equipment = (await getDocs(collection(db, "equipment"))).docs;
+    const gems = (await getDocs(collection(db, "gems"))).docs;
+
+    function random(docArray){ return docArray[Math.floor(Math.random()*docArray.length)].data(); }
+
+    const aiSelection = [
+      random(weapons),
+      random(armors),
+      random(masks),
+      random(equipment),
+      random(gems)
+    ];
+
+    itemsContainer.innerHTML = "";
+    aiSelection.forEach(item=>{
+      const el = document.createElement("div");
+      el.className = "item-card";
+      el.textContent = Object.entries(item).map(([k,v]) => `${k}: ${v}`).join(" | ");
+      itemsContainer.appendChild(el);
+    });
+
+    alert("AI Loadout generated!");
+  } catch(e) {
+    console.error("Error generating AI Loadout", e);
+    alert("Failed to generate AI Loadout");
+  }
+});
+
+// Dark/Light toggle
+document.getElementById("toggleTheme").addEventListener("click", ()=>{
+  document.body.classList.toggle("dark-mode");
+  document.body.classList.toggle("light-mode");
+});
+</script>
 </body>
 </html>
