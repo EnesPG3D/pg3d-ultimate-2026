@@ -3,296 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PG3D ULTIMATE 2026 | EnesPG3D Elite</title>
+    <title>PG3D ULTIMATE WIKI 2026 | EnesPG3D</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #00f2ff;
             --secondary: #bc13fe;
-            --accent: #ff0055;
-            --dark: #05050a;
-            --neon-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+            --mythical: #ff00ff;
+            --legendary: #ffcc00;
+            --epic: #9d00ff;
+            --rare: #0077ff;
+            --dark-bg: #05050a;
+            --card-bg: rgba(20, 20, 30, 0.8);
+            --neon-border: 0 0 10px rgba(0, 242, 255, 0.3);
         }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark);
-            color: #fff;
-            font-family: 'Rajdhani', sans-serif;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--dark-bg); 
+            color: white; 
+            font-family: 'Rajdhani', sans-serif; 
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* --- Animasyonlu Uzay ve Plazma Arka Planı --- */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
+        /* Warp Speed Background */
+        #star-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; background: #000; }
 
-        /* --- Gelişmiş Navigasyon --- */
+        /* Navbar */
         nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid var(--primary);
-            position: fixed;
-            width: 100%;
-            box-sizing: border-box;
-            z-index: 1000;
+            position: fixed; width: 100%; padding: 15px 5%;
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--secondary);
+            display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+        }
+        .logo { font-family: 'Orbitron'; font-weight: 900; font-size: 1.5rem; color: var(--primary); text-shadow: var(--neon-border); }
+
+        /* Arama Çubuğu */
+        .search-container {
+            padding: 120px 10% 20px; text-align: center;
+        }
+        #wikiSearch {
+            width: 80%; max-width: 600px; padding: 15px 25px;
+            background: var(--card-bg); border: 2px solid var(--primary);
+            border-radius: 50px; color: white; font-family: 'Orbitron';
+            outline: none; transition: 0.3s; box-shadow: var(--neon-border);
+        }
+        #wikiSearch:focus { box-shadow: 0 0 25px var(--primary); width: 90%; }
+
+        /* Kategoriler */
+        .category-scroll {
+            display: flex; justify-content: center; gap: 15px;
+            padding: 20px 5%; flex-wrap: wrap;
+        }
+        .cat-btn {
+            padding: 10px 20px; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--secondary); color: white;
+            border-radius: 5px; cursor: pointer; font-family: 'Orbitron';
+            font-size: 0.8rem; transition: 0.3s;
+        }
+        .cat-btn:hover, .cat-btn.active { background: var(--secondary); box-shadow: 0 0 15px var(--secondary); }
+
+        /* Wiki Grid */
+        .wiki-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px; padding: 40px 10%;
         }
 
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 5px var(--primary));
-        }
-
-        /* --- Hero Section (Giriş) --- */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: radial-gradient(circle, transparent 20%, var(--dark) 80%);
-        }
-
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 10vw, 6rem);
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            animation: pulse 2s infinite alternate;
-        }
-
-        @keyframes pulse {
-            from { text-shadow: 0 0 10px var(--primary); transform: scale(1); }
-            to { text-shadow: 0 0 30px var(--secondary), 0 0 50px var(--accent); transform: scale(1.02); }
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 30px;
-            margin-top: 20px;
-            font-size: 1.2rem;
-            color: var(--primary);
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        /* --- PG3D Silah Kartları --- */
-        .weapon-section {
-            padding: 100px 5%;
-        }
-
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-            color: var(--primary);
-        }
-
-        .weapon-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-
-        .weapon-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--primary);
-            border-radius: 15px;
-            padding: 20px;
-            position: relative;
-            transition: 0.5s;
-            overflow: hidden;
+        .wiki-card {
+            background: var(--card-bg); border-radius: 15px; border: 1px solid #333;
+            padding: 20px; transition: 0.4s; position: relative; overflow: hidden;
             backdrop-filter: blur(10px);
         }
-
-        .weapon-card:hover {
-            transform: translateY(-15px) rotateX(10deg);
-            border-color: var(--secondary);
-            box-shadow: 0 0 40px rgba(188, 19, 254, 0.4);
+        .wiki-card:hover { 
+            transform: translateY(-10px) scale(1.02); 
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(0, 242, 255, 0.2);
         }
 
-        .weapon-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-bottom: 15px;
+        .rarity-tag {
+            position: absolute; top: 10px; right: 10px; font-size: 0.7rem;
+            padding: 2px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase;
         }
 
-        .stat-bar {
-            height: 8px;
-            background: #222;
-            border-radius: 4px;
-            margin: 10px 0;
-            position: relative;
-        }
+        .stats { margin-top: 15px; }
+        .stat-bar { height: 6px; background: #111; border-radius: 3px; margin: 5px 0 10px; overflow: hidden; }
+        .stat-progress { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
 
-        .stat-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 4px;
-            box-shadow: 0 0 10px var(--primary);
-        }
+        /* Bilgi Footer */
+        footer { padding: 40px; text-align: center; border-top: 1px solid #222; margin-top: 50px; opacity: 0.7; }
 
-        /* --- Footer --- */
-        footer {
-            padding: 50px;
-            text-align: center;
-            border-top: 1px solid #222;
-            background: #000;
-        }
-
-        .btn-ultimate {
-            padding: 15px 40px;
-            font-family: 'Orbitron', sans-serif;
-            background: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 20px;
-        }
-
-        .btn-ultimate:hover {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 0 30px var(--primary);
-        }
     </style>
 </head>
 <body>
 
-    <canvas id="bg-canvas"></canvas>
+    <canvas id="star-canvas"></canvas>
 
     <nav>
-        <div class="logo">ENESPG3D // ULTIMATE</div>
-        <div style="font-weight: bold; color: var(--accent);">VERSION 2026.4.0</div>
+        <div class="logo">PG3D WIKI // ULTIMATE 2026</div>
+        <div style="color: var(--primary); font-family: 'Orbitron'; font-size: 0.8rem;">DATABASE: v4.8.2</div>
     </nav>
 
-    <section class="hero">
-        <p style="letter-spacing: 5px; color: var(--primary);">PROTOCOL INITIATED</p>
-        <h1>PIXEL GUN 3D</h1>
-        <div class="hero-stats">
-            <span><i class="fas fa-crosshairs"></i> ELITE SNIPER</span>
-            <span><i class="fas fa-shield-virus"></i> MAX ARMOR</span>
-            <span><i class="fas fa-trophy"></i> CHAMPION</span>
+    <div class="search-container">
+        <input type="text" id="wikiSearch" placeholder="Silah, Set veya Gadget ara..." onkeyup="searchWiki()">
+    </div>
+
+    <div class="category-scroll">
+        <button class="cat-btn active" onclick="filterCat('all')">HEPSİ</button>
+        <button class="cat-btn" onclick="filterCat('Primary')">PRIMARY</button>
+        <button class="cat-btn" onclick="filterCat('Backup')">BACKUP</button>
+        <button class="cat-btn" onclick="filterCat('Melee')">MELEE</button>
+        <button class="cat-btn" onclick="filterCat('Special')">SPECIAL</button>
+        <button class="cat-btn" onclick="filterCat('Sniper')">SNIPER</button>
+        <button class="cat-btn" onclick="filterCat('Heavy')">HEAVY</button>
+        <button class="cat-btn" onclick="filterCat('Gadget')">GADGETS</button>
+        <button class="cat-btn" onclick="filterCat('Armor')">WEARABLES</button>
+    </div>
+
+    <div class="wiki-grid" id="wikiGrid">
         </div>
-        <a href="#weapons" class="btn-ultimate">SİLAH ARŞİVİNE GİR</a>
-    </section>
 
-    <section class="weapon-section" id="weapons">
-        <h2 class="section-title">ULTIMATE EKİPMANLAR</h2>
-        <div class="weapon-grid">
-            <div class="weapon-card">
-                <h3>ULTIMATUM 2026</h3>
-                <p>Hasar: <span style="float:right">MAX</span></p>
-                <div class="stat-bar"><div class="stat-fill" style="width: 100%;"></div></div>
-                <p>Atış Hızı: <span style="float:right">65</span></p>
-                <div class="stat-bar"><div class="stat-fill" style="width: 65%;"></div></div>
-                <p>Hareket: <span style="float:right">85</span></p>
-                <div class="stat-bar"><div class="stat-fill" style="width: 85%;"></div></div>
-            </div>
-
-            <div class="weapon-card">
-                <h3>PROTOTYPE X</h3>
-                <p>Hasar: <span style="float:right">98</span></p>
-                <div class="stat-bar"><div class="stat-fill" style="width: 98%;"></div></div>
-                <p>Atış Hızı: <span style="float:right">40</span></p>
-                <div class="stat-bar"><div class="stat-fill" style="width: 40%;"></div></div>
-                <p>Duvar Delme: <span style="float:right">YES</span></p>
-                <div class="stat-bar"><div class="stat-fill" style="width: 100%; background: var(--accent);"></div></div>
-            </div>
-
-            <div class="weapon-card">
-                <h3>CRYSTAL LASER</h3>
-                <p>Hasar: <span style="float:right">75</span></p>
-                <div class="stat-bar"><div class="stat-fill" style="width: 75%;"></div></div>
-                <p>Atış Hızı: <span style="float:right">99</span></p>
-                <div class="stat-bar"><div class="stat-fill" style="width: 99%;"></div></div>
-                <p>Dondurma: <span style="float:right">AKTİF</span></p>
-                <div class="stat-bar"><div class="stat-fill" style="width: 90%; background: var(--secondary);"></div></div>
-            </div>
-        </div>
-    </section>
-
-    <footer id="contact">
-        <p>&copy; 2026 ENESPG3D | ULTIMATE PIXEL WORLD</p>
-        <div style="margin-top: 20px; font-size: 1.5rem;">
-            <i class="fab fa-discord" style="margin: 0 15px; cursor: pointer;"></i>
-            <i class="fab fa-youtube" style="margin: 0 15px; cursor: pointer;"></i>
-            <i class="fab fa-github" style="margin: 0 15px; cursor: pointer;"></i>
-        </div>
+    <footer>
+        <p>ENESPG3D - PIXEL GUN 3D ULTIMATE WIKI PROJECT &copy; 2026</p>
     </footer>
 
     <script>
-        // --- Ultra Gerçekçi Yıldız ve Plazma Motoru ---
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
+        // DEV VERİ TABANI (Burayı istediğin kadar uzatabilirsin)
+        const database = [
+            { name: "Ultimatum", cat: "Primary", rarity: "mythical", dmg: 100, mobility: 85, fire: 65 },
+            { name: "Viking", cat: "Primary", rarity: "mythical", dmg: 92, mobility: 75, fire: 70 },
+            { name: "Golden Friend", cat: "Primary", rarity: "mythical", dmg: 88, mobility: 85, fire: 98 },
+            { name: "Exterminator", cat: "Backup", rarity: "legendary", dmg: 90, mobility: 65, fire: 40 },
+            { name: "Laser Cycler", cat: "Backup", rarity: "mythical", dmg: 82, mobility: 90, fire: 85 },
+            { name: "Heroic Epee", cat: "Melee", rarity: "mythical", dmg: 70, mobility: 100, fire: 90 },
+            { name: "Thermal Ultra Scythe", cat: "Melee", rarity: "mythical", dmg: 85, mobility: 95, fire: 75 },
+            { name: "Anti-Champion Rifle", cat: "Sniper", rarity: "mythical", dmg: 99, mobility: 55, fire: 30 },
+            { name: "Prototype X", cat: "Sniper", rarity: "mythical", dmg: 95, mobility: 60, fire: 35 },
+            { name: "Demon Catcher", cat: "Sniper", rarity: "mythical", dmg: 100, mobility: 50, fire: 25 },
+            { name: "Destruction System", cat: "Heavy", rarity: "mythical", dmg: 95, mobility: 65, fire: 45 },
+            { name: "Christmas Ultimatum", cat: "Heavy", rarity: "mythical", dmg: 98, mobility: 50, fire: 40 },
+            { name: "Cyber Bee Swarm", cat: "Gadget", rarity: "mythical", dmg: 80, mobility: 0, fire: 0 },
+            { name: "Jetpack", cat: "Gadget", rarity: "legendary", dmg: 0, mobility: 100, fire: 0 },
+            { name: "Ultimate Crown", cat: "Armor", rarity: "mythical", dmg: 15, mobility: 10, fire: 0 },
+            { name: "Burning Tiara", cat: "Armor", rarity: "legendary", dmg: 10, mobility: 15, fire: 0 },
+            { name: "Dragon Breath", cat: "Special", rarity: "mythical", dmg: 85, mobility: 80, fire: 95 },
+            { name: "Vertical Grip Device", cat: "Special", rarity: "mythical", dmg: 40, mobility: 100, fire: 50 },
+            { name: "Pixel Cola Refresher", cat: "Heavy", rarity: "mythical", dmg: 85, mobility: 95, fire: 60 },
+            { name: "Dreams Warden", cat: "Sniper", rarity: "mythical", dmg: 94, mobility: 65, fire: 35 }
+        ];
 
-        function init() {
+        const grid = document.getElementById('wikiGrid');
+
+        function renderWiki(data) {
+            grid.innerHTML = '';
+            data.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'wiki-card';
+                card.innerHTML = `
+                    <span class="rarity-tag" style="background: var(--${item.rarity})">${item.rarity}</span>
+                    <h3 style="font-family: Orbitron; color: var(--primary); margin-bottom: 5px;">${item.name}</h3>
+                    <p style="font-size: 0.8rem; color: #888; text-transform: uppercase;">${item.cat}</p>
+                    <div class="stats">
+                        <small>HASAR: ${item.dmg}</small>
+                        <div class="stat-bar"><div class="stat-progress" style="width: ${item.dmg}%"></div></div>
+                        <small>HAREKET: ${item.mobility}</small>
+                        <div class="stat-bar"><div class="stat-progress" style="width: ${item.mobility}%"></div></div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function searchWiki() {
+            const val = document.getElementById('wikiSearch').value.toLowerCase();
+            const filtered = database.filter(i => i.name.toLowerCase().includes(val));
+            renderWiki(filtered);
+        }
+
+        function filterCat(cat) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            if(cat === 'all') return renderWiki(database);
+            const filtered = database.filter(i => i.cat === cat);
+            renderWiki(filtered);
+        }
+
+        // --- STARFIELD ENGINE ---
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        function initStars() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            particles = [];
-            for (let i = 0; i < 150; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height,
-                    size: Math.random() * 2 + 1,
-                    speedX: (Math.random() - 0.5) * 0.5,
-                    speedY: (Math.random() - 0.5) * 0.5,
-                    color: Math.random() > 0.5 ? '#00f2ff' : '#bc13fe'
-                });
-            }
+            stars = [];
+            for(let i=0; i<400; i++) stars.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, z: Math.random()*canvas.width });
         }
-
-        function animate() {
-            ctx.fillStyle = 'rgba(5, 5, 10, 0.2)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach(p => {
-                ctx.fillStyle = p.color;
-                ctx.shadowBlur = 10;
-                ctx.shadowColor = p.color;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-
-                p.x += p.speedX;
-                p.y += p.speedY;
-
-                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+        function moveStars() {
+            ctx.fillStyle = "black"; ctx.fillRect(0,0,canvas.width, canvas.height);
+            stars.forEach(s => {
+                let x = (s.x - canvas.width/2) * (canvas.width/s.z) + canvas.width/2;
+                let y = (s.y - canvas.height/2) * (canvas.width/s.z) + canvas.height/2;
+                let size = (1 - s.z/canvas.width) * 3;
+                ctx.fillStyle = "rgba(0, 242, 255, "+(1 - s.z/canvas.width)+")";
+                ctx.fillRect(x, y, size, size);
+                s.z -= 4;
+                if(s.z <= 0) s.z = canvas.width;
             });
-            requestAnimationFrame(animate);
+            requestAnimationFrame(moveStars);
         }
-
-        window.addEventListener('resize', init);
-        init();
-        animate();
+        window.addEventListener('resize', initStars);
+        initStars(); moveStars(); renderWiki(database);
     </script>
 </body>
 </html>
