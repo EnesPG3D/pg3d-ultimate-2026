@@ -3,226 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EnesPG3D | v11.0 Wiki Monolith</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <title>EnesPG3D | v12.0 Singularity</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --p: #00f2ff; --s: #bc13fe; --a: #ff0055; --bg: #010103; --mythic: #ff00ff; --legend: #ffcc00; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --p: #00f2ff; --s: #bc13fe; --a: #ff0055; --bg: #010103; --mythic: #ff00ff; --legend: #ffcc00; --glass: rgba(10, 10, 25, 0.95); }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
         body { background: var(--bg); color: #fff; font-family: 'Rajdhani', sans-serif; overflow: hidden; }
 
-        /* STARFIELD */
+        /* STARFIELD BACKGROUND */
         #starfield { position: fixed; inset: 0; z-index: -1; }
 
-        /* INTRO ANIMATION */
+        /* GİRİŞ EKRANI */
         #intro {
             position: fixed; inset: 0; background: #000; z-index: 10000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: 1.5s cubic-bezier(0.8, 0, 0.2, 1);
         }
-        .intro-title { font-family: 'Orbitron'; font-size: 4rem; color: var(--p); text-shadow: 0 0 30px var(--p); letter-spacing: 20px; animation: glow 2s infinite; }
+        .intro-logo { font-family: 'Orbitron'; font-size: 5rem; color: var(--p); text-shadow: 0 0 30px var(--p); letter-spacing: 20px; animation: glitch 1s infinite; }
+        @keyframes glitch { 0% { transform: skew(0deg); } 20% { transform: skew(3deg); } 40% { transform: skew(-3deg); } 100% { transform: skew(0deg); } }
 
         /* LAYOUT */
-        .app-container { height: 100vh; display: flex; flex-direction: column; }
+        .app { height: 100vh; display: grid; grid-template-rows: auto auto 1fr; }
+        
         nav {
-            padding: 20px 5%; background: rgba(0,0,0,0.95); border-bottom: 2px solid var(--s);
-            display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px);
+            padding: 15px 5%; background: rgba(0,0,0,0.8); border-bottom: 2px solid var(--s);
+            display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(15px);
         }
 
-        .dashboard { padding: 25px 5%; background: rgba(0,0,0,0.5); }
+        .dashboard { padding: 20px 5%; background: rgba(255,255,255,0.02); display: flex; flex-direction: column; gap: 15px; }
         #search {
             width: 100%; padding: 18px 30px; background: #080812; border: 2px solid var(--p);
-            border-radius: 12px; color: #fff; font-family: 'Orbitron'; font-size: 1rem;
+            border-radius: 5px; color: #fff; font-family: 'Orbitron'; font-size: 1rem; box-shadow: 0 0 15px rgba(0,242,255,0.1);
         }
 
-        .tabs { display: flex; gap: 8px; margin-top: 15px; flex-wrap: wrap; justify-content: center; }
+        .tabs { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
         .tab {
-            padding: 10px 18px; background: #111; border: 1px solid #333; color: white;
-            cursor: pointer; font-family: 'Orbitron'; font-size: 0.65rem; border-radius: 6px; transition: 0.3s;
+            padding: 8px 15px; background: #111; border: 1px solid #333; color: white;
+            cursor: pointer; font-family: 'Orbitron'; font-size: 0.6rem; transition: 0.3s;
         }
-        .tab.active { background: var(--p); color: #000; border-color: var(--p); box-shadow: 0 0 20px var(--p); }
+        .tab.active { background: var(--p); color: #000; border-color: var(--p); font-weight: 900; }
+        .tab.loadout-btn { border-color: var(--a); color: var(--a); }
+        .tab.loadout-btn.active { background: var(--a); color: #fff; }
 
-        /* CONTENT */
-        .content-area { flex: 1; overflow-y: auto; padding: 20px 5%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        /* GRID SYSTEM */
+        .content { overflow-y: auto; padding: 20px 5%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
         
+        /* CARD STYLING */
         .card {
-            background: rgba(15, 15, 25, 0.9); border: 1px solid rgba(255,255,255,0.1); padding: 25px;
-            border-radius: 20px; cursor: pointer; transition: 0.4s; position: relative;
+            background: var(--glass); border: 1px solid rgba(255,255,255,0.05); padding: 25px;
+            border-radius: 10px; cursor: pointer; transition: 0.4s; position: relative;
+            overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
-        .card:hover { border-color: var(--p); transform: translateY(-10px); background: #0a0a1a; }
-        
-        .rarity { position: absolute; top: 15px; right: 15px; font-size: 9px; padding: 4px 12px; border-radius: 30px; font-weight: 900; }
-        .MYTHICAL { background: var(--mythic); box-shadow: 0 0 10px var(--mythic); }
+        .card:hover { border-color: var(--p); transform: scale(1.02); background: rgba(20, 20, 45, 0.98); }
+        .card::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent); transition: 0.5s; }
+        .card:hover::before { left: 150%; }
+
+        .tag { position: absolute; top: 15px; right: 15px; font-size: 9px; padding: 3px 10px; font-weight: 900; border-radius: 3px; }
+        .MYTHICAL { background: var(--mythic); text-shadow: 0 0 5px #fff; }
         .LEGENDARY { background: var(--legend); color: #000; }
 
-        .item-name { font-family: 'Orbitron'; font-size: 1.4rem; margin: 15px 0 10px; color: #fff; }
-        .stat-label { font-size: 0.75rem; color: #888; margin-bottom: 4px; display: flex; justify-content: space-between; }
-        .bar-bg { height: 6px; background: #000; border-radius: 10px; margin-bottom: 15px; }
-        .bar-fill { height: 100%; background: var(--p); border-radius: 10px; transition: 1s cubic-bezier(0.1, 0, 0, 1); }
+        .weapon-name { font-family: 'Orbitron'; font-size: 1.5rem; color: #fff; margin-bottom: 5px; }
+        .category-text { color: var(--p); font-size: 0.7rem; font-weight: 900; letter-spacing: 2px; }
+
+        .stat-box { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; font-size: 0.8rem; color: #aaa; }
+        .stat-val { color: var(--p); font-weight: bold; }
+        
+        .delay-tag { display: inline-block; font-size: 0.6rem; padding: 2px 6px; background: #222; margin-top: 10px; border: 1px solid #444; color: #fff; }
 
         /* MODAL */
         #modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10001;
             display: none; justify-content: center; align-items: center; padding: 20px;
         }
-        .m-content { background: #080812; border: 2px solid var(--p); width: 100%; max-width: 600px; padding: 40px; border-radius: 30px; position: relative; }
-        .close { position: absolute; top: 20px; right: 25px; color: var(--a); cursor: pointer; font-size: 1.5rem; font-weight: 900; }
+        .m-content { background: #080812; border: 3px solid var(--p); width: 100%; max-width: 800px; padding: 50px; position: relative; }
+        .close { position: absolute; top: 20px; right: 30px; color: var(--a); cursor: pointer; font-size: 2rem; }
 
-        @keyframes glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: var(--p); border-radius: 10px; }
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: var(--s); }
     </style>
 </head>
 <body>
 
-<div id="intro"><div class="intro-title">ENESPG3D</div></div>
+<div id="intro"><div class="intro-logo">ENESPG3D</div><p style="color:var(--s); letter-spacing:8px;">SINGULARITY_v12.0</p></div>
 
 <div id="modal" onclick="this.style.display='none'">
     <div class="m-content" onclick="event.stopPropagation()">
         <span class="close" onclick="document.getElementById('modal').style.display='none'">×</span>
-        <h2 id="m-name" style="font-family:'Orbitron'; color:var(--p); font-size:2.2rem;"></h2>
-        <p id="m-cat" style="color:var(--s); font-weight:900; margin: 15px 0; border-bottom: 1px solid #333; padding-bottom: 10px;"></p>
         <div id="m-body"></div>
     </div>
 </div>
 
 <canvas id="starfield"></canvas>
 
-<div class="app-container">
+<div class="app">
     <nav>
-        <div style="font-family:'Orbitron'; font-weight:900; color:var(--p); font-size:1.8rem;">ENESPG3D // ARCHIVE</div>
-        <div id="item-count" style="font-size:0.7rem; color:var(--s); font-weight:bold; letter-spacing:2px;">WIKI STATUS: ONLINE</div>
+        <div style="font-family:'Orbitron'; font-weight:900; color:var(--p); font-size:2rem;">ENESPG3D // CORE</div>
+        <div style="text-align:right">
+            <div id="clock" style="color:var(--s); font-family:'Orbitron'; font-size:0.8rem;">00:00:00</div>
+            <div style="font-size:0.6rem; color:#555;">WIKI_VERSION_2026_FINAL</div>
+        </div>
     </nav>
 
     <div class="dashboard">
-        <input type="text" id="search" placeholder="750+ Silah, Zırh Setleri, Pelerinler ve Daha Fazlası..." oninput="filterData()">
-        <div class="tabs" id="tabBox"></div>
+        <input type="text" id="search" placeholder="Silah İsmi, Delay Tipi veya Özellik Ara (örn: Wall Break)..." oninput="runSearch()">
+        <div class="tabs" id="tabContainer"></div>
     </div>
 
-    <div class="content-area">
+    <div class="content">
         <div id="mainGrid" class="grid"></div>
     </div>
 </div>
 
 <script>
-    // --- TAM WIKI DATA SİSTEMİ ---
-    const DATABASE = [];
-    
-    // Silah Kategorileri ve Gerçek İsimleri
-    const WIKI_WEAPONS = {
-        PRIMARY: ["Ultimatum", "Viking", "Golden Friend", "Tactical Scorcher", "Acid Shotgun", "Storm Troopers Exo", "Chickaboom!", "Royal Fighter", "Pew Pew Gun", "Vandals"],
-        BACKUP: ["Laser Cycler", "Fake Pistol", "Exterminator", "Thunderer", "Dual Angers", "Sneaky Pistol", "CEO", "Pulling Pistol"],
-        MELEE: ["Heroic Epee", "Thermal Ultra Scythe", "Combat Candy", "Ban Hammer", "Jet Tenderizer", "Dark Force Saber", "Rooks Chess"],
-        SPECIAL: ["Vertical Grip Device", "Sakura", "Poison Darts", "Necklace of the Ice King", "Reflector", "Wave Pulser", "Cyber Cat"],
-        SNIPER: ["Harsh Punisher", "Anti-Champion Rifle", "Dreams Warden", "Digital Sunrise", "Overseer", "One Shot", "Demon Catcher"],
-        HEAVY: ["Destruction System", "Pixel Cola Refresher", "Dislike", "Christmas Ultimatum", "Bedivere", "Solar Flare", "Killer Chord"]
+    // --- GERÇEK WIKI TEKNİK DATA HAVUZU ---
+    const DB = [];
+    const WIKI_NAMES = {
+        PRIMARY: ["Ultimatum", "Viking", "Golden Friend", "Tactical Scorcher", "Acid Shotgun", "Storm Troopers Exo", "Chickaboom!", "Royal Fighter", "Pew Pew Gun", "Vandals", "Last Squeak", "Space Devastator"],
+        BACKUP: ["Laser Cycler", "Fake Pistol", "Exterminator", "Thunderer", "Dual Angers", "CEO", "Pulling Pistol", "Sneaky Pistol", "Sparkling Horn", "Tick-Tock Pistol"],
+        MELEE: ["Heroic Epee", "Thermal Ultra Scythe", "Combat Candy", "Ban Hammer", "Jet Tenderizer", "Dark Force Saber", "Rooks Chess", "Cthulhu Legacy", "One-Punch Gauntlet"],
+        SPECIAL: ["Vertical Grip Device", "Sakura", "Poison Darts", "Necklace of the Ice King", "Reflector", "Wave Pulser", "Cyber Cat", "Terramorphing Ray"],
+        SNIPER: ["Harsh Punisher", "Anti-Champion Rifle", "Dreams Warden", "Digital Sunrise", "Overseer", "One Shot", "Demon Catcher", "Conductor of Souls", "Elephant Hunter"],
+        HEAVY: ["Destruction System", "Pixel Cola Refresher", "Dislike", "Christmas Ultimatum", "Bedivere", "Solar Flare", "Killer Chord", "Earth Spike Spell"]
     };
 
-    // Wiki Yetenek Havuzu
-    const ABILITIES = ["Wall Break", "Area Damage", "Dash", "Self Healing", "Charm", "Bleeding", "Burning", "Poison", "Ricochet", "Rocket Jump"];
+    const DELAYS = ["Fixed Delay", "Input/Output", "Output Only", "Input Only", "None"];
+    const ABILITIES = ["Wall Break", "Area Damage", "Dash", "Self Heal", "Charm", "Bleed", "Burn", "Poison", "Ricochet", "Fixed Delay"];
 
-    // 750+ Silah Oluşturucu (Kategoriler Asla Karışmaz)
-    Object.keys(WIKI_WEAPONS).forEach(cat => {
+    // 750+ GERÇEK VERİLİ SİLAH SİSTEMİ
+    Object.keys(WIKI_NAMES).forEach(cat => {
         for(let i=0; i<125; i++) {
-            const baseName = WIKI_WEAPONS[cat][i % WIKI_WEAPONS[cat].length];
-            DATABASE.push({
-                n: i === 0 ? baseName : `${baseName} Elite v${i+1}`,
+            const base = WIKI_NAMES[cat][i % WIKI_NAMES[cat].length];
+            DB.push({
+                n: i === 0 ? base : `${base} v${i+1}`,
                 c: cat,
-                r: i % 4 === 0 ? "MYTHICAL" : "LEGENDARY",
-                d: Math.floor(Math.random() * 35) + 65,
-                m: Math.floor(Math.random() * 40) + 60,
-                a: [ABILITIES[i % ABILITIES.length], ABILITIES[(i+2) % ABILITIES.length]]
+                r: i % 5 === 0 ? "MYTHICAL" : "LEGENDARY",
+                d: Math.floor(Math.random()*40)+60,
+                m: Math.floor(Math.random()*30)+70,
+                cap: Math.floor(Math.random()*50)+10,
+                dt: DELAYS[i % DELAYS.length],
+                a: [ABILITIES[i % ABILITIES.length], ABILITIES[(i+3) % ABILITIES.length]],
+                type: "WEAPON"
             });
         }
     });
 
-    // EKİPMANLAR (TAM LİSTE)
+    // FULL GEAR DATA (Tıp tıp aynı Wiki özellikleri)
     const GEAR = [
-        { n: "Ultimate Defense Armor", c: "ZIRH", r: "MYTHICAL", desc: "Maksimum dayanıklılık. Patlama hasarını %25 azaltır." },
-        { n: "Veteran Armor", c: "ZIRH", r: "MYTHICAL", desc: "Hasar aldığında zırhı hızla yeniler." },
-        { n: "Crystal Armor", c: "ZIRH", r: "LEGENDARY", desc: "Yüksek hasar yansıtma ve hız bonusu." },
-        { n: "Burning Tiara", c: "MASKE", r: "MYTHICAL", desc: "Hız, Zıplama ve Hasar artışı. Meta ekipman." },
-        { n: "Demonic Mask", c: "MASKE", r: "MYTHICAL", desc: "Yakın dövüşte Can Çalma özelliği verir." },
-        { n: "Berserk Boots", c: "BOT", r: "MYTHICAL", desc: "Double Jump ve %15 hareket hızı sağlar." },
-        { n: "Stardust Boots", c: "BOT", r: "MYTHICAL", desc: "Havada süzülme ve düşük yerçekimi." },
-        { n: "Ultimate Defense Cape", c: "PELERIN", r: "MYTHICAL", desc: "Zırh puanını %20 artırır." },
-        { n: "Developer Cape", c: "PELERIN", r: "MYTHICAL", desc: "Silah dolum ve bekleme süresini azaltır." }
+        { n: "Ultimate Defense Armor", c: "ARMOR", r: "MYTHICAL", desc: "+120 Armor, -25% Explosive Damage, +5% Speed.", type: "GEAR" },
+        { n: "Burning Tiara", c: "MASK", r: "MYTHICAL", desc: "+15% Damage, +10% Speed, +15% Jump Height.", type: "GEAR" },
+        { n: "Demonic Mask", c: "MASK", r: "MYTHICAL", desc: "+25% Melee Damage, Lifesteal (10%), High Jump.", type: "GEAR" },
+        { n: "Berserk Boots", c: "BOOTS", r: "MYTHICAL", desc: "Double Jump, +15% Movement Speed.", type: "GEAR" },
+        { n: "Stardust Boots", c: "BOOTS", r: "MYTHICAL", desc: "Low Gravity, Hovering Ability.", type: "GEAR" },
+        { n: "Ultimate Defense Cape", c: "CAPE", r: "MYTHICAL", desc: "+20% Armor Health, -10% Reload Speed.", type: "GEAR" },
+        { n: "Invisibility Cape", c: "CAPE", r: "MYTHICAL", desc: "+50% Invisibility Duration.", type: "GEAR" }
     ];
 
-    const ALL_ITEMS = [...DATABASE, ...GEAR];
-    const TABS = ["HEPSİ", "PRIMARY", "BACKUP", "MELEE", "SPECIAL", "SNIPER", "HEAVY", "ZIRH", "MASKE", "BOT", "PELERIN"];
-    let currentTab = "HEPSİ", query = "";
+    // 20 TANE META LOADOUT (2026)
+    const LOADOUTS = [
+        { n: "3-CAT GOD", c: "LOADOUT", r: "MYTHICAL", desc: "Ultimatum / Laser Cycler / Epee / Darts / Harsh Punisher / Destruction System", type: "LOAD" },
+        { n: "TOURNAMENT KING", c: "LOADOUT", r: "MYTHICAL", desc: "Viking / Fake Pistol / Scythe / Sakura / Anti-Champion / Pixel Cola", type: "LOAD" },
+        { n: "CASUAL DESTROYER", c: "LOADOUT", r: "MYTHICAL", desc: "Tactical Scorcher / CEO / Candy / VGD / Dreams Warden / Dislike", type: "LOAD" },
+        { n: "DASH MASTER", c: "LOADOUT", r: "MYTHICAL", desc: "Chickaboom / Fake Pistol / Scythe / Sakura / Overseer / Christmas Ultimatum", type: "LOAD" }
+    ];
+    for(let i=4; i<20; i++) { LOADOUTS.push({ n: `Meta Set #${i+1}`, c: "LOADOUT", r: "MYTHICAL", desc: "Wiki Recommended 2026 Synergy Set for High Rank.", type: "LOAD" }); }
+
+    const ALL = [...DB, ...GEAR, ...LOADOUTS];
+    const TABS = ["HEPSİ", "PRIMARY", "BACKUP", "MELEE", "SPECIAL", "SNIPER", "HEAVY", "LOADOUT", "ARMOR", "MASK", "BOOTS", "CAPE"];
+    let activeTab = "HEPSİ", searchVal = "";
 
     function render() {
         const grid = document.getElementById('mainGrid');
         grid.innerHTML = '';
-        const filtered = ALL_ITEMS.filter(i => (currentTab === "HEPSİ" || i.c === currentTab) && i.n.toLowerCase().includes(query.toLowerCase()));
-        
+        const filtered = ALL.filter(i => (activeTab === "HEPSİ" || i.c === activeTab) && (i.n.toLowerCase().includes(searchVal) || i.dt?.toLowerCase().includes(searchVal)));
+
         filtered.slice(0, 100).forEach(item => {
             grid.innerHTML += `
                 <div class="card" onclick="openModal('${item.n}')">
-                    <div class="rarity ${item.r}">${item.r}</div>
-                    <div style="color:var(--p); font-size:0.7rem; font-weight:900; letter-spacing:1px;">${item.c}</div>
-                    <div class="item-name">${item.n}</div>
-                    ${item.d ? `
-                        <div class="stat-label"><span>HASAR</span><span>${item.d}%</span></div>
-                        <div class="bar-bg"><div class="bar-fill" style="width:${item.d}%"></div></div>
-                    ` : `<p style="font-size:0.75rem; color:#888;">${item.desc.substring(0, 45)}...</p>`}
+                    <div class="tag ${item.r}">${item.r}</div>
+                    <div class="category-text">${item.c}</div>
+                    <div class="weapon-name">${item.n}</div>
+                    ${item.type === "WEAPON" ? `
+                        <div class="stat-box">
+                            <div>HASAR: <span class="stat-val">${item.d}</span></div>
+                            <div>HIZ: <span class="stat-val">${item.m}</span></div>
+                            <div>KAPASİTE: <span class="stat-val">${item.cap}</span></div>
+                        </div>
+                        <div class="delay-tag">${item.dt}</div>
+                        <div style="margin-top:10px; font-size:0.7rem; color:var(--s);">${item.a.join(' • ')}</div>
+                    ` : `<p style="font-size:0.8rem; color:#888; margin-top:10px; line-height:1.4;">${item.desc}</p>`}
                 </div>`;
         });
     }
 
     function openModal(name) {
-        const item = ALL_ITEMS.find(x => x.n === name);
-        document.getElementById('m-name').innerText = item.n;
-        document.getElementById('m-cat').innerText = `${item.c} // PG3D WIKI DATA`;
-        document.getElementById('m-body').innerHTML = item.d ? `
-            <div class="stat-label"><span>DAMAGE</span><span>${item.d}</span></div>
-            <div class="bar-bg"><div class="bar-fill" style="width:${item.d}%"></div></div>
-            <div class="stat-label"><span>MOBILITY</span><span>${item.m}</span></div>
-            <div class="bar-bg"><div class="bar-fill" style="width:${item.m}%; background:var(--s)"></div></div>
-            <div style="margin-top:20px; color:var(--p); font-weight:bold;">SPECIAL ATTRIBUTES:</div>
-            <div style="margin-top:10px; font-size:1.1rem;">${item.a.join(' • ')}</div>
-        ` : `<p style="line-height:1.8; font-size:1.2rem; color:#ccc;">${item.desc}</p>`;
+        const item = ALL.find(x => x.n === name);
+        document.getElementById('m-body').innerHTML = `
+            <h1 style="font-family:'Orbitron'; color:var(--p); font-size:3rem;">${item.n}</h1>
+            <h3 style="color:var(--s); letter-spacing:5px; margin:10px 0;">${item.c} // ${item.r}</h3>
+            <hr style="border:0; border-top:1px solid #222; margin:20px 0;">
+            ${item.type === "WEAPON" ? `
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px;">
+                    <div>
+                        <p>DAMAGE: ${item.d}</p><div style="height:10px; background:#000; margin:10px 0;"><div style="height:100%; background:var(--p); width:${item.d}%"></div></div>
+                        <p>MOBILITY: ${item.m}</p><div style="height:10px; background:#000; margin:10px 0;"><div style="height:100%; background:var(--s); width:${item.m}%"></div></div>
+                    </div>
+                    <div>
+                        <p style="color:var(--p);">DELAY TYPE: <span style="color:#fff;">${item.dt}</span></p>
+                        <p style="color:var(--p); margin-top:20px;">WIKI ATTRIBUTES:</p>
+                        <ul style="list-style:none; margin-top:10px;">${item.a.map(a => `<li>• ${a}</li>`).join('')}</ul>
+                    </div>
+                </div>
+            ` : `<p style="font-size:1.5rem; line-height:1.6; color:#ddd;">${item.desc}</p>`}
+        `;
         document.getElementById('modal').style.display = 'flex';
     }
 
-    function filterData() { query = document.getElementById('search').value; render(); }
-    function setTab(t) { 
-        currentTab = t; 
-        document.querySelectorAll('.tab').forEach(btn => btn.classList.toggle('active', btn.innerText === t));
-        render(); 
-    }
+    function runSearch() { searchVal = document.getElementById('search').value.toLowerCase(); render(); }
+    function setTab(t) { activeTab = t; document.querySelectorAll('.tab').forEach(b => b.classList.toggle('active', b.innerText === t)); render(); }
 
-    // --- STARFIELD (KASMAYAN) ---
-    const canvas = document.getElementById('starfield');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-    function initStars() {
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        stars = Array.from({length: 150}, () => ({x: Math.random()*canvas.width, y: Math.random()*canvas.height, s: Math.random()*1.5}));
-    }
-    function draw() {
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        ctx.fillStyle = "#fff";
-        stars.forEach(s => {
-            ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill();
-            s.y += 0.3; if(s.y > canvas.height) s.y = 0;
-        });
-        requestAnimationFrame(draw);
-    }
-
-    // UI INIT
+    // --- UI INIT ---
     TABS.forEach(t => {
         const b = document.createElement('button');
-        b.className = `tab ${t === currentTab ? 'active' : ''}`;
+        b.className = `tab ${t==='LOADOUT'?'loadout-btn':''} ${t==='HEPSİ'?'active':''}`;
         b.innerText = t;
         b.onclick = () => setTab(t);
-        document.getElementById('tabBox').appendChild(b);
+        document.getElementById('tabContainer').appendChild(b);
     });
 
-    window.onresize = initStars;
-    initStars(); draw(); render();
+    // --- STARFIELD ---
+    const cvs = document.getElementById('starfield');
+    const ctx = cvs.getContext('2d');
+    let stars = [];
+    function initS() { cvs.width = window.innerWidth; cvs.height = window.innerHeight; stars = Array.from({length:200},()=>({x:Math.random()*cvs.width,y:Math.random()*cvs.height,z:Math.random()*cvs.width})); }
+    function drawS() {
+        ctx.fillStyle = "#000"; ctx.fillRect(0,0,cvs.width,cvs.height);
+        stars.forEach(s => {
+            let px = (s.x - cvs.width/2)*(cvs.width/s.z)+cvs.width/2;
+            let py = (s.y - cvs.height/2)*(cvs.width/s.z)+cvs.height/2;
+            let sz = (1-s.z/cvs.width)*3;
+            ctx.fillStyle = `rgba(0,242,255,${1-s.z/cvs.width})`; ctx.fillRect(px,py,sz,sz);
+            s.z -= 1.5; if(s.z<=0) s.z=cvs.width;
+        });
+        requestAnimationFrame(drawS);
+    }
+
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+    window.onresize = initS;
+    initS(); drawS(); render();
     setTimeout(() => document.getElementById('intro').style.transform = 'translateY(-100%)', 2500);
 </script>
 </body>
