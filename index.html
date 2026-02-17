@@ -1,574 +1,341 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>PG3D Wiki — The Ultimate Pixel Gun 3D Encyclopedia</title>
-<meta name="description" content="The most comprehensive fan-made Pixel Gun 3D (PG3D) encyclopedia. 1,200+ weapons, all armors, game modes, maps, skins, and strategies for Pixel Gun 3D by Cubic Games."/>
-<meta name="keywords" content="Pixel Gun 3D, PG3D, PG3D wiki, Pixel Gun 3D weapons, Pixel Gun 3D armor, PG3D guide, Cubic Games, PG3D weapons list, Ultimatum, Pixel Gun 3D modes, PG3D maps, PG3D skins, PG3D tips, PG3D 2024, battle royale PG3D, PG3D update"/>
-<meta name="author" content="PG3D Wiki Contributors"/>
-<meta name="robots" content="index,follow"/>
-<link rel="canonical" href="https://yourusername.github.io/pg3d-wiki/"/>
-<meta property="og:type" content="website"/>
-<meta property="og:title" content="PG3D Wiki — The Ultimate Pixel Gun 3D Encyclopedia"/>
-<meta property="og:description" content="Explore 1,200+ weapons, all armors, game modes, maps, skins and the full history of Pixel Gun 3D."/>
-<meta property="og:url" content="https://yourusername.github.io/pg3d-wiki/"/>
-<meta property="twitter:card" content="summary_large_image"/>
-<meta property="twitter:title" content="PG3D Wiki — Ultimate Pixel Gun 3D Encyclopedia"/>
-<meta property="twitter:description" content="The most complete PG3D resource: weapons, armor, modes, maps and more."/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"PG3D Wiki","url":"https://yourusername.github.io/pg3d-wiki/","description":"The ultimate fan-made encyclopedia for Pixel Gun 3D by Cubic Games","potentialAction":{"@type":"SearchAction","target":"https://yourusername.github.io/pg3d-wiki/?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ULTRA META WIKI FINAL</title>
+
 <style>
-/* === TOKENS === */
 :root{
-  --bg:#07090f;
-  --bg2:#0c0f1a;
-  --bg3:#111628;
-  --surface:#151c30;
-  --surface2:#1a2440;
-  --border:#233052;
-  --border2:#2e3f6b;
-  --accent:#ff6a00;
-  --accent2:#ffaa44;
-  --neon:#00d4ff;
-  --neon2:#00ff99;
-  --red:#ff2255;
-  --text:#e8eaf6;
-  --text2:#9baad0;
-  --text3:#6879a8;
-  --rare:#5b8def;
-  --epic:#b44dff;
-  --legendary:#ff8800;
-  --mythical:#ff2255;
-  --pixel-green:#2dff6e;
-  --r:6px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Exo 2',sans-serif;
-  font-size:15px;
-  line-height:1.6;
-  min-height:100vh;
-  overflow-x:hidden;
-}
-/* scrollbar */
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:var(--bg2)}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--neon)}
-
-/* === BACKGROUND === */
-body::before{
-  content:'';
-  position:fixed;inset:0;
-  background:
-    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(0,212,255,0.07) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 30% at 90% 50%, rgba(255,106,0,0.05) 0%, transparent 50%),
-    repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(35,48,82,0.3) 40px),
-    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(35,48,82,0.3) 40px);
-  pointer-events:none;
-  z-index:0;
+--bg:#0f0f1a;
+--card:#1a1a2e;
+--neon:#00f5ff;
+--accent:#ff00cc;
+--text:#ffffff;
 }
 
-/* === HEADER === */
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}
+body{background:var(--bg);color:var(--text);transition:.3s}
+
 header{
-  position:sticky;top:0;z-index:100;
-  background:rgba(7,9,15,0.92);
-  backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--border);
-  padding:0 24px;
-}
-.header-inner{
-  max-width:1400px;margin:0 auto;
-  display:flex;align-items:center;gap:16px;
-  height:64px;
-}
-.logo{
-  display:flex;align-items:center;gap:10px;
-  text-decoration:none;flex-shrink:0;
-}
-.logo-icon{
-  width:40px;height:40px;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Orbitron',monospace;
-  font-weight:900;font-size:14px;
-  color:#fff;
-  box-shadow:0 0 16px rgba(255,106,0,0.4);
-  flex-shrink:0;
-}
-.logo-text{
-  font-family:'Orbitron',monospace;
-  font-weight:700;font-size:18px;
-  background:linear-gradient(90deg,var(--neon),var(--accent2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-  letter-spacing:1px;
-}
-.logo-sub{font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;font-family:'Share Tech Mono',monospace}
-
-/* search */
-.search-wrap{flex:1;max-width:480px;position:relative}
-.search-wrap input{
-  width:100%;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:8px 18px 8px 42px;
-  color:var(--text);
-  font-family:'Exo 2',sans-serif;
-  font-size:14px;
-  transition:border-color .2s,box-shadow .2s;
-  outline:none;
-}
-.search-wrap input:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(0,212,255,0.15)}
-.search-wrap input::placeholder{color:var(--text3)}
-.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;opacity:.5;pointer-events:none}
-.search-clear{
-  position:absolute;right:12px;top:50%;transform:translateY(-50%);
-  background:none;border:none;color:var(--text3);cursor:pointer;
-  font-size:18px;display:none;line-height:1;
-}
-.search-clear.visible{display:block}
-
-/* clock */
-.header-clock{
-  margin-left:auto;
-  text-align:right;
-  flex-shrink:0;
-}
-.clock-time{
-  font-family:'Share Tech Mono',monospace;
-  font-size:20px;color:var(--neon);
-  text-shadow:0 0 8px rgba(0,212,255,0.5);
-  letter-spacing:2px;
-}
-.clock-date{
-  font-family:'Share Tech Mono',monospace;
-  font-size:11px;color:var(--text3);
-  letter-spacing:1px;
+padding:15px;
+text-align:center;
+font-size:22px;
+background:#111;
+box-shadow:0 0 15px #000;
 }
 
-/* === NAV TABS === */
-nav.main-nav{
-  background:var(--bg2);
-  border-bottom:1px solid var(--border);
-  position:sticky;top:64px;z-index:99;
-  overflow-x:auto;
-}
-nav.main-nav::-webkit-scrollbar{height:0}
-.nav-inner{
-  max-width:1400px;margin:0 auto;
-  display:flex;align-items:center;
-  padding:0 24px;
-  gap:2px;
-  white-space:nowrap;
-}
-.nav-tab{
-  padding:12px 18px;
-  font-family:'Orbitron',monospace;
-  font-size:11px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--text3);
-  cursor:pointer;
-  border-bottom:2px solid transparent;
-  transition:color .2s,border-color .2s;
-  background:none;border-top:none;border-left:none;border-right:none;
-  user-select:none;
-  white-space:nowrap;
-}
-.nav-tab:hover{color:var(--text)}
-.nav-tab.active{color:var(--neon);border-bottom-color:var(--neon)}
-.nav-sub{
-  display:flex;gap:2px;
-  padding:6px 24px;
-  background:var(--bg3);
-  border-bottom:1px solid var(--border);
-  overflow-x:auto;
-  max-width:100%;
-}
-.nav-sub::-webkit-scrollbar{height:0}
-.sub-tab{
-  padding:5px 14px;
-  font-size:12px;font-weight:600;
-  border-radius:20px;
-  cursor:pointer;
-  border:1px solid var(--border);
-  color:var(--text2);
-  background:none;
-  transition:all .2s;
-  white-space:nowrap;
-  font-family:'Exo 2',sans-serif;
-}
-.sub-tab:hover{border-color:var(--accent);color:var(--accent)}
-.sub-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
-
-/* === MAIN LAYOUT === */
-.page-wrap{max-width:1400px;margin:0 auto;padding:24px;position:relative;z-index:1}
-
-/* === SECTION === */
-.section{display:none}
-.section.active{display:block}
-
-/* === HOME HERO === */
-.hero{
-  text-align:center;
-  padding:60px 20px 40px;
-}
-.hero-title{
-  font-family:'Orbitron',monospace;
-  font-size:clamp(28px,5vw,60px);
-  font-weight:900;
-  background:linear-gradient(135deg,var(--neon) 0%,var(--accent2) 50%,var(--pixel-green) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-  line-height:1.1;
-  margin-bottom:16px;
-  text-shadow:none;
-  animation:glow-title 3s ease-in-out infinite alternate;
-}
-@keyframes glow-title{
-  from{filter:drop-shadow(0 0 10px rgba(0,212,255,0.3))}
-  to{filter:drop-shadow(0 0 25px rgba(0,212,255,0.7))}
-}
-.hero-sub{
-  font-size:16px;color:var(--text2);
-  max-width:600px;margin:0 auto 40px;
-  line-height:1.7;
+.controls{
+padding:10px;
+text-align:center;
 }
 
-/* stats bar */
-.stats-bar{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:16px;
-  margin:40px 0;
-}
-.stat-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:20px;
-  text-align:center;
-  transition:transform .2s,border-color .2s,box-shadow .2s;
-  position:relative;
-  overflow:hidden;
-}
-.stat-card::before{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(0,212,255,0.05),transparent 60%);
-  pointer-events:none;
-}
-.stat-card:hover{transform:translateY(-3px);border-color:var(--neon);box-shadow:0 8px 24px rgba(0,212,255,0.15)}
-.stat-num{
-  font-family:'Orbitron',monospace;
-  font-size:32px;font-weight:900;
-  color:var(--neon);
-  line-height:1;
-  margin-bottom:6px;
-}
-.stat-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
-
-/* news */
-.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:24px}
-.news-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r);padding:16px;
-  transition:transform .2s,border-color .2s;
-  cursor:default;
-}
-.news-card:hover{transform:translateY(-2px);border-color:var(--accent)}
-.news-tag{
-  display:inline-block;padding:2px 10px;
-  border-radius:20px;font-size:11px;font-weight:600;
-  margin-bottom:10px;font-family:'Orbitron',monospace;letter-spacing:1px;
-}
-.tag-update{background:rgba(0,212,255,0.15);color:var(--neon);border:1px solid rgba(0,212,255,0.3)}
-.tag-event{background:rgba(255,106,0,0.15);color:var(--accent2);border:1px solid rgba(255,106,0,0.3)}
-.tag-guide{background:rgba(45,255,110,0.12);color:var(--pixel-green);border:1px solid rgba(45,255,110,0.3)}
-.news-title{font-weight:600;font-size:14px;margin-bottom:6px;color:var(--text)}
-.news-desc{font-size:13px;color:var(--text3)}
-.news-date{font-size:11px;color:var(--text3);margin-top:8px;font-family:'Share Tech Mono',monospace}
-
-/* === SECTION HEADER === */
-.sec-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:20px;flex-wrap:wrap;gap:12px;
-}
-.sec-title{
-  font-family:'Orbitron',monospace;
-  font-size:22px;font-weight:700;
-  color:var(--text);
-}
-.sec-title span{color:var(--neon)}
-.sec-count{
-  font-family:'Share Tech Mono',monospace;
-  font-size:13px;color:var(--text3);
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:4px 14px;
+button,input,select{
+margin:4px;
+padding:6px;
+border-radius:6px;
+border:none;
+cursor:pointer;
 }
 
-/* === WEAPON TABLE === */
-.weapons-controls{
-  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
-  margin-bottom:20px;
-}
-.filter-select{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  color:var(--text);
-  padding:8px 14px;
-  font-family:'Exo 2',sans-serif;
-  font-size:13px;
-  cursor:pointer;
-  outline:none;
-}
-.filter-select:focus{border-color:var(--neon)}
-
-/* weapon cards */
-.weapon-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:12px;
-}
-.weapon-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:14px;
-  transition:transform .15s,border-color .15s,box-shadow .15s;
-  cursor:default;
-  position:relative;
-  overflow:hidden;
-}
-.weapon-card::after{
-  content:'';
-  position:absolute;
-  top:0;left:0;right:0;height:2px;
-}
-.weapon-card.grade-common::after{background:var(--text3)}
-.weapon-card.grade-rare::after{background:var(--rare)}
-.weapon-card.grade-epic::after{background:var(--epic)}
-.weapon-card.grade-legendary::after{background:linear-gradient(90deg,var(--legendary),var(--accent2))}
-.weapon-card.grade-mythical::after{background:linear-gradient(90deg,var(--red),var(--epic))}
-
-.weapon-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 20px rgba(0,0,0,0.4);
-}
-.weapon-card.grade-rare:hover{border-color:var(--rare);box-shadow:0 8px 20px rgba(91,141,239,0.2)}
-.weapon-card.grade-epic:hover{border-color:var(--epic);box-shadow:0 8px 20px rgba(180,77,255,0.2)}
-.weapon-card.grade-legendary:hover{border-color:var(--legendary);box-shadow:0 8px 20px rgba(255,136,0,0.2)}
-.weapon-card.grade-mythical:hover{border-color:var(--red);box-shadow:0 8px 20px rgba(255,34,85,0.2)}
-
-.weapon-icon{
-  width:40px;height:40px;
-  border-radius:6px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;
-  margin-bottom:10px;
-  background:var(--bg3);
-}
-.weapon-name{
-  font-weight:600;font-size:13px;
-  color:var(--text);
-  margin-bottom:4px;
-  line-height:1.3;
-}
-.weapon-meta{
-  display:flex;gap:6px;flex-wrap:wrap;
-  margin-top:8px;
-}
-.badge{
-  font-size:10px;padding:2px 7px;
-  border-radius:10px;font-weight:600;
-  font-family:'Orbitron',monospace;letter-spacing:.5px;
-}
-.badge-auto{background:rgba(0,212,255,0.12);color:var(--neon);border:1px solid rgba(0,212,255,0.2)}
-.badge-semi{background:rgba(255,106,0,0.12);color:var(--accent2);border:1px solid rgba(255,106,0,0.2)}
-.badge-explosive{background:rgba(255,34,85,0.12);color:var(--red);border:1px solid rgba(255,34,85,0.2)}
-.badge-sniper{background:rgba(180,77,255,0.12);color:var(--epic);border:1px solid rgba(180,77,255,0.2)}
-.badge-charge{background:rgba(45,255,110,0.1);color:var(--pixel-green);border:1px solid rgba(45,255,110,0.2)}
-.badge-melee{background:rgba(255,170,44,0.12);color:var(--accent2);border:1px solid rgba(255,170,44,0.2)}
-.badge-scope{background:rgba(91,141,239,0.12);color:var(--rare);border:1px solid rgba(91,141,239,0.2)}
-
-.grade-pill{
-  font-size:10px;padding:2px 8px;
-  border-radius:10px;font-weight:700;
-  font-family:'Orbitron',monospace;letter-spacing:.5px;
-  display:inline-block;margin-bottom:4px;
-}
-.grade-common .grade-pill{background:rgba(168,183,210,0.15);color:#a8b7d2;border:1px solid rgba(168,183,210,0.2)}
-.grade-rare .grade-pill{background:rgba(91,141,239,0.15);color:var(--rare);border:1px solid rgba(91,141,239,0.25)}
-.grade-epic .grade-pill{background:rgba(180,77,255,0.15);color:var(--epic);border:1px solid rgba(180,77,255,0.25)}
-.grade-legendary .grade-pill{background:rgba(255,136,0,0.15);color:var(--legendary);border:1px solid rgba(255,136,0,0.25)}
-.grade-mythical .grade-pill{background:rgba(255,34,85,0.15);color:var(--red);border:1px solid rgba(255,34,85,0.25)}
-
-/* stats row */
-.weapon-stats{
-  display:flex;gap:8px;margin-top:10px;
-}
-.stat-mini{flex:1;text-align:center}
-.stat-mini-val{
-  font-family:'Orbitron',monospace;
-  font-size:13px;font-weight:700;
-  color:var(--neon);
-}
-.stat-mini-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
-.stat-bar-wrap{height:3px;background:var(--bg3);border-radius:2px;margin-top:8px;overflow:hidden}
-.stat-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--neon),var(--pixel-green));transition:width .5s ease}
-
-/* no results */
-.no-results{
-  text-align:center;padding:60px 20px;
-  color:var(--text3);
-  grid-column:1/-1;
-  font-size:16px;
+#grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+gap:10px;
+padding:15px;
 }
 
-/* === ARMOR === */
-.armor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.armor-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:20px;
-  transition:transform .15s,border-color .15s,box-shadow .15s;
-  position:relative;
-  overflow:hidden;
-}
-.armor-card:hover{transform:translateY(-3px);border-color:var(--neon);box-shadow:0 8px 24px rgba(0,212,255,0.15)}
-.armor-card::before{
-  content:'';
-  position:absolute;top:0;right:0;
-  width:80px;height:80px;
-  background:radial-gradient(circle at top right,rgba(0,212,255,0.08),transparent 70%);
-  pointer-events:none;
-}
-.armor-icon{font-size:36px;margin-bottom:10px}
-.armor-name{
-  font-family:'Orbitron',monospace;
-  font-weight:700;font-size:13px;
-  color:var(--text);margin-bottom:6px;
-}
-.armor-desc{font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.5}
-.armor-stats-row{display:flex;gap:12px}
-.armor-stat{
-  background:var(--bg3);
-  border-radius:4px;
-  padding:6px 10px;
-  text-align:center;
-  flex:1;
-}
-.armor-stat-val{
-  font-family:'Orbitron',monospace;
-  font-size:16px;font-weight:700;
-  color:var(--accent2);
-}
-.armor-stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
-
-/* === GAME MODES === */
-.modes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
-.mode-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:20px;
-  transition:transform .2s,border-color .2s;
-}
-.mode-card:hover{transform:translateY(-3px);border-color:var(--accent)}
-.mode-header{display:flex;align-items:center;gap:14px;margin-bottom:12px}
-.mode-icon{font-size:32px;line-height:1}
-.mode-name{font-family:'Orbitron',monospace;font-weight:700;font-size:15px;color:var(--text)}
-.mode-tag{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
-.mode-desc{font-size:13px;color:var(--text2);line-height:1.6}
-.mode-players{
-  display:inline-flex;align-items:center;gap:6px;
-  margin-top:10px;
-  font-size:12px;color:var(--text3);
-  background:var(--bg3);border-radius:20px;padding:4px 12px;
-  font-family:'Share Tech Mono',monospace;
+.card{
+background:var(--card);
+padding:10px;
+border-radius:10px;
+transition:.3s;
+cursor:pointer;
 }
 
-/* === MAPS === */
-.maps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-.map-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  overflow:hidden;
-  transition:transform .2s,border-color .2s;
+.card:hover{
+box-shadow:0 0 15px var(--neon);
+transform:translateY(-3px);
 }
-.map-card:hover{transform:translateY(-3px);border-color:var(--neon)}
-.map-thumb{
-  height:100px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:48px;
-  position:relative;
-}
-.map-body{padding:14px}
-.map-name{font-family:'Orbitron',monospace;font-weight:700;font-size:13px;color:var(--text);margin-bottom:4px}
-.map-theme{font-size:12px;color:var(--text3)}
 
-/* === CHARACTERS/SKINS === */
-.chars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
-.char-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:16px;text-align:center;
-  transition:transform .2s,border-color .2s;
+.panel{
+background:#111;
+padding:12px;
+margin:10px;
+border-radius:10px;
 }
-.char-card:hover{transform:translateY(-3px);border-color:var(--accent)}
-.char-avatar{font-size:44px;margin-bottom:8px}
-.char-name{font-weight:600;font-size:13px;color:var(--text)}
-.char-type{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px}
 
-/* === ABOUT === */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-@media(max-width:700px){.about-grid{grid-template-columns:1fr}}
-.about-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r);padding:24px;
+canvas{
+background:#000;
+margin-top:10px;
 }
-.about-card h3{
-  font-family:'Orbitron',monospace;font-size:16px;font-weight:700;
-  color:var(--neon);margin-bottom:12px;
-}
-.about-card p{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px}
-.about-card a{color:var(--accent2);text-decoration:none}
-.about-card a:hover{text-decoration:underline}
-.about-list{list-style:none;padding:0}
-.about-list li{
-  font-size:13px;color:var(--text2);
-  padding:6px 0;
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:8px;
-}
-.about-list li:last-child{border-bottom:none}
-.about-list li::before{content:'▸';color:var(--neon);font-size:12px}
 
-/* === FOOTER === */
-footer{
-  background:var(--bg2);
-  border-top:1px solid var(--border);
-  padding:32px 24px;
-  text-align:center;
-  position:relative;z-index:1;
-  margin-top:40px;
+.tier-S{border-left:5px solid gold}
+.tier-A{border-left:5px solid lime}
+.tier-B{border-left:5px solid cyan}
+.tier-C{border-left:5px solid orange}
+.tier-D{border-left:5px solid red}
+
+.small{font-size:12px;opacity:.7}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<header>ULTRA META WIKI FINAL - GITHUB READY</header>
+
+<div class="controls">
+<input type="text" id="search" placeholder="Search">
+<select id="tierFilter">
+<option value="">All Tier</option>
+<option>S</option><option>A</option><option>B</option>
+<option>C</option><option>D</option>
+</select>
+<select id="elementFilter">
+<option value="">All Element</option>
+<option>None</option>
+<option>Fire</option>
+<option>Ice</option>
+<option>Poison</option>
+</select>
+<button onclick="sortMeta()">Sort Meta</button>
+<button onclick="randomBuild()">Random</button>
+<button onclick="favoritesOnly()">Fav Only</button>
+<button onclick="toggleTheme()">Theme</button>
+<button onclick="simulatePatch()">Patch</button>
+</div>
+
+<div id="grid"></div>
+
+<div class="panel">
+<h3>Loadout Builder (3 Slot)</h3>
+<div id="loadout"></div>
+<p id="combined"></p>
+<button onclick="clearLoadout()">Clear</button>
+<button onclick="upgradeLoadout()">Upgrade +5</button>
+</div>
+
+<div class="panel">
+<h3>Top 10 Meta</h3>
+<ol id="top"></ol>
+</div>
+
+<div class="panel">
+<h3>Stats Graph</h3>
+<canvas id="graph" width="600" height="200"></canvas>
+<p id="performance" class="small"></p>
+<p id="fps" class="small"></p>
+</div>
+
+<script>
+const elements=["None","Fire","Ice","Poison"];
+let weapons=[];
+let favorites=JSON.parse(localStorage.getItem("favorites"))||[];
+let loadout=[];
+let patchMultiplier=1;
+
+function generateWeapons(n){
+for(let i=1;i<=n;i++){
+let damage=Math.random()*80+20;
+let fireRate=Math.random()*2+0.5;
+let reload=Math.random()*2+1;
+let crit=Math.random()*0.5;
+let armorPen=Math.random()*0.4;
+let accuracy=Math.random()*0.3+0.7;
+let weight=Math.random()*10+5;
+let element=elements[Math.floor(Math.random()*elements.length)];
+
+let trueDPS=calcDPS(damage,fireRate,reload,crit,armorPen,accuracy,element);
+let metaScore=Math.min(100,(trueDPS/180)*100);
+
+weapons.push({
+id:i,name:"Weapon "+i,
+damage,fireRate,reload,crit,armorPen,accuracy,weight,element,
+trueDPS,metaScore,level:1
+});
 }
-.footer-inner{max-width:1400px;margin:0 auto}
-.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-.footer-links a{font-size:13px;color:var(--text3);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--neon)}
-.footer-credit{font
+assignTier();
+}
+
+function calcDPS(d,f,r,c,a,acc,e){
+let base=d*f;
+let critD=base*(1+c);
+let reloadP=1/(r*0.6);
+let armorB=1+a;
+let elementB=e==="Fire"?1.1:e==="Ice"?1.05:e==="Poison"?1.08:1;
+return critD*reloadP*armorB*elementB*acc*patchMultiplier;
+}
+
+function assignTier(){
+weapons.forEach(w=>{
+if(w.metaScore>=85) w.tier="S";
+else if(w.metaScore>=70) w.tier="A";
+else if(w.metaScore>=55) w.tier="B";
+else if(w.metaScore>=40) w.tier="C";
+else w.tier="D";
+});
+}
+
+function render(list){
+let start=performance.now();
+let grid=document.getElementById("grid");
+grid.innerHTML="";
+let slice=list.slice(0,400);
+slice.forEach(w=>{
+let d=document.createElement("div");
+d.className="card tier-"+w.tier;
+d.innerHTML=`
+<h4>${w.name} <span class="small">Lv.${w.level}</span></h4>
+<p>DPS: ${w.trueDPS.toFixed(1)}</p>
+<p>Meta: ${w.metaScore.toFixed(1)} (${w.tier})</p>
+<p>Mobility: ${(100-w.weight*2).toFixed(0)}</p>
+<p>Element: ${w.element}</p>
+<button onclick="addLoadout(${w.id})">Add</button>
+<button onclick="toggleFav(${w.id})">Fav</button>
+`;
+grid.appendChild(d);
+});
+let end=performance.now();
+document.getElementById("performance").innerText=
+"Render: "+(end-start).toFixed(2)+"ms";
+}
+
+function sortMeta(){
+weapons.sort((a,b)=>b.metaScore-a.metaScore);
+render(weapons);
+updateTop();
+}
+
+function addLoadout(id){
+if(loadout.length<3){
+let w=weapons.find(x=>x.id===id);
+loadout.push(w);
+updateLoadout();
+}
+}
+
+function updateLoadout(){
+let div=document.getElementById("loadout");
+div.innerHTML="";
+let total=0,mob=0;
+loadout.forEach(w=>{
+div.innerHTML+=w.name+"<br>";
+total+=w.trueDPS;
+mob+=100-w.weight*2;
+});
+let synergy=1+(loadout.length*0.05);
+total*=synergy;
+document.getElementById("combined").innerText=
+"Combined DPS: "+total.toFixed(1)+" | Mobility: "+mob.toFixed(0);
+drawGraph(loadout);
+}
+
+function clearLoadout(){loadout=[];updateLoadout()}
+
+function upgradeLoadout(){
+loadout.forEach(w=>{
+w.level+=5;
+w.damage*=1.1;
+w.trueDPS=calcDPS(w.damage,w.fireRate,w.reload,w.crit,w.armorPen,w.accuracy,w.element);
+w.metaScore=Math.min(100,(w.trueDPS/180)*100);
+});
+assignTier();
+render(weapons);
+updateLoadout();
+updateTop();
+}
+
+function toggleFav(id){
+if(favorites.includes(id)) favorites=favorites.filter(x=>x!==id);
+else favorites.push(id);
+localStorage.setItem("favorites",JSON.stringify(favorites));
+}
+
+function favoritesOnly(){
+render(weapons.filter(w=>favorites.includes(w.id)));
+}
+
+function randomBuild(){
+loadout=[];
+for(let i=0;i<3;i++)
+loadout.push(weapons[Math.floor(Math.random()*weapons.length)]);
+updateLoadout();
+}
+
+function updateTop(){
+let top=weapons.slice().sort((a,b)=>b.metaScore-a.metaScore).slice(0,10);
+let ol=document.getElementById("top");
+ol.innerHTML="";
+top.forEach(w=>ol.innerHTML+="<li>"+w.name+" ("+w.metaScore.toFixed(1)+")</li>");
+}
+
+function drawGraph(list){
+let c=document.getElementById("graph");
+let ctx=c.getContext("2d");
+ctx.clearRect(0,0,c.width,c.height);
+list.forEach((w,i)=>{
+ctx.fillStyle="cyan";
+ctx.fillRect(i*200+80,200-w.trueDPS/2,50,w.trueDPS/2);
+});
+}
+
+function toggleTheme(){
+let dark=document.body.style.background!=="white";
+if(dark){
+document.body.style.background="white";
+document.body.style.color="black";
+}else{
+document.body.style.background="#0f0f1a";
+document.body.style.color="white";
+}
+}
+
+function simulatePatch(){
+patchMultiplier=patchMultiplier===1?0.9:1;
+weapons.forEach(w=>{
+w.trueDPS=calcDPS(w.damage,w.fireRate,w.reload,w.crit,w.armorPen,w.accuracy,w.element);
+w.metaScore=Math.min(100,(w.trueDPS/180)*100);
+});
+assignTier();
+render(weapons);
+updateTop();
+}
+
+document.getElementById("search").addEventListener("input",e=>{
+let val=e.target.value.toLowerCase();
+render(weapons.filter(w=>w.name.toLowerCase().includes(val)));
+});
+
+document.getElementById("tierFilter").addEventListener("change",e=>{
+let v=e.target.value;
+if(!v) render(weapons);
+else render(weapons.filter(w=>w.tier===v));
+});
+
+document.getElementById("elementFilter").addEventListener("change",e=>{
+let v=e.target.value;
+if(!v) render(weapons);
+else render(weapons.filter(w=>w.element===v));
+});
+
+/* FPS */
+let frames=0,last=performance.now();
+function fpsLoop(){
+frames++;
+let now=performance.now();
+if(now-last>=1000){
+document.getElementById("fps").innerText="FPS: "+frames;
+frames=0;
+last=now;
+}
+requestAnimationFrame(fpsLoop);
+}
+fpsLoop();
+
+generateWeapons(750);
+render(weapons);
+updateTop();
+</script>
+
+</body>
+</html>
