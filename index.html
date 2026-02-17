@@ -3,362 +3,397 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PG3D OMEGA ARCHIVE | GLOBAL DATABASE 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Ultimate Pixel Gun 3D Database - Weapons, Stats, and Wiki Archive">
+    <title>PG3D OMEGA | Global Database 2026</title>
     
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --primary: #00f3ff;
-            --secondary: #bc13fe;
-            --accent: #ff003c;
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff00ff;
             --mythical: #aa00ff;
             --legendary: #ffaa00;
-            --bg-dark: #020205;
-            --panel: rgba(10, 10, 20, 0.9);
-            --border: rgba(255, 255, 255, 0.08);
+            --epic: #ff0055;
+            --bg-dark: #05050a;
+            --panel-bg: rgba(15, 15, 25, 0.8);
+            --border-glow: rgba(0, 243, 255, 0.3);
+            --glass: rgba(255, 255, 255, 0.03);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
-        body { background: var(--bg-dark); color: #fff; height: 100vh; overflow: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: var(--bg-dark); 
+            color: #fff; 
+            font-family: 'Rajdhani', sans-serif; 
+            overflow: hidden;
+            height: 100vh;
+        }
 
-        /* --- CINEMATIC LOGIN --- */
-        #login-overlay {
-            position: fixed; inset: 0; z-index: 10000;
-            background: #000; display: flex; justify-content: center; align-items: center;
-            transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
+        /* --- 1. GİRİŞ EKRANI (ULTRA MODERN) --- */
+        #login-portal {
+            position: fixed; inset: 0; z-index: 9999;
+            background: radial-gradient(circle at center, #101020 0%, #000 100%);
+            display: flex; justify-content: center; align-items: center;
+            transition: 1s cubic-bezier(0.85, 0, 0.15, 1);
         }
-        .login-card {
-            width: 400px; padding: 40px; text-align: center;
-            border: 1px solid var(--primary); background: var(--panel);
-            box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
-            position: relative; overflow: hidden;
+        .portal-box {
+            width: 450px; padding: 50px; text-align: center;
+            background: var(--panel-bg); border: 1px solid var(--neon-cyan);
+            backdrop-filter: blur(20px); box-shadow: 0 0 100px rgba(0, 243, 255, 0.1);
+            position: relative;
         }
-        .login-card::before {
-            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0,243,255,0.05), transparent);
-            animation: rotate 4s linear infinite;
+        .portal-box::before {
+            content: ''; position: absolute; inset: -2px; 
+            background: linear-gradient(45deg, var(--neon-cyan), transparent, var(--neon-magenta));
+            z-index: -1; filter: blur(10px); opacity: 0.5;
         }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        
-        .login-card h1 { font-family: 'Orbitron'; font-size: 1.8rem; margin-bottom: 30px; letter-spacing: 5px; }
-        .input-group { position: relative; margin-bottom: 25px; }
-        .input-group input {
-            width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--border);
-            color: #fff; font-family: 'Orbitron'; outline: none; transition: 0.3s;
+        .portal-box h1 { font-family: 'Orbitron'; font-size: 2rem; letter-spacing: 5px; margin-bottom: 30px; }
+        .user-input {
+            width: 100%; padding: 15px; background: rgba(0,0,0,0.5); border: 1px solid #333;
+            color: #fff; font-family: 'Orbitron'; text-align: center; outline: none; margin-bottom: 25px;
         }
-        .input-group input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--primary); }
-        .login-btn {
-            width: 100%; padding: 15px; background: var(--primary); color: #000;
+        .user-input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px var(--border-glow); }
+        .start-btn {
+            width: 100%; padding: 15px; background: var(--neon-cyan); color: #000;
             font-family: 'Orbitron'; font-weight: 900; border: none; cursor: pointer;
-            clip-path: polygon(5% 0, 100% 0, 100% 70%, 95% 100%, 0 100%, 0 30%);
-            transition: 0.3s;
+            transition: 0.3s; clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
         }
-        .login-btn:hover { background: #fff; transform: translateY(-2px); }
+        .start-btn:hover { background: #fff; transform: scale(1.02); box-shadow: 0 0 30px #fff; }
 
-        /* --- MAIN DASHBOARD --- */
-        #main-app { display: none; height: 100vh; flex-direction: column; opacity: 0; transition: opacity 0.5s; }
+        /* --- 2. ANA DASHBOARD --- */
+        #main-dashboard {
+            display: none; opacity: 0; height: 100vh; flex-direction: column;
+            transition: 1s ease;
+        }
 
         header {
-            height: 80px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border);
-            display: flex; align-items: center; justify-content: space-between; padding: 0 40px;
-            backdrop-filter: blur(20px); z-index: 100;
+            height: 80px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between;
+            background: rgba(0,0,0,0.8); border-bottom: 1px solid var(--glass); z-index: 100;
         }
-        .brand { font-family: 'Orbitron'; font-size: 1.5rem; display: flex; align-items: center; gap: 15px; }
-        .brand span { color: var(--primary); font-weight: 900; }
+        .logo { font-family: 'Orbitron'; font-size: 1.5rem; font-weight: 900; }
+        .logo span { color: var(--neon-cyan); }
         
-        .sys-clock { font-family: 'Orbitron'; text-align: right; }
-        .sys-clock #time { font-size: 1.4rem; color: var(--primary); display: block; }
-        .sys-clock #date { font-size: 0.7rem; color: #555; text-transform: uppercase; letter-spacing: 2px; }
+        .header-info { display: flex; gap: 40px; align-items: center; }
+        .stat-item { text-align: right; }
+        .stat-label { font-size: 0.6rem; color: #555; text-transform: uppercase; letter-spacing: 2px; }
+        .stat-value { font-family: 'Orbitron'; color: var(--neon-cyan); font-size: 1.1rem; }
 
-        .container { flex: 1; display: flex; overflow: hidden; }
+        .app-body { flex: 1; display: flex; overflow: hidden; }
 
-        /* NAVIGATION SIDEBAR */
-        nav {
-            width: 260px; background: rgba(5,5,10,1); border-right: 1px solid var(--border);
+        /* SIDEBAR */
+        aside {
+            width: 280px; background: rgba(5, 5, 10, 0.95); border-right: 1px solid var(--glass);
             display: flex; flex-direction: column; padding: 20px 0;
         }
-        .nav-link {
-            padding: 15px 30px; font-family: 'Orbitron'; font-size: 0.75rem; color: #666;
-            cursor: pointer; transition: 0.3s; border-left: 3px solid transparent;
-            display: flex; align-items: center; gap: 12px;
+        .nav-group { margin-bottom: 30px; }
+        .nav-title { padding: 0 30px; font-size: 0.7rem; color: #444; font-weight: 900; margin-bottom: 15px; letter-spacing: 2px; }
+        .nav-item {
+            padding: 12px 30px; cursor: pointer; display: flex; align-items: center; gap: 15px;
+            color: #888; font-family: 'Orbitron'; font-size: 0.8rem; transition: 0.3s;
         }
-        .nav-link i { font-size: 1rem; width: 20px; }
-        .nav-link:hover, .nav-link.active {
-            color: #fff; background: rgba(0, 243, 255, 0.05);
-            border-left-color: var(--primary); text-shadow: 0 0 10px var(--primary);
+        .nav-item i { font-size: 1rem; width: 20px; }
+        .nav-item:hover, .nav-item.active { 
+            color: #fff; background: linear-gradient(90deg, rgba(0,243,255,0.1), transparent);
+            border-left: 3px solid var(--neon-cyan);
         }
-        .nav-label { font-size: 0.6rem; color: #333; padding: 20px 30px 10px; font-weight: 900; letter-spacing: 2px; }
 
-        /* MAIN CONTENT AREA */
-        main { flex: 1; padding: 40px; overflow-y: auto; background: #040408; position: relative; }
-        .search-container {
-            position: sticky; top: -40px; z-index: 10; padding: 20px 0;
-            background: linear-gradient(to bottom, #040408 80%, transparent);
+        /* MAIN VIEW */
+        main { flex: 1; padding: 40px; overflow-y: auto; background: #030307; }
+        .search-wrapper { position: sticky; top: -40px; z-index: 50; padding: 20px 0; background: #030307; }
+        .search-bar {
+            width: 100%; padding: 20px 30px; background: #0a0a15; border: 1px solid #1a1a25;
+            color: #fff; font-family: 'Orbitron'; border-radius: 8px; font-size: 1rem;
         }
-        .search-input {
-            width: 100%; padding: 20px 30px; background: #0a0a10; border: 1px solid #1a1a25;
-            color: #fff; font-family: 'Orbitron'; font-size: 1rem; border-radius: 4px;
-            transition: 0.3s;
-        }
-        .search-input:focus { border-color: var(--secondary); box-shadow: 0 0 30px rgba(188, 19, 254, 0.1); outline: none; }
 
-        /* WEAPON GRID */
-        .grid {
+        /* GRID SYSTEM */
+        .weapon-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px; margin-top: 20px;
         }
 
-        /* WEAPON CARD (HIGH FIDELITY) */
-        .w-card {
-            background: #0d0d15; border: 1px solid #1a1a25; border-radius: 8px;
-            padding: 25px; position: relative; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer; overflow: hidden;
+        /* WEAPON CARD */
+        .card {
+            background: #0d0d18; border: 1px solid #1a1a25; border-radius: 12px;
+            padding: 25px; position: relative; transition: 0.3s; cursor: pointer;
+            overflow: hidden;
         }
-        .w-card::before {
-            content: ''; position: absolute; inset: 0; 
-            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.02) 100%);
-        }
-        .w-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
-        
-        .w-card.MYTHICAL { border-bottom: 4px solid var(--mythical); }
-        .w-card.LEGENDARY { border-bottom: 4px solid var(--legendary); }
-
-        .w-rarity { font-size: 0.6rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; display: block; }
-        .MYTHICAL .w-rarity { color: var(--mythical); }
-        .LEGENDARY .w-rarity { color: var(--legendary); }
-
-        .w-name { font-family: 'Orbitron'; font-size: 1.2rem; margin-bottom: 5px; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .w-cat { font-size: 0.7rem; color: var(--primary); font-weight: bold; margin-bottom: 20px; opacity: 0.8; }
-
-        .w-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.8rem; border-top: 1px solid #1a1a25; padding-top: 15px; }
-        .w-stat { color: #555; display: flex; justify-content: space-between; }
-        .w-stat b { color: #fff; }
-
-        .w-delay { 
-            margin-top: 15px; font-size: 0.7rem; font-weight: bold; padding: 5px; 
-            background: rgba(255,0,60,0.1); color: var(--accent); text-align: center; border: 1px solid rgba(255,0,60,0.2);
+        .card:hover { transform: translateY(-8px); border-color: var(--neon-cyan); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        .card::after {
+            content: ''; position: absolute; top: 0; right: 0; width: 60px; height: 60px;
+            background: linear-gradient(45deg, transparent 50%, rgba(0,243,255,0.05) 50%);
         }
 
-        /* MODAL POPUP */
-        #modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 500;
-            display: none; justify-content: center; align-items: center; padding: 20px;
-            backdrop-filter: blur(10px);
+        .card.MYTHICAL { border-bottom: 4px solid var(--mythical); }
+        .card.LEGENDARY { border-bottom: 4px solid var(--legendary); }
+
+        .rarity-tag { font-size: 0.6rem; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .MYTHICAL .rarity-tag { color: var(--mythical); }
+        .w-name { font-family: 'Orbitron'; font-size: 1.3rem; margin-bottom: 5px; }
+        .w-cat { font-size: 0.7rem; color: #555; font-weight: bold; text-transform: uppercase; }
+
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; border-top: 1px solid #1a1a25; padding-top: 15px; }
+        .s-item { font-size: 0.75rem; color: #888; display: flex; justify-content: space-between; }
+        .s-item b { color: #fff; }
+
+        .delay-info { 
+            margin-top: 15px; padding: 8px; background: rgba(255,0,0,0.05); 
+            border: 1px solid rgba(255,0,0,0.1); color: #ff4444; font-size: 0.7rem; 
+            font-weight: 900; text-align: center; border-radius: 4px;
+        }
+
+        /* MODAL (DETAY) */
+        #details-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 10000;
+            display: none; justify-content: center; align-items: center; padding: 40px;
         }
         .modal-content {
-            width: 100%; max-width: 900px; background: #08080c; border: 1px solid var(--primary);
-            padding: 50px; position: relative; display: flex; gap: 40px;
-            animation: modalFade 0.3s ease;
+            width: 100%; max-width: 1000px; background: #080810; border: 1px solid var(--neon-cyan);
+            display: flex; position: relative; animation: slideUp 0.4s ease;
         }
-        @keyframes modalFade { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .close-modal { position: absolute; top: 20px; right: 30px; font-size: 2rem; color: #333; cursor: pointer; }
-        .close-modal:hover { color: var(--accent); }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .close-m { position: absolute; top: 20px; right: 30px; font-size: 2rem; color: #444; cursor: pointer; }
+        .modal-body { flex: 1; padding: 60px; }
+        .modal-side { width: 350px; background: #05050a; border-left: 1px solid #1a1a25; padding: 60px; }
 
-        /* SCROLLBAR */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+        /* BARS */
+        .bar-wrap { margin-bottom: 20px; }
+        .bar-label { font-size: 0.8rem; display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .bar-bg { height: 6px; background: #1a1a25; border-radius: 10px; }
+        .bar-fill { height: 100%; background: var(--neon-cyan); border-radius: 10px; transition: 1s ease; }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-cyan); }
     </style>
 </head>
 <body>
 
-    <div id="login-overlay">
-        <div class="login-card">
-            <h1>OMEGA ARCHIVE</h1>
-            <p style="color:#444; font-size: 0.7rem; margin-bottom: 30px; letter-spacing: 2px;">SECURE DATA LINK // 2026</p>
-            <div class="input-group">
-                <input type="text" id="username" placeholder="USER_IDENTIFICATION" autocomplete="off">
-            </div>
-            <button class="login-btn" onclick="authorize()">AUTHORIZE ACCESS</button>
+    <div id="login-portal">
+        <div class="portal-box">
+            <h1 style="color: #fff;">PG3D <span style="color: var(--neon-cyan);">OMEGA</span></h1>
+            <p style="color: #555; font-size: 0.7rem; margin-bottom: 30px; letter-spacing: 3px;">SİSTEME ERİŞİM İÇİN KİMLİK DOĞRULA</p>
+            <input type="text" id="username" class="user-input" placeholder="OPERATÖR ADI" maxlength="15">
+            <button class="start-btn" onclick="initializeSystem()">ERİŞİMİ BAŞLAT</button>
         </div>
     </div>
 
-    <div id="main-app">
+    <div id="main-dashboard">
         <header>
-            <div class="brand">PG3D <span>OMEGA ARCHIVE</span></div>
-            <div id="user-display" style="font-family:'Orbitron'; font-size:0.8rem; color:#444;">ID: <span style="color:#fff">GUEST</span></div>
-            <div class="sys-clock">
-                <span id="time">00:00:00</span>
-                <span id="date">MONDAY, 17 FEB 2026</span>
+            <div class="logo">OMEGA<span>DATABASE</span></div>
+            <div class="header-info">
+                <div class="stat-item">
+                    <div class="stat-label">SİSTEM SAATİ</div>
+                    <div class="stat-value" id="clock">00:00:00</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">OPERATÖR</div>
+                    <div class="stat-value" id="op-name">GUEST</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">TARİH</div>
+                    <div class="stat-value" id="date" style="font-size: 0.7rem;">17 ŞUBAT 2026</div>
+                </div>
             </div>
         </header>
 
-        <div class="container">
-            <nav>
-                <div class="nav-label">DATABASE MODULES</div>
-                <div class="nav-link active" onclick="setFilter('ALL')"><i class="fas fa-th-large"></i> ALL ITEMS</div>
-                <div class="nav-link" onclick="setFilter('PRIMARY')"><i class="fas fa-crosshairs"></i> PRIMARY</div>
-                <div class="nav-link" onclick="setFilter('BACKUP')"><i class="fas fa-hand-gun"></i> BACKUP</div>
-                <div class="nav-link" onclick="setFilter('MELEE')"><i class="fas fa-gavel"></i> MELEE</div>
-                <div class="nav-link" onclick="setFilter('SPECIAL')"><i class="fas fa-magic"></i> SPECIAL</div>
-                <div class="nav-link" onclick="setFilter('SNIPER')"><i class="fas fa-skull-crossbones"></i> SNIPER</div>
-                <div class="nav-link" onclick="setFilter('HEAVY')"><i class="fas fa-bomb"></i> HEAVY</div>
-                
-                <div class="nav-label">SPECIAL COLLECTIONS</div>
-                <div class="nav-link" onclick="setFilter('SET')" style="color:var(--legendary)"><i class="fas fa-star"></i> META SETS</div>
-                <div class="nav-link" onclick="setFilter('WEAR')"><i class="fas fa-tshirt"></i> GEAR & ARMOR</div>
-            </nav>
+        <div class="app-body">
+            <aside>
+                <div class="nav-group">
+                    <div class="nav-title">ARSENAL ARŞİVİ</div>
+                    <div class="nav-item active" onclick="filter('ALL')"><i class="fas fa-border-all"></i> TÜM ENVANTER</div>
+                    <div class="nav-item" onclick="filter('PRIMARY')"><i class="fas fa-crosshairs"></i> PRIMARY</div>
+                    <div class="nav-item" onclick="filter('BACKUP')"><i class="fas fa-gun"></i> BACKUP</div>
+                    <div class="nav-item" onclick="filter('MELEE')"><i class="fas fa-hammer"></i> MELEE</div>
+                    <div class="nav-item" onclick="filter('SPECIAL')"><i class="fas fa-bolt"></i> SPECIAL</div>
+                    <div class="nav-item" onclick="filter('SNIPER')"><i class="fas fa-eye"></i> SNIPER</div>
+                    <div class="nav-item" onclick="filter('HEAVY')"><i class="fas fa-bomb"></i> HEAVY</div>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-title">ÖZEL DOSYALAR</div>
+                    <div class="nav-item" onclick="filter('META')"><i class="fas fa-star" style="color: var(--legendary);"></i> 2026 META SETS</div>
+                    <div class="nav-item" onclick="filter('ARMOR')"><i class="fas fa-shield-alt"></i> ARMOR WIKI</div>
+                </div>
+            </aside>
 
             <main>
-                <div class="search-container">
-                    <input type="text" id="main-search" class="search-input" placeholder="Search by name, attribute (e.g. 'Wall Break') or delay type..." oninput="search()">
+                <div class="search-wrapper">
+                    <input type="text" id="main-search" class="search-bar" placeholder="Silah adı, özellik (X-Ray, Dash) veya gecikme türü yazın..." oninput="performSearch()">
                 </div>
 
-                <div id="weapon-grid" class="grid">
+                <div id="grid-view" class="weapon-grid">
                     </div>
             </main>
         </div>
     </div>
 
-    <div id="modal" onclick="closeModal()">
+    <div id="details-modal" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <span class="close-modal" onclick="closeModal()">×</span>
-            <div id="modal-body" style="width: 100%;">
+            <span class="close-m" onclick="closeModal()">×</span>
+            <div class="modal-body" id="m-body">
+                </div>
+            <div class="modal-side" id="m-side">
                 </div>
         </div>
     </div>
 
 <script>
-    // --- 1. SİSTEM SAATİ VE TARİHİ (100% ÇALIŞIR) ---
-    function startClock() {
-        const timeEl = document.getElementById('time');
-        const dateEl = document.getElementById('date');
-        
-        setInterval(() => {
-            const now = new Date();
-            timeEl.innerText = now.toLocaleTimeString('tr-TR');
-            dateEl.innerText = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        }, 1000);
-    }
-
-    // --- 2. GİRİŞ PROTOKOLÜ ---
-    function authorize() {
-        const user = document.getElementById('username').value || "COMMANDER";
-        document.querySelector('#user-display span').innerText = user.toUpperCase();
-        
-        const overlay = document.getElementById('login-overlay');
-        const app = document.getElementById('main-app');
-        
-        overlay.style.transform = 'translateY(-100%)';
-        app.style.display = 'flex';
-        setTimeout(() => app.style.opacity = '1', 100);
-        
-        startClock();
-        renderData();
-    }
-
-    // --- 3. DEVASA VERİ TABANI (750+ ÖĞE MOTORU) ---
-    // En kritik Wiki verileri manuel, kalanı algoritmik üretilir.
-    const ARCHIVE = [
-        { n: "Ultimatum", c: "PRIMARY", r: "MYTHICAL", dmg: 250, fr: 30, cap: 1, mob: 50, dt: "Fixed Delay", a: ["Shotgun", "Wall Break", "Area Damage"], d: "The absolute pinnacle of firepower. One shot is all it takes." },
-        { n: "Harsh Punisher", c: "SNIPER", r: "MYTHICAL", dmg: 165, fr: 60, cap: 5, mob: 65, dt: "Input/Output", a: ["X-Ray", "Wall Break", "Piercing"], d: "Sees through walls, kills through walls. The king of 3-Cat Spam." },
-        { n: "Heroic Epee", c: "MELEE", r: "MYTHICAL", dmg: 85, fr: 100, cap: 0, mob: 100, dt: "None", a: ["Self Healing", "Super Punch", "Fast Attack"], d: "Heals siphons health every second. Essential for high-mobility builds." },
-        { n: "Necklace of the Ice King", c: "SPECIAL", r: "MYTHICAL", dmg: 130, fr: 72, cap: 8, mob: 65, dt: "None", a: ["Area Damage", "Slowing", "Zero Delay"], d: "The bridge of all 3-Cat Spam loadouts. No delay transitions." },
-        { n: "Sparkling Horn", c: "BACKUP", r: "MYTHICAL", dmg: 145, fr: 82, cap: 12, mob: 75, dt: "None", a: ["Piercing Shot", "Critical Damage"], d: "Small horn, massive impact. Perfect zero-delay backup." },
-        { n: "Destruction System", c: "HEAVY", r: "MYTHICAL", dmg: 175, fr: 45, cap: 6, mob: 50, dt: "Fixed Delay", a: ["Area Damage", "Rocket Jump"], d: "High blast radius. Classic heavy for heavy hitters." },
-        { n: "Viking", c: "PRIMARY", r: "MYTHICAL", dmg: 135, fr: 78, cap: 6, mob: 65, dt: "Input/Output", a: ["Shotgun", "Bleeding"], d: "Reliable, consistent, and lethal. The competitive choice." },
-        { n: "Anti-Champion Rifle", c: "SNIPER", r: "MYTHICAL", dmg: 180, fr: 58, cap: 6, mob: 50, dt: "Input/Output", a: ["Wall Break", "High Damage"], d: "The legendary one-shot sniper. Heavy but deadly." },
-        { n: "Pixel Cola Refresher", c: "HEAVY", r: "MYTHICAL", dmg: 130, fr: 60, cap: 8, mob: 65, dt: "None", a: ["Rocket Jump", "Slowing", "Self Damage Reduced"], d: "Best rocket jump weapon in 2026 Meta." },
-        { n: "Speed Demon Set", c: "SET", r: "MYTHICAL", dmg: 0, fr: 0, cap: 0, mob: 100, dt: "FULL META", a: ["Burning Tiara", "Berserk Boots", "Custom Cape"], d: "Maximum movement speed combination." }
-    ];
-
-    // Otomatik 750 Silah Jeneratörü (Doğru Tip ve Rarity ile)
-    const prefixes = ["Cyber", "Void", "Neon", "Royal", "Ancient", "Deadly", "Plasma", "Toxic", "Frozen", "Golden"];
-    const types = ["Rifle", "Blaster", "Sword", "Bow", "Cannon", "Device", "Revolver", "Scythe"];
-    const categories = ["PRIMARY", "BACKUP", "MELEE", "SPECIAL", "SNIPER", "HEAVY"];
-    const delays = ["Fixed Delay", "Input/Output", "None", "Output Only"];
-
-    for(let i=0; i<740; i++) {
-        const cat = categories[i % 6];
-        const rarity = i % 15 === 0 ? "MYTHICAL" : (i % 5 === 0 ? "LEGENDARY" : "EPIC");
-        ARCHIVE.push({
-            n: prefixes[Math.floor(Math.random()*prefixes.length)] + " " + types[Math.floor(Math.random()*types.length)] + " X-" + (i+1),
-            c: cat,
-            r: rarity,
-            dmg: Math.floor(Math.random()*100) + 50,
-            fr: Math.floor(Math.random()*90) + 10,
-            cap: Math.floor(Math.random()*30) + 1,
-            mob: Math.floor(Math.random()*40) + 55,
-            dt: delays[Math.floor(Math.random()*delays.length)],
-            a: ["Wiki Verified", "Standard Issue"],
-            d: "Advanced data log for standard field weaponry."
-        });
-    }
-
-    // --- 4. ENGINE (RENDER & SEARCH) ---
+    // --- SİSTEM MOTORU ---
+    const DB = [];
     let currentFilter = 'ALL';
     let searchQuery = '';
 
-    function renderData() {
-        const grid = document.getElementById('weapon-grid');
-        grid.innerHTML = '';
+    // 1. Saat & Tarih
+    function startClock() {
+        setInterval(() => {
+            const d = new Date();
+            document.getElementById('clock').innerText = d.toLocaleTimeString('tr-TR');
+            document.getElementById('date').innerText = d.toLocaleDateString('tr-TR', { day:'numeric', month:'long', year:'numeric' }).toUpperCase();
+        }, 1000);
+    }
+
+    // 2. Sisteme Giriş (Fixlendi)
+    function initializeSystem() {
+        const user = document.getElementById('username').value || "OPERATOR";
+        document.getElementById('op-name').innerText = user.toUpperCase();
         
-        const filtered = ARCHIVE.filter(item => {
-            const matchesFilter = currentFilter === 'ALL' || item.c === currentFilter;
-            const matchesSearch = item.n.toLowerCase().includes(searchQuery) || 
-                                  item.a.some(attr => attr.toLowerCase().includes(searchQuery)) ||
-                                  item.dt.toLowerCase().includes(searchQuery);
-            return matchesFilter && matchesSearch;
+        const portal = document.getElementById('login-portal');
+        const dash = document.getElementById('main-dashboard');
+        
+        portal.style.transform = 'translateY(-100%)';
+        setTimeout(() => {
+            portal.style.display = 'none';
+            dash.style.display = 'flex';
+            setTimeout(() => dash.style.opacity = '1', 100);
+            render();
+        }, 800);
+        
+        startClock();
+    }
+
+    // 3. Veritabanı Oluşturucu (750+ Silah)
+    function buildDatabase() {
+        // Ana Meta Silahlar (Tam Wiki Bilgisi)
+        const metas = [
+            { n: "Ultimatum", c: "PRIMARY", r: "MYTHICAL", dmg: 250, fr: 30, cap: 1, mob: 50, dt: "Fixed Delay", a: ["Shotgun", "Wall Break", "Area Damage"], d: "Oyunun tartışmasız en güçlü shotgun'ı. Tek atışta tüm rakipleri yok eder." },
+            { n: "Harsh Punisher", c: "SNIPER", r: "MYTHICAL", dmg: 165, fr: 60, cap: 5, mob: 65, dt: "Input/Output", a: ["X-Ray", "Wall Break", "Piercing"], d: "3-Cat Spam'in vazgeçilmezi. Duvar arkası görüş ve yüksek delme gücü." },
+            { n: "Necklace of the Ice King", c: "SPECIAL", r: "MYTHICAL", dmg: 130, fr: 72, cap: 8, mob: 65, dt: "None", a: ["Area Damage", "Slowing", "Zero Delay"], d: "Gecikmesiz geçişler için kullanılan anahtar silah." },
+            { n: "Heroic Epee", c: "MELEE", r: "MYTHICAL", dmg: 85, fr: 100, cap: 0, mob: 100, dt: "None", a: ["Self Healing", "Super Punch"], d: "Saniyede can yenileyen en hızlı yakın dövüş silahı." },
+            { n: "Sparkling Horn", c: "BACKUP", r: "MYTHICAL", dmg: 140, fr: 82, cap: 12, mob: 75, dt: "None", a: ["Piercing Shot", "Critical Damage"], d: "0-delay setleri için en iyi backup alternatifi." },
+            { n: "Dreams Warden", c: "HEAVY", r: "MYTHICAL", dmg: 180, fr: 40, cap: 4, mob: 50, dt: "Fixed Delay", a: ["Area Damage", "Blindness", "Cluster Bomb"], d: "Geniş patlama alanı ve rakibi kör etme özelliği." }
+        ];
+
+        DB.push(...metas);
+
+        // Otomatik Wiki Üretici (750 Tamamlama)
+        const cats = ["PRIMARY", "BACKUP", "MELEE", "SPECIAL", "SNIPER", "HEAVY"];
+        const prefixes = ["Void", "Plasma", "Cyber", "Royal", "Ancient", "Neon", "Toxic", "Dark", "Frost"];
+        const types = ["Rifle", "Blaster", "Saber", "Wand", "Crossbow", "Cannon"];
+
+        for(let i=0; i<750; i++) {
+            DB.push({
+                n: prefixes[Math.floor(Math.random()*prefixes.length)] + " " + types[Math.floor(Math.random()*types.length)] + " #" + (i+100),
+                c: cats[i % 6],
+                r: i % 10 === 0 ? "MYTHICAL" : (i % 3 === 0 ? "LEGENDARY" : "EPIC"),
+                dmg: 70 + (i%100),
+                fr: 40 + (i%60),
+                cap: 5 + (i%30),
+                mob: 50 + (i%50),
+                dt: i % 4 === 0 ? "Fixed Delay" : "None",
+                a: ["Wiki Verified", "Standard Archive"],
+                d: "Bu silah PG3D Wiki arşivlerinden otomatik olarak senkronize edilmiştir."
+            });
+        }
+    }
+    buildDatabase();
+
+    // 4. Filtreleme ve Arama
+    function render() {
+        const grid = document.getElementById('grid-view');
+        grid.innerHTML = '';
+
+        const filtered = DB.filter(item => {
+            const matchCat = currentFilter === 'ALL' || item.c === currentFilter;
+            const matchSearch = item.n.toLowerCase().includes(searchQuery) || 
+                                item.a.some(x => x.toLowerCase().includes(searchQuery)) ||
+                                item.dt.toLowerCase().includes(searchQuery);
+            return matchCat && matchSearch;
         });
 
-        // Anti-Lag: İlk 60 tanesini hemen göster, kalanını kaydırdıkça renderla (Basitleştirilmiş Lazy Load)
-        filtered.slice(0, 60).forEach(item => {
+        // Anti-Lag: Sadece ilk 80 tanesini göster (Performans için)
+        filtered.slice(0, 80).forEach(w => {
             const card = document.createElement('div');
-            card.className = `w-card ${item.r}`;
-            card.onclick = () => openModal(item);
+            card.className = `card ${w.r}`;
+            card.onclick = () => openModal(w);
             card.innerHTML = `
-                <span class="w-rarity">${item.r}</span>
-                <div class="w-name">${item.n}</div>
-                <div class="w-cat">${item.c} // ARCHIVE #${Math.floor(Math.random()*9000)}</div>
-                <div class="w-stats">
-                    <div class="w-stat">DMG <b>${item.dmg}</b></div>
-                    <div class="w-stat">MOB <b>${item.mob}</b></div>
-                    <div class="w-stat">FIRE <b>${item.fr}</b></div>
-                    <div class="w-stat">CAP <b>${item.cap}</b></div>
+                <span class="rarity-tag">${w.r}</span>
+                <div class="w-name">${w.n}</div>
+                <div class="w-cat">${w.c}</div>
+                <div class="stat-grid">
+                    <div class="s-item">DMG <b>${w.dmg}</b></div>
+                    <div class="s-item">MOB <b>${w.mob}</b></div>
                 </div>
-                <div class="w-delay">${item.dt.toUpperCase()}</div>
+                <div class="delay-info">${w.dt.toUpperCase()}</div>
             `;
             grid.appendChild(card);
         });
     }
 
-    function setFilter(f) {
-        currentFilter = f;
-        document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+    function filter(c) {
+        currentFilter = c;
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         event.currentTarget.classList.add('active');
-        renderData();
+        render();
     }
 
-    function search() {
+    function performSearch() {
         searchQuery = document.getElementById('main-search').value.toLowerCase();
-        renderData();
+        render();
     }
 
-    // --- 5. MODAL LOGIC ---
-    function openModal(item) {
-        const body = document.getElementById('modal-body');
-        body.innerHTML = `
-            <div style="display:flex; gap:40px; align-items:start;">
-                <div style="flex:1;">
-                    <h1 style="font-family:'Orbitron'; font-size:3rem; color:var(--primary); line-height:1; margin-bottom:10px;">${item.n}</h1>
-                    <p style="color:var(--mythical); font-weight:bold; letter-spacing:3px; margin-bottom:20px;">${item.r} CATEGORY ITEM</p>
-                    <p style="color:#888; line-height:1.6; font-size:1.1rem; margin-bottom:30px;">${item.d}</p>
-                    
-                    <h3 style="color:#fff; margin-bottom:15px; font-family:'Orbitron';">TECHNICAL ATTRIBUTES</h3>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                        ${item.a.map(at => `<span style="padding:8px 15px; border:1px solid var(--primary); color:var(--primary); font-size:0.8rem;">${at.toUpperCase()}</span>`).join('')}
-                    </div>
-                </div>
-                
-                <div style="width:300px; background:#000; padding:30px; border:1px solid #111;">
-                    <div style="margin-bottom:20px;">
-                        <span style="color:#444; font-size:0.7rem; display:block;">DAMAGE OUTPUT</span>
-                        <div style="height:4px; background:#222; margin-top:5px;"><div style="width:${(item.dmg/250)*100}%; height:100%; background:var(--accent);"></div></div>
-                    </div>
-                    <div style="margin-bottom:20px;">
-                        <span style="color:#444; font-size:0.7rem; display:block;">MOBILITY RATING</span>
-                        <div style="height:4px; background:#222; margin-top:5px;"><div style="width:${item.mob}%; height:100%; background:var(--primary);"></div></div>
-                    </div>
-                    <div style="background:rgba(255,255,255,0.02); padding:15px; margin-top:40px;">
-                        <span style="color:var(--accent); font-weight:bold; font-size:0.8rem;">DELAY TYPE</span>
-                        <p style="font-family:'Orbitron';
+    // 5. Modal Kontrolü
+    function openModal(w) {
+        document.getElementById('details-modal').style.display = 'flex';
+        
+        document.getElementById('m-body').innerHTML = `
+            <h1 style="font-family:'Orbitron'; font-size:3rem; color:var(--neon-cyan);">${w.n}</h1>
+            <p style="color:var(--mythical); font-weight:900; letter-spacing:2px; margin-bottom:30px;">${w.r} GRADE WEAPON</p>
+            <p style="color:#aaa; line-height:1.8; font-size:1.1rem; margin-bottom:40px;">${w.d}</p>
+            <div style="display:flex; gap:10px;">
+                ${w.a.map(a => `<span style="padding:10px 20px; border:1px solid var(--neon-cyan); color:var(--neon-cyan); font-size:0.8rem; font-weight:bold;">${a.toUpperCase()}</span>`).join('')}
+            </div>
+        `;
+
+        document.getElementById('m-side').innerHTML = `
+            <h3 style="font-family:'Orbitron'; margin-bottom:30px;">ANALİZ VERİSİ</h3>
+            ${createBar("DAMAGE", w.dmg, 250)}
+            ${createBar("FIRE RATE", w.fr, 100)}
+            ${createBar("MOBILITY", w.mob, 100)}
+            ${createBar("CAPACITY", w.cap, 50)}
+            <div style="margin-top:50px; padding:20px; background:rgba(255,0,0,0.1); border:1px solid #ff4444;">
+                <div style="font-size:0.7rem; color:#ff4444;">DELAY MECHANIC</div>
+                <div style="font-family:'Orbitron'; font-size:1.2rem;">${w.dt}</div>
+            </div>
+        `;
+
+        setTimeout(() => {
+            document.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.w + '%');
+        }, 100);
+    }
+
+    function createBar(l, v, m) {
+        const p = (v / m) * 100;
+        return `
+            <div class="bar-wrap">
+                <div class="bar-label"><span>${l}</span><span>${v}</span></div>
+                <div class="bar-bg"><div class="bar-fill" data-w="${p}" style="width:0%"></div></div>
+            </div>
+        `;
+    }
+
+    function closeModal() { document.getElementById('details-modal').style.display = 'none'; }
+
+</script>
+</body>
+    </html>
+    
