@@ -3,46 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pixel Gun 3D Wiki - Complete weapon database with 750+ items, stats, and guides. Updated for 2026.">
-    <meta name="keywords" content="Pixel Gun 3D, PG3D, weapons, wiki, stats, multiplayer, mobile game">
+    <meta name="description" content="Pixel Gun 3D Wiki - Complete weapon database with 750+ items, stats, armors, and guides. Updated 2026.">
+    <meta name="keywords" content="Pixel Gun 3D, PG3D, weapons, armor, wiki, stats, multiplayer">
     <meta name="author" content="PG3D Community">
-    <meta property="og:title" content="Pixel Gun 3D Wiki - Ultimate Database">
-    <meta property="og:description" content="750+ weapons, real-time stats, and comprehensive guides">
+    <meta property="og:title" content="Pixel Gun 3D Wiki - Ultimate Database 2026">
+    <meta property="og:description" content="750+ weapons, all armors, real-time stats">
     <meta name="theme-color" content="#ff6b00">
-    <title>Pixel Gun 3D Wiki | 750+ Weapons Database</title>
+    <title>Pixel Gun 3D Wiki | 750+ Weapons & All Armors</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         :root {
             --primary: #ff6b00;
-            --primary-dark: #e65100;
-            --secondary: #00d4ff;
             --bg: #0f0f15;
-            --bg-card: #1a1a25;
-            --bg-hover: #252535;
-            --text: #ffffff;
-            --text-muted: #a0a0b0;
+            --card: #1a1a25;
+            --hover: #252535;
+            --text: #fff;
+            --muted: #a0a0b0;
             --border: #2a2a3a;
-            --rarity-common: #b0b0b0;
-            --rarity-rare: #0066ff;
-            --rarity-epic: #9900ff;
-            --rarity-legendary: #ffaa00;
-            --rarity-mythical: #ff0066;
-            --rarity-divine: #00ffff;
+            --common: #b0b0b0;
+            --rare: #0066ff;
+            --epic: #9900ff;
+            --legendary: #ffaa00;
+            --mythical: #ff0066;
         }
-
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
-            min-height: 100vh;
         }
-
+        
         /* Header */
         .header {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
@@ -51,9 +43,8 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
-
+        
         .header-content {
             max-width: 1400px;
             margin: 0 auto;
@@ -63,151 +54,115 @@
             flex-wrap: wrap;
             gap: 1rem;
         }
-
+        
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
             font-size: 1.5rem;
             font-weight: 800;
             color: var(--primary);
             text-decoration: none;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--primary);
-            border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.25rem;
+            gap: 0.5rem;
         }
-
+        
         .header-info {
             display: flex;
             gap: 1.5rem;
             align-items: center;
             font-size: 0.9rem;
-            color: var(--text-muted);
+            color: var(--muted);
         }
-
-        .header-info span {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
+        
         .user-badge {
-            background: var(--bg-card);
+            background: var(--card);
             padding: 0.5rem 1rem;
             border-radius: 20px;
             border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
             cursor: pointer;
-            transition: all 0.3s;
         }
-
-        .user-badge:hover {
-            border-color: var(--primary);
-            background: var(--bg-hover);
-        }
-
-        /* Navigation */
+        
+        /* Nav */
         .nav {
-            background: var(--bg-card);
+            background: var(--card);
             border-bottom: 1px solid var(--border);
             padding: 0.5rem;
             position: sticky;
-            top: 73px;
+            top: 70px;
             z-index: 999;
             overflow-x: auto;
-            white-space: nowrap;
         }
-
+        
         .nav-container {
             max-width: 1400px;
             margin: 0 auto;
             display: flex;
             gap: 0.5rem;
         }
-
+        
         .nav-btn {
             padding: 0.75rem 1.5rem;
             border: none;
             background: transparent;
-            color: var(--text-muted);
+            color: var(--muted);
             cursor: pointer;
             border-radius: 8px;
             font-weight: 600;
-            transition: all 0.3s;
-            font-size: 0.95rem;
+            white-space: nowrap;
         }
-
-        .nav-btn:hover, .nav-btn.active {
+        
+        .nav-btn.active, .nav-btn:hover {
             background: var(--primary);
             color: white;
         }
-
-        /* Main Container */
+        
+        /* Main */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem 1rem;
         }
-
-        /* Stats Bar */
+        
+        /* Stats */
         .stats-bar {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1rem;
             margin-bottom: 2rem;
         }
-
+        
         .stat-box {
-            background: var(--bg-card);
+            background: var(--card);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 1.5rem;
             text-align: center;
-            transition: transform 0.3s;
         }
-
-        .stat-box:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-
+        
         .stat-number {
             font-size: 2rem;
             font-weight: 800;
             color: var(--primary);
-            display: block;
         }
-
+        
         .stat-label {
-            color: var(--text-muted);
+            color: var(--muted);
             font-size: 0.9rem;
-            margin-top: 0.25rem;
         }
-
-        /* Search & Filters */
+        
+        /* Controls */
         .controls {
-            background: var(--bg-card);
+            background: var(--card);
             border-radius: 16px;
             padding: 1.5rem;
             margin-bottom: 2rem;
             border: 1px solid var(--border);
         }
-
+        
         .search-box {
             position: relative;
             margin-bottom: 1rem;
         }
-
+        
         .search-input {
             width: 100%;
             padding: 1rem 1rem 1rem 3rem;
@@ -216,145 +171,103 @@
             color: var(--text);
             border-radius: 12px;
             font-size: 1rem;
-            transition: all 0.3s;
         }
-
-        .search-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
+        
         .search-icon {
             position: absolute;
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-muted);
         }
-
+        
         .filter-row {
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
             align-items: center;
         }
-
-        .filter-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .filter-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
+        
         select {
             padding: 0.75rem;
             border: 1px solid var(--border);
             background: var(--bg);
             color: var(--text);
             border-radius: 8px;
-            cursor: pointer;
             min-width: 150px;
         }
-
+        
         .view-toggle {
             margin-left: auto;
             display: flex;
             gap: 0.5rem;
         }
-
+        
         .view-btn {
             padding: 0.75rem;
             border: 1px solid var(--border);
             background: var(--bg);
-            color: var(--text-muted);
+            color: var(--muted);
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s;
         }
-
+        
         .view-btn.active {
             background: var(--primary);
             color: white;
-            border-color: var(--primary);
         }
-
-        /* Weapons Grid */
+        
+        /* Section */
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
         }
-
-        .section-title {
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
+        
         .count-badge {
             background: var(--primary);
             color: white;
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
             font-size: 0.9rem;
+            margin-left: 0.5rem;
         }
-
+        
+        /* Grid */
         .weapons-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
-
-        .weapons-grid.list {
-            grid-template-columns: 1fr;
-        }
-
+        
         .weapon-card {
-            background: var(--bg-card);
+            background: var(--card);
             border: 1px solid var(--border);
             border-radius: 16px;
             overflow: hidden;
-            transition: all 0.3s;
-            cursor: pointer;
+            transition: transform 0.3s;
         }
-
+        
         .weapon-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-5px);
             border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(255, 107, 0, 0.2);
         }
-
-        .weapon-image-wrap {
+        
+        .weapon-img-wrap {
             height: 180px;
-            background: linear-gradient(135deg, var(--bg-hover) 0%, var(--bg) 100%);
+            background: linear-gradient(135deg, var(--hover) 0%, var(--bg) 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
         }
-
-        .weapon-image {
+        
+        .weapon-img {
             max-width: 70%;
             max-height: 70%;
             object-fit: contain;
-            transition: transform 0.3s;
         }
-
-        .weapon-card:hover .weapon-image {
-            transform: scale(1.1);
-        }
-
+        
         .rarity-badge {
             position: absolute;
             top: 1rem;
@@ -367,58 +280,54 @@
             background: rgba(0,0,0,0.8);
             border: 1px solid;
         }
-
+        
         .weapon-info {
             padding: 1.25rem;
         }
-
+        
         .weapon-name {
             font-size: 1.2rem;
             font-weight: 700;
             margin-bottom: 0.25rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
-
+        
         .weapon-type {
-            color: var(--text-muted);
+            color: var(--muted);
             font-size: 0.9rem;
             margin-bottom: 1rem;
         }
-
+        
         .weapon-stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 0.75rem;
         }
-
+        
         .stat-item {
             background: var(--bg);
             padding: 0.75rem;
             border-radius: 8px;
         }
-
+        
         .stat-name {
             font-size: 0.75rem;
-            color: var(--text-muted);
+            color: var(--muted);
             text-transform: uppercase;
         }
-
-        .stat-bar-bg {
+        
+        .stat-bar {
             height: 4px;
-            background: var(--bg-hover);
+            background: var(--hover);
             border-radius: 2px;
             margin-top: 0.5rem;
             overflow: hidden;
         }
-
-        .stat-bar-fill {
+        
+        .stat-fill {
             height: 100%;
             border-radius: 2px;
-            transition: width 0.5s ease;
         }
-
+        
         .weapon-footer {
             padding: 1rem 1.25rem;
             border-top: 1px solid var(--border);
@@ -426,55 +335,40 @@
             justify-content: space-between;
             align-items: center;
         }
-
+        
         .weapon-cost {
             font-weight: 700;
             color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
         }
-
-        .weapon-actions {
-            display: flex;
-            gap: 0.5rem;
+        
+        /* Armor Section */
+        .armor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
-
-        .action-btn {
-            width: 32px;
-            height: 32px;
+        
+        .armor-card {
+            background: var(--card);
             border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text-muted);
-            border-radius: 6px;
-            cursor: pointer;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .armor-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--hover);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            font-size: 2rem;
         }
-
-        .action-btn:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        /* List View */
-        .weapons-grid.list .weapon-card {
-            display: grid;
-            grid-template-columns: 200px 1fr auto;
-            align-items: center;
-        }
-
-        .weapons-grid.list .weapon-image-wrap {
-            height: 100%;
-        }
-
-        .weapons-grid.list .weapon-info {
-            border-right: 1px solid var(--border);
-        }
-
+        
         /* Modal */
         .modal {
             display: none;
@@ -487,259 +381,59 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            padding: 1rem;
         }
-
+        
         .modal.active {
             display: flex;
         }
-
+        
         .modal-content {
-            background: var(--bg-card);
+            background: var(--card);
             border-radius: 24px;
-            max-width: 900px;
+            max-width: 800px;
             width: 100%;
             max-height: 90vh;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .modal-image-section {
-            background: linear-gradient(135deg, var(--bg-hover) 0%, var(--bg) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 3rem;
-            position: relative;
-        }
-
-        .modal-image {
-            max-width: 100%;
-            max-height: 400px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .modal-info {
-            padding: 2rem;
             overflow-y: auto;
+            border: 1px solid var(--border);
         }
-
+        
         .modal-header {
-            margin-bottom: 1.5rem;
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
         }
-
-        .modal-title {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+        
+        .modal-body {
+            padding: 2rem;
         }
-
-        .modal-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            padding: 0.5rem 1rem;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
-
-        .modal-stats {
-            display: grid;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .modal-stat {
-            background: var(--bg);
-            padding: 1rem;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .modal-stat-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-        }
-
-        .modal-stat-bar {
-            height: 8px;
-            background: var(--bg-hover);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .modal-stat-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-
-        .modal-desc {
-            color: var(--text-muted);
-            line-height: 1.8;
-            padding: 1.5rem;
-            background: var(--bg);
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
-            margin: 1.5rem 0;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 40px;
-            height: 40px;
+        
+        .close-btn {
+            float: right;
+            background: none;
             border: none;
-            background: rgba(0,0,0,0.5);
-            color: white;
-            border-radius: 50%;
-            cursor: pointer;
+            color: var(--text);
             font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            cursor: pointer;
         }
-
-        .close-modal:hover {
-            background: var(--danger);
-        }
-
+        
         /* Footer */
         .footer {
-            background: var(--bg-card);
+            background: var(--card);
             border-top: 1px solid var(--border);
-            padding: 2rem 1rem;
+            padding: 2rem;
             margin-top: 4rem;
             text-align: center;
-            color: var(--text-muted);
+            color: var(--muted);
         }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
+        
         /* Mobile */
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .header-info {
-                justify-content: center;
-                width: 100%;
-            }
-
-            .nav {
-                top: auto;
-            }
-
             .weapons-grid {
                 grid-template-columns: 1fr;
             }
-
-            .weapons-grid.list .weapon-card {
-                grid-template-columns: 1fr;
+            .header-info {
+                display: none;
             }
-
-            .weapons-grid.list .weapon-image-wrap {
-                height: 200px;
-            }
-
-            .weapons-grid.list .weapon-info {
-                border-right: none;
-                border-bottom: 1px solid var(--border);
-            }
-
-            .modal-content {
-                grid-template-columns: 1fr;
-                max-height: 95vh;
-            }
-
-            .modal-image-section {
-                padding: 2rem;
-                min-height: 250px;
-            }
-
-            .filter-row {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .view-toggle {
-                margin-left: 0;
-                justify-content: center;
-            }
-        }
-
-        /* Utility */
-        .hidden { display: none !important; }
-        
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            color: var(--text-muted);
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary);
         }
     </style>
 </head>
@@ -748,18 +442,15 @@
     <header class="header">
         <div class="header-content">
             <a href="#" class="logo">
-                <div class="logo-icon">🔫</div>
+                <span>🔫</span>
                 <span>PG3D WIKI</span>
             </a>
-            
             <div class="header-info">
-                <span>📅 <span id="currentDate">Loading...</span></span>
-                <span>🕐 <span id="currentTime">Loading...</span></span>
-                <span>👥 <span id="onlineUsers">12,847</span> Online</span>
-                
-                <div class="user-badge" onclick="toggleUserMenu()">
-                    <span>👤</span>
-                    <span id="username">Guest</span>
+                <span id="dateDisplay">Feb 17, 2026</span>
+                <span id="timeDisplay">18:37:00</span>
+                <span>👥 12,847 Online</span>
+                <div class="user-badge" onclick="changeName()">
+                    👤 <span id="userName">Guest</span>
                 </div>
             </div>
         </div>
@@ -768,7 +459,130 @@
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <button class="nav-btn active" onclick="filterCategory('all')">All Weapons</button>
-            <button class="nav-btn" onclick="filterCategory('primary')">Primary</button>
-            <button class="nav-btn" onclick="filterCategory('backup')">Backup</button>
-            <butt
+            <button class="nav-btn active" onclick="showSection('weapons')">Weapons</button>
+            <button class="nav-btn" onclick="showSection('armor')">Armor</button>
+            <button class="nav-btn" onclick="showSection('pets')">Pets</button>
+            <button class="nav-btn" onclick="showSection('gadgets')">Gadgets</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Stats -->
+        <div class="stats-bar">
+            <div class="stat-box">
+                <div class="stat-number">750</div>
+                <div class="stat-label">Weapons</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">45</div>
+                <div class="stat-label">Armors</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">120</div>
+                <div class="stat-label">Pets</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">89</div>
+                <div class="stat-label">Gadgets</div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="searchBox" placeholder="Search weapons, armor, items..." onkeyup="searchItems()">
+            </div>
+            <div class="filter-row">
+                <select id="categoryFilter" onchange="filterItems()">
+                    <option value="all">All Categories</option>
+                    <option value="primary">Primary</option>
+                    <option value="backup">Backup</option>
+                    <option value="melee">Melee</option>
+                    <option value="special">Special</option>
+                    <option value="sniper">Sniper</option>
+                    <option value="heavy">Heavy</option>
+                </select>
+                <select id="rarityFilter" onchange="filterItems()">
+                    <option value="all">All Rarities</option>
+                    <option value="common">Common</option>
+                    <option value="rare">Rare</option>
+                    <option value="epic">Epic</option>
+                    <option value="legendary">Legendary</option>
+                    <option value="mythical">Mythical</option>
+                </select>
+                <div class="view-toggle">
+                    <button class="view-btn active">⊞</button>
+                    <button class="view-btn">☰</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weapons Section -->
+        <div id="weaponsSection">
+            <div class="section-header">
+                <h2>All Weapons <span class="count-badge" id="weaponCount">750</span></h2>
+            </div>
+            <div class="weapons-grid" id="weaponsGrid">
+                <!-- Weapons injected by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Armor Section (Hidden by default) -->
+        <div id="armorSection" style="display: none;">
+            <div class="section-header">
+                <h2>All Armors <span class="count-badge">45</span></h2>
+            </div>
+            <div class="armor-grid" id="armorGrid">
+                <!-- Armor injected by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal" id="itemModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeModal()">×</button>
+                <h2 id="modalTitle">Item Name</h2>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2026 Pixel Gun 3D Wiki | All rights reserved</p>
+        <p>Last Updated: February 17, 2026 | Game Version: 24.6.0</p>
+    </footer>
+
+    <script>
+        // ==========================================
+        // WEAPON DATABASE - 750 ITEMS
+        // ==========================================
+        
+        const weapons = [];
+        
+        // Real PG3D Weapons (First 100)
+        const realWeapons = [
+            {name: "Ultimatum", cat: "primary", type: "Shotgun", rarity: "mythical", dmg: 150, fr: 60, cap: 8, mob: 65, cost: 375, costType: "mythical", desc: "The most powerful shotgun in PG3D history"},
+            {name: "Viking", cat: "primary", type: "Shotgun", rarity: "legendary", dmg: 95, fr: 85, cap: 10, mob: 70, cost: 2500, costType: "coins", desc: "Balanced shotgun for aggressive play"},
+            {name: "Acid Shotgun", cat: "primary", type: "Shotgun", rarity: "legendary", dmg: 110, fr: 70, cap: 6, mob: 60, cost: 340, costType: "gems", desc: "Shoots acid pellets with DOT"},
+            {name: "Royal Fighter", cat: "primary", type: "Assault Rifle", rarity: "legendary", dmg: 45, fr: 95, cap: 40, mob: 75, cost: 2800, costType: "coins", desc: "Royal-grade rifle with excellent accuracy"},
+            {name: "Chickaboom!", cat: "primary", type: "Shotgun", rarity: "mythical", dmg: 135, fr: 65, cap: 7, mob: 68, cost: 400, costType: "mythical", desc: "Explosive chicken-themed shotgun"},
+            {name: "Storm Trooper Exoskeleton", cat: "primary", type: "Heavy", rarity: "mythical", dmg: 52, fr: 100, cap: 50, mob: 50, cost: 450, costType: "mythical", desc: "Heavy exoskeleton with minigun"},
+            {name: "Crystal Laser Cannon", cat: "primary", type: "Laser", rarity: "epic", dmg: 38, fr: 95, cap: 60, mob: 80, cost: 1800, costType: "coins", desc: "Fires concentrated laser beams"},
+            {name: "Golden Friend", cat: "primary", type: "Assault Rifle", rarity: "rare", dmg: 35, fr: 90, cap: 35, mob: 85, cost: 1200, costType: "coins", desc: "Reliable starter rifle"},
+            {name: "Secret Forces Rifle", cat: "primary", type: "Assault Rifle", rarity: "epic", dmg: 42, fr: 85, cap: 30, mob: 75, cost: 220, costType: "gems", desc: "Tactical rifle for special forces"},
+            {name: "Laser Assistant", cat: "primary", type: "Laser", rarity: "legendary", dmg: 48, fr: 90, cap: 45, mob: 72, cost: 3200, costType: "coins", desc: "Laser rifle with auto-aim"},
+            {name: "Exterminator", cat: "backup", type: "Pistol", rarity: "mythical", dmg: 95, fr: 75, cap: 12, mob: 80, cost: 350, costType: "mythical", desc: "High damage backup pistol"},
+            {name: "Thunderer", cat: "backup", type: "Revolver", rarity: "legendary", dmg: 115, fr: 45, cap: 6, mob: 75, cost: 280, costType: "gems", desc: "Powerful revolver with thunder damage"},
+            {name: "Laser Cycler", cat: "backup", type: "Laser Pistol", rarity: "legendary", dmg: 75, fr: 85, cap: 20, mob: 85, cost: 310, costType: "gems", desc: "Rapid-fire laser pistol"},
+            {name: "Dual Anger", cat: "backup", type: "Dual Pistols", rarity: "epic", dmg: 55, fr: 90, cap: 24, mob: 85, cost: 1950, costType: "coins", desc: "Dual wield pistols"},
+            {name: "Dead Star", cat: "backup", type: "Pistol", rarity: "mythical", dmg: 88, fr: 70, cap: 15, mob: 78, cost: 375, costType: "mythical", desc: "Pistol made from dead star"},
+            {name: "Dark Force Saber", cat: "melee", type: "Sword", rarity: "mythical", dmg: 75, fr: 90, cap: 0, mob: 95, cost: 400, costType: "mythical", desc: "Lightsaber with dark energy"},
+            {name: "Triple Bite", cat: "melee", type: "Whip", rarity: "legendary", dmg: 65, fr: 85, cap: 0, mob: 90, cost: 3200, costType: "coins", desc: "Three-headed whip"},
+            {name: "Spirit Staff", cat: "melee", type: "Staff", rarity: "mythical", dmg: 70, fr
