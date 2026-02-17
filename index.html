@@ -1,588 +1,574 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pixel Gun 3D Wiki - Complete weapon database with 750+ items, stats, armors, and guides. Updated 2026.">
-    <meta name="keywords" content="Pixel Gun 3D, PG3D, weapons, armor, wiki, stats, multiplayer">
-    <meta name="author" content="PG3D Community">
-    <meta property="og:title" content="Pixel Gun 3D Wiki - Ultimate Database 2026">
-    <meta property="og:description" content="750+ weapons, all armors, real-time stats">
-    <meta name="theme-color" content="#ff6b00">
-    <title>Pixel Gun 3D Wiki | 750+ Weapons & All Armors</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        :root {
-            --primary: #ff6b00;
-            --bg: #0f0f15;
-            --card: #1a1a25;
-            --hover: #252535;
-            --text: #fff;
-            --muted: #a0a0b0;
-            --border: #2a2a3a;
-            --common: #b0b0b0;
-            --rare: #0066ff;
-            --epic: #9900ff;
-            --legendary: #ffaa00;
-            --mythical: #ff0066;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }
-        
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            border-bottom: 2px solid var(--primary);
-            padding: 1rem;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .header-info {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
-        
-        .user-badge {
-            background: var(--card);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            cursor: pointer;
-        }
-        
-        /* Nav */
-        .nav {
-            background: var(--card);
-            border-bottom: 1px solid var(--border);
-            padding: 0.5rem;
-            position: sticky;
-            top: 70px;
-            z-index: 999;
-            overflow-x: auto;
-        }
-        
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .nav-btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            background: transparent;
-            color: var(--muted);
-            cursor: pointer;
-            border-radius: 8px;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        
-        .nav-btn.active, .nav-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-        
-        /* Main */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-        
-        /* Stats */
-        .stats-bar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-box {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        
-        .stat-label {
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-        
-        /* Controls */
-        .controls {
-            background: var(--card);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid var(--border);
-        }
-        
-        .search-box {
-            position: relative;
-            margin-bottom: 1rem;
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            border-radius: 12px;
-            font-size: 1rem;
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        
-        .filter-row {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        
-        select {
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            border-radius: 8px;
-            min-width: 150px;
-        }
-        
-        .view-toggle {
-            margin-left: auto;
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .view-btn {
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            color: var(--muted);
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        
-        .view-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-        
-        /* Section */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .count-badge {
-            background: var(--primary);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            margin-left: 0.5rem;
-        }
-        
-        /* Grid */
-        .weapons-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .weapon-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: transform 0.3s;
-        }
-        
-        .weapon-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-        
-        .weapon-img-wrap {
-            height: 180px;
-            background: linear-gradient(135deg, var(--hover) 0%, var(--bg) 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .weapon-img {
-            max-width: 70%;
-            max-height: 70%;
-            object-fit: contain;
-        }
-        
-        .rarity-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            background: rgba(0,0,0,0.8);
-            border: 1px solid;
-        }
-        
-        .weapon-info {
-            padding: 1.25rem;
-        }
-        
-        .weapon-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        
-        .weapon-type {
-            color: var(--muted);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-        
-        .weapon-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-        }
-        
-        .stat-item {
-            background: var(--bg);
-            padding: 0.75rem;
-            border-radius: 8px;
-        }
-        
-        .stat-name {
-            font-size: 0.75rem;
-            color: var(--muted);
-            text-transform: uppercase;
-        }
-        
-        .stat-bar {
-            height: 4px;
-            background: var(--hover);
-            border-radius: 2px;
-            margin-top: 0.5rem;
-            overflow: hidden;
-        }
-        
-        .stat-fill {
-            height: 100%;
-            border-radius: 2px;
-        }
-        
-        .weapon-footer {
-            padding: 1rem 1.25rem;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .weapon-cost {
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        /* Armor Section */
-        .armor-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .armor-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        
-        .armor-icon {
-            width: 80px;
-            height: 80px;
-            background: var(--hover);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.9);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-        
-        .modal.active {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: var(--card);
-            border-radius: 24px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            border: 1px solid var(--border);
-        }
-        
-        .modal-header {
-            padding: 2rem;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .modal-body {
-            padding: 2rem;
-        }
-        
-        .close-btn {
-            float: right;
-            background: none;
-            border: none;
-            color: var(--text);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        
-        /* Footer */
-        .footer {
-            background: var(--card);
-            border-top: 1px solid var(--border);
-            padding: 2rem;
-            margin-top: 4rem;
-            text-align: center;
-            color: var(--muted);
-        }
-        
-        /* Mobile */
-        @media (max-width: 768px) {
-            .weapons-grid {
-                grid-template-columns: 1fr;
-            }
-            .header-info {
-                display: none;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="#" class="logo">
-                <span>🔫</span>
-                <span>PG3D WIKI</span>
-            </a>
-            <div class="header-info">
-                <span id="dateDisplay">Feb 17, 2026</span>
-                <span id="timeDisplay">18:37:00</span>
-                <span>👥 12,847 Online</span>
-                <div class="user-badge" onclick="changeName()">
-                    👤 <span id="userName">Guest</span>
-                </div>
-            </div>
-        </div>
-    </header>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PG3D Wiki — The Ultimate Pixel Gun 3D Encyclopedia</title>
+<meta name="description" content="The most comprehensive fan-made Pixel Gun 3D (PG3D) encyclopedia. 1,200+ weapons, all armors, game modes, maps, skins, and strategies for Pixel Gun 3D by Cubic Games."/>
+<meta name="keywords" content="Pixel Gun 3D, PG3D, PG3D wiki, Pixel Gun 3D weapons, Pixel Gun 3D armor, PG3D guide, Cubic Games, PG3D weapons list, Ultimatum, Pixel Gun 3D modes, PG3D maps, PG3D skins, PG3D tips, PG3D 2024, battle royale PG3D, PG3D update"/>
+<meta name="author" content="PG3D Wiki Contributors"/>
+<meta name="robots" content="index,follow"/>
+<link rel="canonical" href="https://yourusername.github.io/pg3d-wiki/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:title" content="PG3D Wiki — The Ultimate Pixel Gun 3D Encyclopedia"/>
+<meta property="og:description" content="Explore 1,200+ weapons, all armors, game modes, maps, skins and the full history of Pixel Gun 3D."/>
+<meta property="og:url" content="https://yourusername.github.io/pg3d-wiki/"/>
+<meta property="twitter:card" content="summary_large_image"/>
+<meta property="twitter:title" content="PG3D Wiki — Ultimate Pixel Gun 3D Encyclopedia"/>
+<meta property="twitter:description" content="The most complete PG3D resource: weapons, armor, modes, maps and more."/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"PG3D Wiki","url":"https://yourusername.github.io/pg3d-wiki/","description":"The ultimate fan-made encyclopedia for Pixel Gun 3D by Cubic Games","potentialAction":{"@type":"SearchAction","target":"https://yourusername.github.io/pg3d-wiki/?q={search_term_string}","query-input":"required name=search_term_string"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:ital,wght@0,300;0,400;0,600;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+/* === TOKENS === */
+:root{
+  --bg:#07090f;
+  --bg2:#0c0f1a;
+  --bg3:#111628;
+  --surface:#151c30;
+  --surface2:#1a2440;
+  --border:#233052;
+  --border2:#2e3f6b;
+  --accent:#ff6a00;
+  --accent2:#ffaa44;
+  --neon:#00d4ff;
+  --neon2:#00ff99;
+  --red:#ff2255;
+  --text:#e8eaf6;
+  --text2:#9baad0;
+  --text3:#6879a8;
+  --rare:#5b8def;
+  --epic:#b44dff;
+  --legendary:#ff8800;
+  --mythical:#ff2255;
+  --pixel-green:#2dff6e;
+  --r:6px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Exo 2',sans-serif;
+  font-size:15px;
+  line-height:1.6;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+/* scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--neon)}
 
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-container">
-            <button class="nav-btn active" onclick="showSection('weapons')">Weapons</button>
-            <button class="nav-btn" onclick="showSection('armor')">Armor</button>
-            <button class="nav-btn" onclick="showSection('pets')">Pets</button>
-            <button class="nav-btn" onclick="showSection('gadgets')">Gadgets</button>
-        </div>
-    </nav>
+/* === BACKGROUND === */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 0%, rgba(0,212,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 30% at 90% 50%, rgba(255,106,0,0.05) 0%, transparent 50%),
+    repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(35,48,82,0.3) 40px),
+    repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(35,48,82,0.3) 40px);
+  pointer-events:none;
+  z-index:0;
+}
 
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Stats -->
-        <div class="stats-bar">
-            <div class="stat-box">
-                <div class="stat-number">750</div>
-                <div class="stat-label">Weapons</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number">45</div>
-                <div class="stat-label">Armors</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number">120</div>
-                <div class="stat-label">Pets</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-number">89</div>
-                <div class="stat-label">Gadgets</div>
-            </div>
-        </div>
+/* === HEADER === */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(7,9,15,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;
+}
+.header-inner{
+  max-width:1400px;margin:0 auto;
+  display:flex;align-items:center;gap:16px;
+  height:64px;
+}
+.logo{
+  display:flex;align-items:center;gap:10px;
+  text-decoration:none;flex-shrink:0;
+}
+.logo-icon{
+  width:40px;height:40px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',monospace;
+  font-weight:900;font-size:14px;
+  color:#fff;
+  box-shadow:0 0 16px rgba(255,106,0,0.4);
+  flex-shrink:0;
+}
+.logo-text{
+  font-family:'Orbitron',monospace;
+  font-weight:700;font-size:18px;
+  background:linear-gradient(90deg,var(--neon),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  letter-spacing:1px;
+}
+.logo-sub{font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;font-family:'Share Tech Mono',monospace}
 
-        <!-- Controls -->
-        <div class="controls">
-            <div class="search-box">
-                <span class="search-icon">🔍</span>
-                <input type="text" class="search-input" id="searchBox" placeholder="Search weapons, armor, items..." onkeyup="searchItems()">
-            </div>
-            <div class="filter-row">
-                <select id="categoryFilter" onchange="filterItems()">
-                    <option value="all">All Categories</option>
-                    <option value="primary">Primary</option>
-                    <option value="backup">Backup</option>
-                    <option value="melee">Melee</option>
-                    <option value="special">Special</option>
-                    <option value="sniper">Sniper</option>
-                    <option value="heavy">Heavy</option>
-                </select>
-                <select id="rarityFilter" onchange="filterItems()">
-                    <option value="all">All Rarities</option>
-                    <option value="common">Common</option>
-                    <option value="rare">Rare</option>
-                    <option value="epic">Epic</option>
-                    <option value="legendary">Legendary</option>
-                    <option value="mythical">Mythical</option>
-                </select>
-                <div class="view-toggle">
-                    <button class="view-btn active">⊞</button>
-                    <button class="view-btn">☰</button>
-                </div>
-            </div>
-        </div>
+/* search */
+.search-wrap{flex:1;max-width:480px;position:relative}
+.search-wrap input{
+  width:100%;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:8px 18px 8px 42px;
+  color:var(--text);
+  font-family:'Exo 2',sans-serif;
+  font-size:14px;
+  transition:border-color .2s,box-shadow .2s;
+  outline:none;
+}
+.search-wrap input:focus{border-color:var(--neon);box-shadow:0 0 0 3px rgba(0,212,255,0.15)}
+.search-wrap input::placeholder{color:var(--text3)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;opacity:.5;pointer-events:none}
+.search-clear{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:var(--text3);cursor:pointer;
+  font-size:18px;display:none;line-height:1;
+}
+.search-clear.visible{display:block}
 
-        <!-- Weapons Section -->
-        <div id="weaponsSection">
-            <div class="section-header">
-                <h2>All Weapons <span class="count-badge" id="weaponCount">750</span></h2>
-            </div>
-            <div class="weapons-grid" id="weaponsGrid">
-                <!-- Weapons injected by JavaScript -->
-            </div>
-        </div>
+/* clock */
+.header-clock{
+  margin-left:auto;
+  text-align:right;
+  flex-shrink:0;
+}
+.clock-time{
+  font-family:'Share Tech Mono',monospace;
+  font-size:20px;color:var(--neon);
+  text-shadow:0 0 8px rgba(0,212,255,0.5);
+  letter-spacing:2px;
+}
+.clock-date{
+  font-family:'Share Tech Mono',monospace;
+  font-size:11px;color:var(--text3);
+  letter-spacing:1px;
+}
 
-        <!-- Armor Section (Hidden by default) -->
-        <div id="armorSection" style="display: none;">
-            <div class="section-header">
-                <h2>All Armors <span class="count-badge">45</span></h2>
-            </div>
-            <div class="armor-grid" id="armorGrid">
-                <!-- Armor injected by JavaScript -->
-            </div>
-        </div>
-    </main>
+/* === NAV TABS === */
+nav.main-nav{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:64px;z-index:99;
+  overflow-x:auto;
+}
+nav.main-nav::-webkit-scrollbar{height:0}
+.nav-inner{
+  max-width:1400px;margin:0 auto;
+  display:flex;align-items:center;
+  padding:0 24px;
+  gap:2px;
+  white-space:nowrap;
+}
+.nav-tab{
+  padding:12px 18px;
+  font-family:'Orbitron',monospace;
+  font-size:11px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text3);
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;
+  background:none;border-top:none;border-left:none;border-right:none;
+  user-select:none;
+  white-space:nowrap;
+}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--neon);border-bottom-color:var(--neon)}
+.nav-sub{
+  display:flex;gap:2px;
+  padding:6px 24px;
+  background:var(--bg3);
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;
+  max-width:100%;
+}
+.nav-sub::-webkit-scrollbar{height:0}
+.sub-tab{
+  padding:5px 14px;
+  font-size:12px;font-weight:600;
+  border-radius:20px;
+  cursor:pointer;
+  border:1px solid var(--border);
+  color:var(--text2);
+  background:none;
+  transition:all .2s;
+  white-space:nowrap;
+  font-family:'Exo 2',sans-serif;
+}
+.sub-tab:hover{border-color:var(--accent);color:var(--accent)}
+.sub-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
 
-    <!-- Modal -->
-    <div class="modal" id="itemModal" onclick="closeModal(event)">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <button class="close-btn" onclick="closeModal()">×</button>
-                <h2 id="modalTitle">Item Name</h2>
-            </div>
-            <div class="modal-body" id="modalBody">
-                <!-- Content -->
-            </div>
-        </div>
-    </div>
+/* === MAIN LAYOUT === */
+.page-wrap{max-width:1400px;margin:0 auto;padding:24px;position:relative;z-index:1}
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>© 2026 Pixel Gun 3D Wiki | All rights reserved</p>
-        <p>Last Updated: February 17, 2026 | Game Version: 24.6.0</p>
-    </footer>
+/* === SECTION === */
+.section{display:none}
+.section.active{display:block}
 
-    <script>
-        // ==========================================
-        // WEAPON DATABASE - 750 ITEMS
-        // ==========================================
-        
-        const weapons = [];
-        
-        // Real PG3D Weapons (First 100)
-        const realWeapons = [
-            {name: "Ultimatum", cat: "primary", type: "Shotgun", rarity: "mythical", dmg: 150, fr: 60, cap: 8, mob: 65, cost: 375, costType: "mythical", desc: "The most powerful shotgun in PG3D history"},
-            {name: "Viking", cat: "primary", type: "Shotgun", rarity: "legendary", dmg: 95, fr: 85, cap: 10, mob: 70, cost: 2500, costType: "coins", desc: "Balanced shotgun for aggressive play"},
-            {name: "Acid Shotgun", cat: "primary", type: "Shotgun", rarity: "legendary", dmg: 110, fr: 70, cap: 6, mob: 60, cost: 340, costType: "gems", desc: "Shoots acid pellets with DOT"},
-            {name: "Royal Fighter", cat: "primary", type: "Assault Rifle", rarity: "legendary", dmg: 45, fr: 95, cap: 40, mob: 75, cost: 2800, costType: "coins", desc: "Royal-grade rifle with excellent accuracy"},
-            {name: "Chickaboom!", cat: "primary", type: "Shotgun", rarity: "mythical", dmg: 135, fr: 65, cap: 7, mob: 68, cost: 400, costType: "mythical", desc: "Explosive chicken-themed shotgun"},
-            {name: "Storm Trooper Exoskeleton", cat: "primary", type: "Heavy", rarity: "mythical", dmg: 52, fr: 100, cap: 50, mob: 50, cost: 450, costType: "mythical", desc: "Heavy exoskeleton with minigun"},
-            {name: "Crystal Laser Cannon", cat: "primary", type: "Laser", rarity: "epic", dmg: 38, fr: 95, cap: 60, mob: 80, cost: 1800, costType: "coins", desc: "Fires concentrated laser beams"},
-            {name: "Golden Friend", cat: "primary", type: "Assault Rifle", rarity: "rare", dmg: 35, fr: 90, cap: 35, mob: 85, cost: 1200, costType: "coins", desc: "Reliable starter rifle"},
-            {name: "Secret Forces Rifle", cat: "primary", type: "Assault Rifle", rarity: "epic", dmg: 42, fr: 85, cap: 30, mob: 75, cost: 220, costType: "gems", desc: "Tactical rifle for special forces"},
-            {name: "Laser Assistant", cat: "primary", type: "Laser", rarity: "legendary", dmg: 48, fr: 90, cap: 45, mob: 72, cost: 3200, costType: "coins", desc: "Laser rifle with auto-aim"},
-            {name: "Exterminator", cat: "backup", type: "Pistol", rarity: "mythical", dmg: 95, fr: 75, cap: 12, mob: 80, cost: 350, costType: "mythical", desc: "High damage backup pistol"},
-            {name: "Thunderer", cat: "backup", type: "Revolver", rarity: "legendary", dmg: 115, fr: 45, cap: 6, mob: 75, cost: 280, costType: "gems", desc: "Powerful revolver with thunder damage"},
-            {name: "Laser Cycler", cat: "backup", type: "Laser Pistol", rarity: "legendary", dmg: 75, fr: 85, cap: 20, mob: 85, cost: 310, costType: "gems", desc: "Rapid-fire laser pistol"},
-            {name: "Dual Anger", cat: "backup", type: "Dual Pistols", rarity: "epic", dmg: 55, fr: 90, cap: 24, mob: 85, cost: 1950, costType: "coins", desc: "Dual wield pistols"},
-            {name: "Dead Star", cat: "backup", type: "Pistol", rarity: "mythical", dmg: 88, fr: 70, cap: 15, mob: 78, cost: 375, costType: "mythical", desc: "Pistol made from dead star"},
-            {name: "Dark Force Saber", cat: "melee", type: "Sword", rarity: "mythical", dmg: 75, fr: 90, cap: 0, mob: 95, cost: 400, costType: "mythical", desc: "Lightsaber with dark energy"},
-            {name: "Triple Bite", cat: "melee", type: "Whip", rarity: "legendary", dmg: 65, fr: 85, cap: 0, mob: 90, cost: 3200, costType: "coins", desc: "Three-headed whip"},
-            {name: "Spirit Staff", cat: "melee", type: "Staff", rarity: "mythical", dmg: 70, fr
+/* === HOME HERO === */
+.hero{
+  text-align:center;
+  padding:60px 20px 40px;
+}
+.hero-title{
+  font-family:'Orbitron',monospace;
+  font-size:clamp(28px,5vw,60px);
+  font-weight:900;
+  background:linear-gradient(135deg,var(--neon) 0%,var(--accent2) 50%,var(--pixel-green) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  line-height:1.1;
+  margin-bottom:16px;
+  text-shadow:none;
+  animation:glow-title 3s ease-in-out infinite alternate;
+}
+@keyframes glow-title{
+  from{filter:drop-shadow(0 0 10px rgba(0,212,255,0.3))}
+  to{filter:drop-shadow(0 0 25px rgba(0,212,255,0.7))}
+}
+.hero-sub{
+  font-size:16px;color:var(--text2);
+  max-width:600px;margin:0 auto 40px;
+  line-height:1.7;
+}
+
+/* stats bar */
+.stats-bar{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:16px;
+  margin:40px 0;
+}
+.stat-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:20px;
+  text-align:center;
+  transition:transform .2s,border-color .2s,box-shadow .2s;
+  position:relative;
+  overflow:hidden;
+}
+.stat-card::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,212,255,0.05),transparent 60%);
+  pointer-events:none;
+}
+.stat-card:hover{transform:translateY(-3px);border-color:var(--neon);box-shadow:0 8px 24px rgba(0,212,255,0.15)}
+.stat-num{
+  font-family:'Orbitron',monospace;
+  font-size:32px;font-weight:900;
+  color:var(--neon);
+  line-height:1;
+  margin-bottom:6px;
+}
+.stat-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+
+/* news */
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:24px}
+.news-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:16px;
+  transition:transform .2s,border-color .2s;
+  cursor:default;
+}
+.news-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.news-tag{
+  display:inline-block;padding:2px 10px;
+  border-radius:20px;font-size:11px;font-weight:600;
+  margin-bottom:10px;font-family:'Orbitron',monospace;letter-spacing:1px;
+}
+.tag-update{background:rgba(0,212,255,0.15);color:var(--neon);border:1px solid rgba(0,212,255,0.3)}
+.tag-event{background:rgba(255,106,0,0.15);color:var(--accent2);border:1px solid rgba(255,106,0,0.3)}
+.tag-guide{background:rgba(45,255,110,0.12);color:var(--pixel-green);border:1px solid rgba(45,255,110,0.3)}
+.news-title{font-weight:600;font-size:14px;margin-bottom:6px;color:var(--text)}
+.news-desc{font-size:13px;color:var(--text3)}
+.news-date{font-size:11px;color:var(--text3);margin-top:8px;font-family:'Share Tech Mono',monospace}
+
+/* === SECTION HEADER === */
+.sec-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:20px;flex-wrap:wrap;gap:12px;
+}
+.sec-title{
+  font-family:'Orbitron',monospace;
+  font-size:22px;font-weight:700;
+  color:var(--text);
+}
+.sec-title span{color:var(--neon)}
+.sec-count{
+  font-family:'Share Tech Mono',monospace;
+  font-size:13px;color:var(--text3);
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:4px 14px;
+}
+
+/* === WEAPON TABLE === */
+.weapons-controls{
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.filter-select{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  color:var(--text);
+  padding:8px 14px;
+  font-family:'Exo 2',sans-serif;
+  font-size:13px;
+  cursor:pointer;
+  outline:none;
+}
+.filter-select:focus{border-color:var(--neon)}
+
+/* weapon cards */
+.weapon-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:12px;
+}
+.weapon-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:14px;
+  transition:transform .15s,border-color .15s,box-shadow .15s;
+  cursor:default;
+  position:relative;
+  overflow:hidden;
+}
+.weapon-card::after{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:2px;
+}
+.weapon-card.grade-common::after{background:var(--text3)}
+.weapon-card.grade-rare::after{background:var(--rare)}
+.weapon-card.grade-epic::after{background:var(--epic)}
+.weapon-card.grade-legendary::after{background:linear-gradient(90deg,var(--legendary),var(--accent2))}
+.weapon-card.grade-mythical::after{background:linear-gradient(90deg,var(--red),var(--epic))}
+
+.weapon-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,0,0,0.4);
+}
+.weapon-card.grade-rare:hover{border-color:var(--rare);box-shadow:0 8px 20px rgba(91,141,239,0.2)}
+.weapon-card.grade-epic:hover{border-color:var(--epic);box-shadow:0 8px 20px rgba(180,77,255,0.2)}
+.weapon-card.grade-legendary:hover{border-color:var(--legendary);box-shadow:0 8px 20px rgba(255,136,0,0.2)}
+.weapon-card.grade-mythical:hover{border-color:var(--red);box-shadow:0 8px 20px rgba(255,34,85,0.2)}
+
+.weapon-icon{
+  width:40px;height:40px;
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  margin-bottom:10px;
+  background:var(--bg3);
+}
+.weapon-name{
+  font-weight:600;font-size:13px;
+  color:var(--text);
+  margin-bottom:4px;
+  line-height:1.3;
+}
+.weapon-meta{
+  display:flex;gap:6px;flex-wrap:wrap;
+  margin-top:8px;
+}
+.badge{
+  font-size:10px;padding:2px 7px;
+  border-radius:10px;font-weight:600;
+  font-family:'Orbitron',monospace;letter-spacing:.5px;
+}
+.badge-auto{background:rgba(0,212,255,0.12);color:var(--neon);border:1px solid rgba(0,212,255,0.2)}
+.badge-semi{background:rgba(255,106,0,0.12);color:var(--accent2);border:1px solid rgba(255,106,0,0.2)}
+.badge-explosive{background:rgba(255,34,85,0.12);color:var(--red);border:1px solid rgba(255,34,85,0.2)}
+.badge-sniper{background:rgba(180,77,255,0.12);color:var(--epic);border:1px solid rgba(180,77,255,0.2)}
+.badge-charge{background:rgba(45,255,110,0.1);color:var(--pixel-green);border:1px solid rgba(45,255,110,0.2)}
+.badge-melee{background:rgba(255,170,44,0.12);color:var(--accent2);border:1px solid rgba(255,170,44,0.2)}
+.badge-scope{background:rgba(91,141,239,0.12);color:var(--rare);border:1px solid rgba(91,141,239,0.2)}
+
+.grade-pill{
+  font-size:10px;padding:2px 8px;
+  border-radius:10px;font-weight:700;
+  font-family:'Orbitron',monospace;letter-spacing:.5px;
+  display:inline-block;margin-bottom:4px;
+}
+.grade-common .grade-pill{background:rgba(168,183,210,0.15);color:#a8b7d2;border:1px solid rgba(168,183,210,0.2)}
+.grade-rare .grade-pill{background:rgba(91,141,239,0.15);color:var(--rare);border:1px solid rgba(91,141,239,0.25)}
+.grade-epic .grade-pill{background:rgba(180,77,255,0.15);color:var(--epic);border:1px solid rgba(180,77,255,0.25)}
+.grade-legendary .grade-pill{background:rgba(255,136,0,0.15);color:var(--legendary);border:1px solid rgba(255,136,0,0.25)}
+.grade-mythical .grade-pill{background:rgba(255,34,85,0.15);color:var(--red);border:1px solid rgba(255,34,85,0.25)}
+
+/* stats row */
+.weapon-stats{
+  display:flex;gap:8px;margin-top:10px;
+}
+.stat-mini{flex:1;text-align:center}
+.stat-mini-val{
+  font-family:'Orbitron',monospace;
+  font-size:13px;font-weight:700;
+  color:var(--neon);
+}
+.stat-mini-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.stat-bar-wrap{height:3px;background:var(--bg3);border-radius:2px;margin-top:8px;overflow:hidden}
+.stat-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--neon),var(--pixel-green));transition:width .5s ease}
+
+/* no results */
+.no-results{
+  text-align:center;padding:60px 20px;
+  color:var(--text3);
+  grid-column:1/-1;
+  font-size:16px;
+}
+
+/* === ARMOR === */
+.armor-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.armor-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:20px;
+  transition:transform .15s,border-color .15s,box-shadow .15s;
+  position:relative;
+  overflow:hidden;
+}
+.armor-card:hover{transform:translateY(-3px);border-color:var(--neon);box-shadow:0 8px 24px rgba(0,212,255,0.15)}
+.armor-card::before{
+  content:'';
+  position:absolute;top:0;right:0;
+  width:80px;height:80px;
+  background:radial-gradient(circle at top right,rgba(0,212,255,0.08),transparent 70%);
+  pointer-events:none;
+}
+.armor-icon{font-size:36px;margin-bottom:10px}
+.armor-name{
+  font-family:'Orbitron',monospace;
+  font-weight:700;font-size:13px;
+  color:var(--text);margin-bottom:6px;
+}
+.armor-desc{font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.5}
+.armor-stats-row{display:flex;gap:12px}
+.armor-stat{
+  background:var(--bg3);
+  border-radius:4px;
+  padding:6px 10px;
+  text-align:center;
+  flex:1;
+}
+.armor-stat-val{
+  font-family:'Orbitron',monospace;
+  font-size:16px;font-weight:700;
+  color:var(--accent2);
+}
+.armor-stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+
+/* === GAME MODES === */
+.modes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.mode-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:20px;
+  transition:transform .2s,border-color .2s;
+}
+.mode-card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.mode-header{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.mode-icon{font-size:32px;line-height:1}
+.mode-name{font-family:'Orbitron',monospace;font-weight:700;font-size:15px;color:var(--text)}
+.mode-tag{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.mode-desc{font-size:13px;color:var(--text2);line-height:1.6}
+.mode-players{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:10px;
+  font-size:12px;color:var(--text3);
+  background:var(--bg3);border-radius:20px;padding:4px 12px;
+  font-family:'Share Tech Mono',monospace;
+}
+
+/* === MAPS === */
+.maps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.map-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  overflow:hidden;
+  transition:transform .2s,border-color .2s;
+}
+.map-card:hover{transform:translateY(-3px);border-color:var(--neon)}
+.map-thumb{
+  height:100px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:48px;
+  position:relative;
+}
+.map-body{padding:14px}
+.map-name{font-family:'Orbitron',monospace;font-weight:700;font-size:13px;color:var(--text);margin-bottom:4px}
+.map-theme{font-size:12px;color:var(--text3)}
+
+/* === CHARACTERS/SKINS === */
+.chars-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.char-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:16px;text-align:center;
+  transition:transform .2s,border-color .2s;
+}
+.char-card:hover{transform:translateY(-3px);border-color:var(--accent)}
+.char-avatar{font-size:44px;margin-bottom:8px}
+.char-name{font-weight:600;font-size:13px;color:var(--text)}
+.char-type{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.8px}
+
+/* === ABOUT === */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:700px){.about-grid{grid-template-columns:1fr}}
+.about-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:24px;
+}
+.about-card h3{
+  font-family:'Orbitron',monospace;font-size:16px;font-weight:700;
+  color:var(--neon);margin-bottom:12px;
+}
+.about-card p{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:10px}
+.about-card a{color:var(--accent2);text-decoration:none}
+.about-card a:hover{text-decoration:underline}
+.about-list{list-style:none;padding:0}
+.about-list li{
+  font-size:13px;color:var(--text2);
+  padding:6px 0;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:8px;
+}
+.about-list li:last-child{border-bottom:none}
+.about-list li::before{content:'▸';color:var(--neon);font-size:12px}
+
+/* === FOOTER === */
+footer{
+  background:var(--bg2);
+  border-top:1px solid var(--border);
+  padding:32px 24px;
+  text-align:center;
+  position:relative;z-index:1;
+  margin-top:40px;
+}
+.footer-inner{max-width:1400px;margin:0 auto}
+.footer-links{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
+.footer-links a{font-size:13px;color:var(--text3);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--neon)}
+.footer-credit{font
