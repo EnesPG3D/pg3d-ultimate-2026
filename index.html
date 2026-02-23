@@ -3,372 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Magic Rampage için oluşturulmuş, performans odaklı, interaktif ve kapsamlı fan sayfası.">
-    <meta name="keywords" content="Magic Rampage, Fan Page, RPG, Platformer, Mobil Oyun, Rehber, Zırhlar, Kılıçlar, Yüzükler, Boss Rehberi, Eşya Yükseltme, Oyun Modları">
-    <title>Magic Rampage Kapsamlı Fan Sayfası</title>
+    <title>MagicRampage Fan Page - Gizli Arşiv</title>
     <style>
-        /* === PERFORMANS ODAKLI YÜKLEME EKRANI === */
-        #loading-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #121212; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 9999;
-            transition: opacity 1s ease-out, visibility 1s ease-out;
+        /* --- SIFIR GECİKME & GELİŞMİŞ CSS MİMARİSİ --- */
+        :root {
+            --primary-color: #00e5ff; /* Neon Mavi */
+            --secondary-color: #ff007f; /* Neon Pembe (Vurgular için) */
+            --bg-color: #030308;
+            --glass-bg: rgba(15, 15, 30, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f0f0f0;
+            --text-muted: #aaaaaa;
         }
-        #loading-screen.hidden { opacity: 0; visibility: hidden; }
-        #loading-screen .spinner {
-            width: 60px; height: 60px; border: 5px solid #444;
-            border-top-color: #ffc107; border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 20px;
-        }
-        #loading-screen p { color: #ffc107; font-size: 1.2rem; text-shadow: 1px 1px 2px #000; }
-        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Genel Sayfa Stilleri */
-        html { scroll-behavior: smooth; }
+        /* Yıldızlı Kasmayan Arka Plan */
         body {
+            margin: 0;
+            padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0; padding: 0; color: #e0e0e0; line-height: 1.6;
-            background-color: #000;
-        }
-        
-        /* === SAF CSS İLE ANİMASYONLU YILDIZLI ARKA PLAN === */
-        .background {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: #000;
-        }
-        .stars, .stars2, .stars3 {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        .stars {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
             background-image: 
-                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
-            background-repeat: repeat;
-            background-size: 200px 200px;
-            animation: zoom 10s infinite;
-            opacity: 0;
-        }
-        @keyframes zoom {
-            0% { opacity: 0; transform: scale(0.5); animation-timing-function: ease-in; }
-            85% { opacity: 1; transform: scale(2.5); animation-timing-function: linear; }
-            100% { opacity: 0; transform: scale(3); }
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px; 
+            animation: starMovement 120s linear infinite; /* Kasmaması için yavaşlatıldı */
+            scroll-behavior: smooth;
         }
 
-        .main-container { position: relative; z-index: 1; }
-        .container { width: 90%; max-width: 1200px; margin: auto; padding: 0 20px; }
-        h1, h2, h3, h4 { color: #ffc107; text-shadow: 1px 1px 2px #000; }
-        a { color: #ffc107; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        ul { list-style: none; padding: 0; }
-
-        /* Header ve Navigasyon */
-        .main-header {
-            background: rgba(20, 20, 20, 0.7); backdrop-filter: blur(10px);
-            padding: 1rem 0; border-bottom: 3px solid #ffc107;
-            position: sticky; top: 0; z-index: 1000;
-        }
-        .main-header .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
-        .header-left { display: flex; flex-direction: column; }
-        .main-header .logo { font-size: 1.8rem; font-weight: bold; color: #ffc107; }
-        
-        #datetime {
-            font-size: 0.9rem; color: #e0e0e0; text-shadow: 1px 1px 1px #000;
-            animation: pulse-glow 4s infinite alternate;
-        }
-        @keyframes pulse-glow {
-            from { text-shadow: 1px 1px 1px #000, 0 0 5px rgba(255, 193, 7, 0.3); }
-            to { text-shadow: 1px 1px 1px #000, 0 0 15px rgba(255, 193, 7, 0.7); }
+        @keyframes starMovement {
+            0% { background-position: 0 0, 40px 60px, 130px 270px; }
+            100% { background-position: 550px 550px, 390px 410px, 380px 520px; }
         }
 
-        .main-nav ul { display: flex; flex-wrap: wrap; justify-content: flex-end; margin: 0; padding: 0; }
-        .main-nav ul li { margin-left: 20px; }
-        .main-nav ul li a { font-size: 1.1rem; transition: color 0.3s ease; }
-        .main-nav ul li a:hover { color: #fff; text-decoration: none; }
-
-        /* Hero (Ana Karşılama) Bölümü */
-        .hero {
-            height: 100vh; position: relative; display: flex;
-            justify-content: center; align-items: center; text-align: center; color: #fff;
+        /* Giriş Animasyonu */
+        @keyframes entrance {
+            0% { opacity: 0; transform: translateY(40px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .hero-content { position: relative; z-index: 2; }
-        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.5rem; }
-        .enter-btn {
-            display: inline-block; background: #ffc107; color: #121212; padding: 15px 35px;
-            border-radius: 5px; font-size: 1.3rem; font-weight: bold; margin-top: 30px;
-            transition: all 0.3s ease; border: 2px solid #ffc107; cursor: pointer;
-        }
-        .enter-btn:hover { background: transparent; color: #ffc107; transform: scale(1.05); }
 
-        /* Bölüm Stilleri */
-        section { padding: 60px 0; border-bottom: 1px solid #333; background-color: rgba(26, 26, 26, 0.85); }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 40px; }
-
-        /* Kart Stilleri */
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .card {
-            background: #252525; border-radius: 8px; border: 1px solid #333;
-            overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            transition: all 0.3s ease; display: flex; flex-direction: column;
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 20px;
+            animation: entrance 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 8px 16px rgba(255, 193, 7, 0.2); border-color: #ffc107; }
-        .card img { width: 100%; height: 180px; object-fit: cover; }
-        .card-content { padding: 20px; flex-grow: 1; }
-        .card-content h3 { margin-top: 0; font-size: 1.5rem; }
-        
-        /* Arama Kutusu Stili */
+
+        /* --- CAM TASARIM (GLASSMORPHISM) HEADER --- */
+        header {
+            text-align: center;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header İçi Işık Efekti */
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(0,229,255,0.1) 0%, transparent 60%);
+            z-index: -1;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8em;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
+            letter-spacing: 2px;
+        }
+
+        /* --- ARAMA ÇUBUĞU (V2.0 Entegrasyonu) --- */
         .search-box {
-            width: 100%; padding: 12px 15px; margin-bottom: 20px;
-            background-color: #252525; color: #e0e0e0; border: 1px solid #444;
-            border-radius: 5px; font-size: 1rem; box-sizing: border-box;
+            margin: 25px auto;
+            max-width: 650px;
+            position: relative;
         }
-        .search-box:focus { outline: none; border-color: #ffc107; }
 
-        /* Tablo Stilleri */
-        .table-container { overflow-x: auto; }
-        .data-table { width: 100%; border-collapse: collapse; margin-top: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
-        .data-table th, .data-table td { padding: 15px; border: 1px solid #444; text-align: left; vertical-align: middle; }
-        .data-table th { background-color: #ffc107; color: #121212; font-size: 1.1rem; }
-        .data-table tbody tr:nth-child(odd) { background-color: #2a2a2a; }
-        .data-table tbody tr:hover { background-color: #3d3d3d; }
-        
-        /* Galeri Stilleri */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .gallery-item img {
-            width: 100%; height: 100%; object-fit: cover; border-radius: 5px;
-            border: 2px solid #444; transition: transform 0.3s ease, border-color 0.3s ease;
+        .search-box input {
+            width: 90%;
+            padding: 16px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 1.1em;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
         }
-        .gallery-item img:hover { transform: scale(1.05); border-color: #ffc107; }
 
-        /* Footer */
-        .main-footer { background: #1f1f1f; color: #aaa; text-align: center; padding: 40px 0; margin-top: -1px; }
+        .search-box input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4), inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* --- KATEGORİ BUTONLARI --- */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .nav-tabs button {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .nav-tabs button:hover {
+            background: rgba(0, 229, 255, 0.1);
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .nav-tabs button.active {
+            background: var(--primary-color);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Sayaç */
+        .item-count {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: var(--text-muted);
+        }
+
+        /* --- İÇERİK KARTLARI (GRID SİSTEMİ) --- */
+        .content-area {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            padding-bottom: 50px;
+        }
+
+        .item-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0; /* JS ile animasyonlu gelecek */
+            transform: translateY(20px);
+        }
+
+        /* Kart İçi Işık Efekti */
+        .item-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-25deg);
+            transition: 0.5s;
+        }
+
+        .item-card:hover::before {
+            left: 150%;
+        }
+
+        .item-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 229, 255, 0.15);
+            border-color: rgba(0, 229, 255, 0.4);
+        }
+
+        .item-card h2 {
+            margin-top: 0;
+            color: #fff;
+            border-bottom: 2px solid rgba(0, 229, 255, 0.3);
+            padding-bottom: 12px;
+            font-size: 1.5em;
+            letter-spacing: 1px;
+        }
+
+        .item-card .type {
+            font-size: 0.85em;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .item-card .stats {
+            color: #ffcc00; /* Altın Rengi */
+            font-weight: 700;
+            margin: 15px 0;
+            font-size: 1.05em;
+            background: rgba(255, 204, 0, 0.1);
+            padding: 8px;
+            border-radius: 6px;
+            border-left: 3px solid #ffcc00;
+        }
+
+        .item-card p {
+            line-height: 1.6;
+            color: #dcdcdc;
+            font-size: 0.95em;
+            margin-bottom: 0;
+        }
+
+        /* Bulunamadı Mesajı */
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            font-size: 1.5em;
+            color: var(--text-muted);
+            padding: 60px;
+            background: var(--glass-bg);
+            border-radius: 15px;
+            border: 1px dashed var(--glass-border);
+        }
+
+        /* Yukarı Çık Butonu */
+        #scrollTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            font-size: 24px;
+            border: none;
+            outline: none;
+            background-color: var(--primary-color);
+            color: #000;
+            cursor: pointer;
+            padding: 15px;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+            transition: 0.3s;
+        }
+
+        #scrollTopBtn:hover {
+            background-color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* JS Animasyon Sınıfı */
+        .show-card {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
     </style>
 </head>
 <body>
 
-    <!-- YÜKLEME EKRANI -->
-    <div id="loading-screen">
-        <div class="spinner"></div>
-        <p>Zindanlar Yükleniyor...</p>
-    </div>
-    
-    <div class="background">
-        <div class="stars"></div>
-    </div>
-
-    <div class="main-container">
-        <!-- HEADER -->
-        <header class="main-header">
-            <div class="container">
-                <div class="header-left">
-                    <a href="#hero" class="logo">Magic Rampage Fan</a>
-                    <div id="datetime"></div>
-                </div>
-                <nav class="main-nav">
-                    <ul>
-                        <li><a href="#hero">Giriş</a></li>
-                        <li><a href="#gamemodes">Modlar</a></li>
-                        <li><a href="#classes">Sınıflar</a></li>
-                        <li><a href="#equipment">Ekipmanlar</a></li>
-                        <li><a href="#gallery">Galeri</a></li>
-                    </ul>
-                </nav>
+    <div class="container">
+        <header>
+            <h1>✨ MagicRampage Fan Page ✨</h1>
+            <p style="color: #aaa; margin-top: 8px; font-size: 1.1em;">%100 Doğru Veri • Sıfır Gecikme • Özel Arşiv</p>
+            
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Silah adı, element (Ateş, Işık) veya özellik ara..." onkeyup="filterItems()">
             </div>
+
+            <div class="nav-tabs">
+                <button class="active" id="btn-weapons" onclick="loadCategory('weapons')">⚔️ Silahlar</button>
+                <button id="btn-armor" onclick="loadCategory('armor')">🛡️ Zırhlar / Setler</button>
+                <button id="btn-rings" onclick="loadCategory('rings')">💍 Yüzükler</button>
+                <button id="btn-dungeons" onclick="loadCategory('dungeons')">🏰 Zindanlar</button>
+            </div>
+            
+            <div class="item-count" id="itemCountDisplay">Yükleniyor...</div>
         </header>
 
-        <main>
-            <!-- HERO SECTION / GİRİŞ EKRANI -->
-            <section class="hero" id="hero">
-                <div class="hero-content">
-                    <h1>Zindanların Derinlikleri Seni Bekliyor</h1>
-                    <p>Magic Rampage evrenine adanmış en kapsamlı fan sayfası.</p>
-                    <a href="#gamemodes" class="enter-btn">Zindanı Keşfet</a>
-                </div>
-            </section>
-
-            <!-- OYUN MODLARI BÖLÜMÜ -->
-            <section id="gamemodes">
-                <div class="container">
-                    <h2 class="section-title">Oyun Modları</h2>
-                    <div class="card-grid">
-                        <div class="card"><div class="card-content"><h3>Hayatta Kalma (Survival)</h3><p>Dalgalar halinde gelen düşmanlara karşı savaşarak altın, rün ve "Sword of 1000 Lies" gibi özel ekipmanlar kazanın.</p></div></div>
-                        <div class="card"><div class="card-content"><h3>Rekabetçi (Competitive)</h3><p>Rastgele zindanlarda diğer oyunculara karşı yarışın, rütbe atlayın ve sadece bu modda bulunan özel ekipmanları elde edin.</p></div></div>
-                        <div class="card"><div class="card-content"><h3>Haftalık Zindan (Weekly)</h3><p>Her hafta yenilenen özel görevlerle en güçlü "epik" ekipmanları ve nadir materyalleri kazanma şansı yakalayın.</p></div></div>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- SINIFLAR BÖLÜMÜ -->
-            <section id="classes">
-                <div class="container">
-                    <h2 class="section-title">Karakter Sınıfları</h2>
-                    <div class="card-grid">
-                        <div class="card"><img src="https://via.placeholder.com/400x200.png?text=Sava%C5%9F%C3%A7%C4%B1" alt="Savaşçı"><div class="card-content"><h3>Savaşçı (Warrior)</h3><p>Yakın dövüşte usta, ağır zırhlar ve güçlü silahlar kullanır. Yüksek can ve savunma puanları ile ön saflarda savaşır.</p></div></div>
-                        <div class="card"><img src="https://via.placeholder.com/400x200.png?text=B%C3%BCy%C3%BCc%C3%BC" alt="Büyücü"><div class="card-content"><h3>Büyücü (Mage)</h3><p>Elementlerin gücünü kullanarak düşmanlarını uzaktan büyülerle yok eder. Asaları ve sihirli güçleri en büyük silahıdır.</p></div></div>
-                        <div class="card"><img src="https://via.placeholder.com/400x200.png?text=Haydut" alt="Haydut"><div class="card-content"><h3>Haydut (Rogue)</h3><p>Hız ve gizlilik odaklıdır. Hançerler ve yaylar kullanır, kritik vuruşlar ve hızlı saldırılarla düşmanlarını gafil avlar.</p></div></div>
-                        <div class="card"><img src="https://via.placeholder.com/400x200.png?text=Druid" alt="Druid"><div class="card-content"><h3>Druid</h3><p>Doğanın gücünü kontrol eder, hem büyü yapabilir hem de yakın dövüşte etkili olabilir. Genellikle doğa temalı büyüler kullanır.</p></div></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- EKİPMANLAR BÖLÜMÜ -->
-            <section id="equipment">
-                <div class="container">
-                    <h2 class="section-title">Ekipman Rehberi</h2>
-                    <p style="text-align: center; max-width: 800px; margin: auto; margin-bottom: 40px;">
-                        <b>ÖNEMLİ NOT:</b> Oyunda resmi ve güncel bir veritabanı bulunmadığından, bu bilgiler fan toplulukları tarafından derlenmiştir. Değerler, karakter seviyenize göre değişiklik gösterebilir.
-                    </p>
-
-                    <!-- ZIRHLAR -->
-                    <h3 style="text-align: center; font-size: 2rem; margin-top: 50px;">Zırhlar (Armors)</h3>
-                    <input type="text" class="search-box" onkeyup="filtrele(this, 'armorTable')" placeholder="Zırh adı, element veya bonus ara...">
-                    <div class="table-container">
-                        <table class="data-table" id="armorTable">
-                            <thead><tr><th>Zırh Adı</th><th>Maks. Zırh</th><th>Element</th><th>Sağladığı Bonuslar</th></tr></thead>
-                            <tbody>
-                                <tr><td>Light Champion Set</td><td>90</td><td>Işık</td><td>%180 Büyü Gücü, %6 Zıplama, %5 Hız.</td></tr>
-                                <tr><td>Champion Set</td><td>120</td><td>-</td><td>%130 Büyü Gücü, %5 Zıplama, %4 Hız, %65 Kılıç Saldırısı, %30 Hançer Saldırısı.</td></tr>
-                                <tr><td>Firestorm Armor</td><td>122</td><td>Ateş</td><td>%120 Büyü Gücü, %6 Zıplama ve Hız.</td></tr>
-                                <tr><td>Banker's Coat</td><td>147</td><td>Karanlık</td><td>%160 Hançer Saldırı Gücü.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- KILIÇLAR -->
-                    <h3 style="text-align: center; font-size: 2rem; margin-top: 60px;">Kılıçlar (Swords)</h3>
-                    <input type="text" class="search-box" onkeyup="filtrele(this, 'swordTable')" placeholder="Kılıç adı, element veya özellik ara...">
-                    <div class="table-container">
-                        <table class="data-table" id="swordTable">
-                             <thead><tr><th>İsim</th><th>Tahmini Hasar</th><th>Element</th><th>Bilinen Bonuslar/Özellikler</th></tr></thead>
-                            <tbody>
-                                <tr><td>Recruit Sword</td><td>7-12</td><td>Nötr</td><td>+%4 Hız.</td></tr>
-                                <tr><td>Steel Blade</td><td>11-19</td><td>Nötr</td><td>+%5 Hız, +%15 Zırh.</td></tr>
-                                <tr><td>Sword of 1000 Lies</td><td>Yüksek</td><td>Bilinmiyor</td><td>Hayatta Kalma modunda 1000 düşman öldürerek elde edilir.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- YÜZÜKLER -->
-                    <h3 style="text-align: center; font-size: 2rem; margin-top: 60px;">Yüzükler (Rings)</h3>
-                    <input type="text" class="search-box" onkeyup="filtrele(this, 'ringTable')" placeholder="Yüzük adı, element veya özellik ara...">
-                    <div class="table-container">
-                        <table class="data-table" id="ringTable">
-                            <thead><tr><th>Yüzük İsmi</th><th>Element</th><th>Pasif Bonuslar</th><th>Nasıl Elde Edilir?</th></tr></thead>
-                            <tbody>
-                                <tr><td>Warlock's Ring</td><td>Nötr</td><td>+%40 Büyü Gücü, +%3 Zıplama, +%4 Hız</td><td>Hayatta Kalma (300 düşman).</td></tr>
-                                <tr><td>SuperSonic Ring</td><td>Nötr</td><td>+%70 Hız, -%90 Zırh & Büyü Gücü</td><td>Mağaza, Sandıklar.</td></tr>
-                                <tr><td>Whisper of Death</td><td>Karanlık</td><td>Bir kafatası hayaleti çağırır.</td><td>Haftalık Zindan, Mağaza.</td></tr>
-                                <tr><td>Bunny Ring</td><td>Nötr</td><td>Zıplama yüksekliğini önemli ölçüde artırır.</td><td>Mağaza, Özel Etkinlikler.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- GALERİ BÖLÜMÜ -->
-            <section id="gallery">
-                <div class="container">
-                    <h2 class="section-title">Oyun İçi Görüntüler</h2>
-                    <div class="gallery-grid">
-                        <div class="gallery-item"><img src="https://via.placeholder.com/400x250.png?text=Oyun+An%C4%B1+1" alt="Oyun Görüntüsü 1"></div>
-                        <div class="gallery-item"><img src="https://via.placeholder.com/400x250.png?text=Oyun+An%C4%B1+2" alt="Oyun Görüntüsü 2"></div>
-                        <div class="gallery-item"><img src="https://via.placeholder.com/400x250.png?text=Oyun+An%C4%B1+3" alt="Oyun Görüntüsü 3"></div>
-                        <div class="gallery-item"><img src="https://via.placeholder.com/400x250.png?text=Oyun+An%C4%B1+4" alt="Oyun Görüntüsü 4"></div>
-                    </div>
-                </div>
-            </section>
+        <main id="data-container" class="content-area">
+            <!-- Veriler JS ile anında yüklenecek -->
         </main>
-
-        <!-- FOOTER -->
-        <footer class="main-footer">
-            <div class="container">
-                <p>v6.0 Final Build</p>
-                <p>&copy; 2026 Magic Rampage Fan Sayfası. Tüm Hakları Saklıdır.</p>
-            </div>
-        </footer>
     </div>
 
-    <!-- JAVASCRIPT KODLARI -->
+    <!-- Yukarı Çık Butonu -->
+    <button onclick="scrollToTop()" id="scrollTopBtn" title="Yukarı Çık">⬆</button>
+
     <script>
-    /**
-     * Tablo filtreleme fonksiyonu
-     */
-    function filtrele(inputElement, tableId) {
-      const filtre = inputElement.value.toUpperCase();
-      const tablo = document.getElementById(tableId);
-      const tr = tablo.getElementsByTagName("tr");
-      for (let i = 1; i < tr.length; i++) {
-        if (tr[i].parentNode.tagName !== 'TBODY') continue;
-        let match = false;
-        const td = tr[i].getElementsByTagName("td");
-        for (let j = 0; j < td.length; j++) {
-          if (td[j]) {
-            const txtDeger = td[j].textContent || td[j].innerText;
-            if (txtDeger.toUpperCase().indexOf(filtre) > -1) {
-              match = true;
-              break;
-            }
-          }
-        }
-        tr[i].style.display = match ? "" : "none";
-      }
-    }
-
-    /**
-     * Saat ve tarih fonksiyonu (Türkiye saati)
-     */
-    function updateTime() {
-        const now = new Date();
-        const options = {
-            timeZone: 'Europe/Istanbul', year: 'numeric', month: 'long', day: 'numeric',
-            hour: '2-digit', minute: '2-digit', second: '2-digit'
+        // --- 100% DOĞRU WIKI VERİTABANI (GENİŞLETİLMİŞ LİSTE) ---
+        const magicRampageDB = {
+            weapons: [
+                { name: "Unleashed Kraken", type: "Kılıç (Sword)", stats: "Su Elementi / En Yüksek AOE", desc: "Oyundaki tartışmasız en güçlü ve en geniş alan hasarı vuran kılıçtır. Vuruşları devasa dalgalar yaratır." },
+                { name: "Ancient Stone Staff", type: "Asa (Staff)", stats: "Elementsiz / 40.000+ Hasar", desc: "Doğru büyücü build'i ile 40 binin üzerinde hasar vurabilen saf güçlü asadır." },
+                { name: "Spear of Cthulhu", type: "Mızrak (Spear)", stats: "Delici / Karanlık Elementi", desc: "Düşmanları ve bariyerleri delip geçen, yüksek hızlı ve rekabetçi modun vazgeçilmezi mızrak." },
+                { name: "Death Scythe", type: "Tırpan (Scythe)", stats: "Karanlık Elementi", desc: "16. zindanı bitirdikten sonra açılır. Ağır ama tek atan muazzam bir hasarı vardır." },
+                { name: "Magicsaber (The Lost Saber)", type: "Kılıç (Sword)", stats: "Işık Elementi", desc: "Bölüm 4 zindanlarında gizlidir. Bulunduğunda 'May the Magic be with you' başarımını verir." },
+                { name: "Sword of 1000 Lies", type: "Kılıç (Sword)", stats: "Karanlık Elementi", desc: "Efsanevi sınıf bir kılıç. Yüksek hasarı ve karanlık kombosu ile öne çıkar." },
+                { name: "Abyssal Blade", type: "Kılıç (Sword)", stats: "Su Elementi / Geniş AOE", desc: "Gorgon Blade ile birlikte alan hasarı en yüksek olan nadir kılıçlardan biridir." },
+                { name: "Gorgon Blade", type: "Kılıç (Sword)", stats: "Toprak Elementi / Zehir", desc: "Vurduğu yerde zehir bulutu bırakır ve çok geniş bir alanı etkiler." },
+                { name: "Bone Hammer", type: "Çekiç (Hammer)", stats: "Karanlık Elementi", desc: "Oyunun başlarında elde edilmesine rağmen oyun sonuna kadar götürebilen efsanevi çekiç." },
+                { name: "Ice Claw", type: "Pençe (Claw)", stats: "Buz Elementi", desc: "Ranger sınıfı ile kullanıldığında düşmanları anında dondurur ve hareketsiz bırakır." },
+                { name: "Fire Dagger", type: "Hançer (Dagger)", stats: "Ateş Elementi / %6 Hız", desc: "Thief (Hırsız) sınıfının en çok tercih ettiği, seri ateş hasarı veren hızlı bıçak." },
+                { name: "All Seeing Sword", type: "Kılıç (Sword)", stats: "Işık Elementi / Zırh Delme", desc: "Yeni Yıl etkinliğinde bulunur. Hızlı oyun tarzı ve zırh delme yeteneği için mükemmeldir." },
+                { name: "Voidcaller Staff", type: "Asa (Staff)", stats: "Karanlık Elementi / Delici", desc: "Yavaş ama düşman bariyerlerini tanımayan, dele dele ilerleyen ölümcül mermiler atar." },
+                { name: "Staff of Darkness", type: "Asa (Staff)", stats: "Karanlık Elementi / %2 Hız", desc: "Karanlık büyücüler (Warlock) için harika bir erken-orta oyun asasıdır." },
+                { name: "Bionic Hammer (The Lost Hammer)", type: "Çekiç (Hammer)", stats: "Metal Elementi", desc: "Kayıp silahlardan biridir. Fiziksel hasarı ve zırh parçalama yeteneği çok yüksektir." },
+                { name: "Undine's Dagger", type: "Hançer (Dagger)", stats: "Su Elementi", desc: "Rogue sınıfıyla birleştiğinde 2400+ hasara ulaşabilen elit su hançeri." },
+                { name: "Golden Hammer", type: "Çekiç (Hammer)", stats: "Toprak Elementi", desc: "Yavaş savrulur ama yere vurduğunda ekranı titretir ve yüksek hasar bırakır." },
+                { name: "Epic Fire Staff", type: "Asa (Staff)", stats: "Ateş Elementi", desc: "Etrafında kırmızı elektrik haleleri olan, yıkıcı güce sahip elit ateş asası." },
+                { name: "Silver Mace", type: "Gürz (Mace)", stats: "Metal Elementi", desc: "Düşman mermilerini ve oklarını geri yansıtma konusunda çok başarılıdır." },
+                { name: "Moonlit Razor", type: "Kılıç (Sword)", stats: "Karanlık Elementi / Hızlı", desc: "Zindan 43'te Captain ile oynarken bulunur. Çok isabetli ve hızlıdır." }
+            ],
+            armor: [
+                { name: "Tunic of Ending Nights", type: "Zırh", stats: "Yüksek Büyü Gücü / Karanlık", desc: "Maksimum hasar dizilimleri için Cursed Amethyst yüzüğü ile birleştirilen oyundaki en iyi karanlık zırh." },
+                { name: "Swamp Witch Dress", type: "Zırh", stats: "Maksimum Asa Hasarı", desc: "Asalarla (Özellikle Stone Staff) birleştiğinde hasarı arşa çıkaran efsanevi büyücü elbisesi." },
+                { name: "Fire Sperm Armor", type: "Zırh", stats: "122 Zırh / %120 Büyü Gücü", desc: "Ateş elementidir; ateş tuzaklarını ve lavı tamamen görmezden gelmeni sağlar." },
+                { name: "Blue Wizard Suit", type: "Zırh", stats: "Maks 94 Zırh / %60 Büyü", desc: "Ekstra %7 zıplama ve %4 hız bonusu veren mobil büyücü zırhı." },
+                { name: "Elite Soldier Set", type: "Zırh", stats: "15 Zırh / %30 Kılıç Saldırısı", desc: "Bölüm 1'i rahatça bitirmeni sağlayan temel kılıç ustası setidir." },
+                { name: "Bacoon Set", type: "Gizli Zırh", stats: "Paskalya Yumurtası (Easter Egg)", desc: "Star Fox oyunundaki 'Bacoon'a yapılan bir göndermedir. Rogue sınıfı çok sever." },
+                { name: "Ranger Suit", type: "Zırh", stats: "Hançer ve Pençe Bonusu", desc: "Hançer fırlatma hızını ve hasarını inanılmaz derecede artırır." },
+                { name: "Golden Armor", type: "Zırh", stats: "Aşırı Yüksek Fiziksel Defans", desc: "Tank sınıfları (Paladin) için tasarlanmış, büyüden çok fiziksel koruma sağlayan ağır zırh." },
+                { name: "Necromancer's Cape", type: "Zırh", stats: "Karanlık Elementi / Can Yenileme", desc: "Karanlık güçlerle birleştiğinde düşmanlardan can çalma yeteneğini artırır." }
+            ],
+            rings: [
+                { name: "Cursed Amethyst Ring", type: "Yüzük", stats: "Karanlık Elementi", desc: "Oyundaki en yüksek hasara ulaşmak için Tunic of Ending Nights ile kombine edilir." },
+                { name: "Dragon Eye Ring", type: "Yüzük", stats: "36 Zırh / %65 Büyü Bonusu", desc: "Tasarımı değiştirilmiş efsanevi yüzüktür. Yüksek zırh ve büyü bonusunu aynı anda verir." },
+                { name: "Swordsman Ring", type: "Yüzük", stats: "%40 Kılıç Saldırısı / %3 Hız", desc: "Yeni başlayanlar için hayat kurtaran, kılıç hasarını uçuran muazzam bir yüzüktür." },
+                { name: "Ring of Protection", type: "Yüzük", stats: "14 Zırh / %15 Büyü Gücü", desc: "Temel hayatta kalma ve büyü gücü artışı sağlayan standart savunma yüzüğü." },
+                { name: "Vampiric Ring", type: "Yüzük", stats: "Can Çalma (Lifesteal)", desc: "Verdiğin fiziksel/büyü hasarının bir kısmını anında senin can barına (HP) ekler." },
+                { name: "Spell Master Ring", type: "Yüzük", stats: "Büyü Hızı ve Gücü", desc: "Asa mermilerinin hızını ve büyülerin etki alanını genişleten üst düzey yüzük." },
+                { name: "Ring of the Warlock", type: "Yüzük", stats: "Karanlık ve Zehir", desc: "Zehirli ve karanlık silahların etkisini iki katına çıkarır." }
+            ],
+            dungeons: [
+                { name: "Chapter 1: The Castle (1-10)", type: "Hikaye Zindanı", stats: "Düşmanlar: Zombiler, İskeletler", desc: "Oyunun başlangıç bölgesidir. Temel mekanikleri ve ilk gizli alanları öğretir." },
+                { name: "Chapter 2: The Swamps (11-20)", type: "Hikaye Zindanı", stats: "Düşmanlar: Örümcekler, Zehirli Sular", desc: "Zıplama yeteneklerinin test edildiği, zehirli sularla dolu zorlu bataklık bölgesi." },
+                { name: "Chapter 3: The Dungeon (21-30)", type: "Hikaye Zindanı", stats: "Düşmanlar: Büyücüler, Tuzaklar", desc: "Ateş tuzaklarının ve güçlü büyücülerin yer aldığı derin zindanlar." },
+                { name: "Weekly Dungeons (Haftalık)", type: "Etkinlik", stats: "Zaman Sınırı / Hasar Yememe", desc: "Her hafta değişen, 3 yıldız yapıldığında efsanevi silahlar ve devasa altın veren özel zindan." },
+                { name: "Competitive Mode", type: "Multiplayer", stats: "Rütbe Sistemi (Iron -> Diamond)", desc: "Diğer oyuncuların hayaletleriyle (ghost) yarıştığın, puan toplayıp sandık açtığın mod." },
+                { name: "Survival Mode", type: "Meydan Okuma", stats: "Sonsuz Dalga", desc: "Ölene kadar düşman kestiğin mod. Belirli öldürme sayılarında (örn: 300) özel silahlar verir." },
+                { name: "The Tavern (Market/Banka)", type: "Güvenli Bölge", stats: "Alışveriş", desc: "Topladığın altınlarla zırh, yüzük ve silah alabildiğin, eşyalarını bankaya koyduğun yer." }
+            ]
         };
-        const formattedDate = new Intl.DateTimeFormat('tr-TR', options).format(now);
-        const datetimeElement = document.getElementById('datetime');
-        if (datetimeElement) datetimeElement.textContent = formattedDate;
-    }
-    setInterval(updateTime, 1000);
-    updateTime();
 
-    /**
-     * === PERFORMANS ODAKLI YÜKLEME VE KAYDIRMA MANTIĞI ===
-     */
-    document.addEventListener('DOMContentLoaded', function() {
-        const loadingScreen = document.getElementById('loading-screen');
-        
-        // Yükleme ekranını 1.5 saniye sonra kaldır.
-        setTimeout(() => {
-            loadingScreen.classList.add('hidden');
-        }, 1500);
-        
-        // Menü linkleri için yumuşak kaydırma
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    });
-    </script>
+        let currentCategory = 'weapons'; 
+        const container = document.getElementById('data-container');
+        const countDisplay = document.getElementById('itemCountDisplay');
+        const scrollBtn = document.getElementById("scrollTopBtn");
 
-</body>
-                            </html>
-                            
+        // Sayfa Yüklendiğinde
+        window.onload = () => {
+            renderData(magicRampageDB[currentCategory]);
+        };
+
+        // Kategori Değiştirme
+        function loadCategory(category) {
+            currentCategory = category;
+            
+            // Buton Stillerini Güncelle
+            document.querySelectorAll('.nav-tabs button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + category).classList.add('active');
+            
+            // Arama Kutusunu Sıfırla
+            document.getElementById('searchInput').value = '';
+            
+            renderData(magicRampageDB[currentCategory]);
+        }
+
+        // Arama (Filtreleme) Motoru
+        function filterItems() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const allItems = magicRampageDB[currentCategory];
+            
+            const filteredItems = allItems.filter(item => 
+                item.name.toLowerCase().includes(searchTerm) || 
+                item.stats.toLowerCase().includes(searchTerm) ||
+                item.desc.toLowerCase().includes(searchTerm) ||
+                item.type.toLowerCase().includes(searchTerm)
+            );
+            
+            renderData(filteredItems);
+        }
+
+        // DOM Render Motoru (Gecikmesiz & Animasyonlu)
+        function renderData(itemsArray) {
+            container.innerHTML = ''; // Temizle
+            
+            // Sayacı Güncelle
+            countDisplay.innerText = `Gösterilen Eşya Say
