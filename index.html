@@ -1,341 +1,327 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ULTRA META WIKI FINAL</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>MR Gelişmiş Eşya Veritabanı</title>
+    <style>
+        /* --- TEMEL AYARLAR --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop') center/cover; height: 100vh; overflow: hidden; color: #e2e8f0; }
+        .overlay-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(5px); }
 
-<style>
-:root{
---bg:#0f0f1a;
---card:#1a1a2e;
---neon:#00f5ff;
---accent:#ff00cc;
---text:#ffffff;
-}
+        /* --- YÜZEN İKON --- */
+        #floating-icon {
+            position: absolute; top: 20px; left: 20px; width: 65px; height: 65px;
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            border: 3px solid #fef3c7; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            color: #451a03; font-weight: 900; font-size: 22px; text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            z-index: 9999; cursor: grab; transition: transform 0.2s;
+        }
+        #floating-icon:active { cursor: grabbing; transform: scale(0.9); }
 
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}
-body{background:var(--bg);color:var(--text);transition:.3s}
+        /* --- ANA MENÜ PANELİ --- */
+        #main-panel {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            width: 90%; max-width: 800px; height: 85vh;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(15px);
+            border: 2px solid #3b82f6; border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(59, 130, 246, 0.2);
+            z-index: 10000; opacity: 0; pointer-events: none;
+            display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #main-panel.show { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
 
-header{
-padding:15px;
-text-align:center;
-font-size:22px;
-background:#111;
-box-shadow:0 0 15px #000;
-}
+        /* BAŞLIK VE KONTROLLER */
+        .header { background: linear-gradient(90deg, #1e3a8a, #3b82f6); padding: 15px 20px; border-radius: 18px 18px 0 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #60a5fa; }
+        .header h1 { font-size: 20px; font-weight: bold; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .close-btn { background: #ef4444; color: white; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; font-weight: bold; cursor: pointer; box-shadow: 0 0 10px #ef4444; transition: 0.2s; }
+        .close-btn:hover { background: #dc2626; transform: scale(1.1); }
 
-.controls{
-padding:10px;
-text-align:center;
-}
+        /* ARAMA VE FİLTRELEME */
+        .controls { padding: 15px; display: flex; gap: 10px; background: rgba(30, 41, 59, 0.9); border-bottom: 1px solid #334155; }
+        .search-box { flex: 1; padding: 10px 15px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 16px; outline: none; transition: 0.3s; }
+        .search-box:focus { border-color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+        .filter-select { padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 14px; outline: none; cursor: pointer; }
 
-button,input,select{
-margin:4px;
-padding:6px;
-border-radius:6px;
-border:none;
-cursor:pointer;
-}
+        /* İÇERİK ALANI (LİSTE VE DETAYLAR) */
+        .content-area { display: flex; flex: 1; overflow: hidden; }
+        
+        /* EŞYA LİSTESİ */
+        .item-list { flex: 1; overflow-y: auto; padding: 15px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; border-right: 2px solid #334155; }
+        .item-list::-webkit-scrollbar { width: 8px; }
+        .item-list::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
 
-#grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-gap:10px;
-padding:15px;
-}
+        .item-card { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid #475569; border-radius: 10px; padding: 12px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; gap: 5px; }
+        .item-card:hover { transform: translateY(-3px); border-color: #fbbf24; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.2); }
+        .item-card.active { border-color: #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+        .item-name { font-size: 15px; font-weight: bold; color: #f8fafc; }
+        .item-type { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
 
-.card{
-background:var(--card);
-padding:10px;
-border-radius:10px;
-transition:.3s;
-cursor:pointer;
-}
+        /* DETAY PANELİ */
+        .details-panel { width: 300px; padding: 20px; background: rgba(15, 23, 42, 0.95); overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
+        @media (max-width: 600px) { .content-area { flex-direction: column; } .details-panel { width: 100%; height: 40%; border-top: 2px solid #334155; border-left: none; } .item-list { height: 60%; } }
+        
+        .stat-box { background: #1e293b; padding: 10px; border-radius: 8px; border-left: 4px solid #3b82f6; }
+        .stat-title { font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
+        .stat-value { font-size: 18px; font-weight: bold; color: #f1f5f9; }
+        .stat-value.dmg { color: #ef4444; } /* Kırmızı Hasar */
+        .stat-value.magic { color: #a855f7; } /* Mor Büyü */
+        .stat-value.armor { color: #10b981; } /* Yeşil Zırh */
+        
+        .element-badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; color: white; margin-top: 5px; }
+        .elem-fire { background: #ea580c; } .elem-ice { background: #0ea5e9; } .elem-dark { background: #4c1d95; } .elem-light { background: #ca8a04; } .elem-earth { background: #65a30d; } .elem-none { background: #475569; }
 
-.card:hover{
-box-shadow:0 0 15px var(--neon);
-transform:translateY(-3px);
-}
+        .item-desc { font-size: 13px; color: #cbd5e1; font-style: italic; line-height: 1.5; background: #0f172a; padding: 10px; border-radius: 8px; }
+        
+        /* İstatistik Çubukları */
+        .progress-bar { width: 100%; height: 8px; background: #334155; border-radius: 4px; margin-top: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 4px; }
 
-.panel{
-background:#111;
-padding:12px;
-margin:10px;
-border-radius:10px;
-}
+        /* Alt Bilgi */
+        .footer { text-align: center; padding: 8px; font-size: 12px; color: #64748b; background: #0b1120; border-radius: 0 0 18px 18px; }
 
-canvas{
-background:#000;
-margin-top:10px;
-}
-
-.tier-S{border-left:5px solid gold}
-.tier-A{border-left:5px solid lime}
-.tier-B{border-left:5px solid cyan}
-.tier-C{border-left:5px solid orange}
-.tier-D{border-left:5px solid red}
-
-.small{font-size:12px;opacity:.7}
-.hidden{display:none}
-</style>
+    </style>
 </head>
 <body>
 
-<header>ULTRA META WIKI FINAL - GITHUB READY</header>
+    <div class="overlay-bg"></div>
 
-<div class="controls">
-<input type="text" id="search" placeholder="Search">
-<select id="tierFilter">
-<option value="">All Tier</option>
-<option>S</option><option>A</option><option>B</option>
-<option>C</option><option>D</option>
-</select>
-<select id="elementFilter">
-<option value="">All Element</option>
-<option>None</option>
-<option>Fire</option>
-<option>Ice</option>
-<option>Poison</option>
-</select>
-<button onclick="sortMeta()">Sort Meta</button>
-<button onclick="randomBuild()">Random</button>
-<button onclick="favoritesOnly()">Fav Only</button>
-<button onclick="toggleTheme()">Theme</button>
-<button onclick="simulatePatch()">Patch</button>
-</div>
+    <!-- Yüzen Logo -->
+    <div id="floating-icon">MR+</div>
 
-<div id="grid"></div>
+    <!-- Ana Panel -->
+    <div id="main-panel">
+        <div class="header">
+            <h1>👑 MR Veritabanı & Envanter (800+ Eşya)</h1>
+            <div class="close-btn" id="close-btn">X</div>
+        </div>
 
-<div class="panel">
-<h3>Loadout Builder (3 Slot)</h3>
-<div id="loadout"></div>
-<p id="combined"></p>
-<button onclick="clearLoadout()">Clear</button>
-<button onclick="upgradeLoadout()">Upgrade +5</button>
-</div>
+        <div class="controls">
+            <input type="text" id="search-input" class="search-box" placeholder="Eşya adı ara... (Örn: Cthulhu)">
+            <select id="category-filter" class="filter-select">
+                <option value="all">Tüm Kategoriler</option>
+                <option value="Kılıç">Kılıçlar</option>
+                <option value="Asa">Asalar</option>
+                <option value="Zırh">Zırhlar</option>
+                <option value="Hançer">Hançerler</option>
+                <option value="Yüzük">Yüzükler</option>
+            </select>
+        </div>
 
-<div class="panel">
-<h3>Top 10 Meta</h3>
-<ol id="top"></ol>
-</div>
+        <div class="content-area">
+            <!-- Sol Taraf: Eşya Listesi -->
+            <div class="item-list" id="item-list">
+                <!-- Javascript ile doldurulacak -->
+            </div>
 
-<div class="panel">
-<h3>Stats Graph</h3>
-<canvas id="graph" width="600" height="200"></canvas>
-<p id="performance" class="small"></p>
-<p id="fps" class="small"></p>
-</div>
+            <!-- Sağ Taraf: Detaylar -->
+            <div class="details-panel" id="details-panel">
+                <div style="text-align: center; color: #64748b; margin-top: 50px;">
+                    <h2 style="font-size: 40px; margin-bottom: 10px;">👈</h2>
+                    <p>Detaylarını görmek için listeden bir eşya seçin.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer" id="item-counter">Yükleniyor...</div>
+    </div>
 
-<script>
-const elements=["None","Fire","Ice","Poison"];
-let weapons=[];
-let favorites=JSON.parse(localStorage.getItem("favorites"))||[];
-let loadout=[];
-let patchMultiplier=1;
+    <script>
+        // --- 1. VERİTABANI: ÖZEL VE EFSANEVİ EŞYALAR ---
+        const baseItems = [
+            { id: 1, name: "Cthulhu'nun Kılıcı", type: "Kılıç", element: "Karanlık", dmg: 4500, magic: 200, armor: 0, speed: "Yavaş", desc: "Derinliklerin unutulmuş tanrısından düşen efsanevi bir kılıç. Ruhları emer.", elemClass: "elem-dark" },
+            { id: 2, name: "Işık Getiren Asa", type: "Asa", element: "Aydınlık", dmg: 1200, magic: 8500, armor: 50, speed: "Orta", desc: "Karanlık zindanları aydınlatan kutsal asa. Patlayan ışık topları atar.", elemClass: "elem-light" },
+            { id: 3, name: "Elit Savaşçı Zırhı", type: "Zırh", element: "Fiziksel", dmg: 0, magic: 0, armor: 6500, speed: "Ağır", desc: "Kralın şahsi korumalarının giydiği, delinmez ağır zırh.", elemClass: "elem-none" },
+            { id: 4, name: "Buz Ejderhası Hançeri", type: "Hançer", element: "Buz", dmg: 2800, magic: 1500, armor: 0, speed: "Çok Hızlı", desc: "Düşmanları anında dondurma şansına sahip, suikastçilerin favorisi.", elemClass: "elem-ice" },
+            { id: 5, name: "Cehennem Ateşi Yüzüğü", type: "Yüzük", element: "Ateş", dmg: 500, magic: 3000, armor: 100, speed: "Pasif", desc: "Tüm ateş büyülerinin hasarını %50 artırır.", elemClass: "elem-fire" },
+            { id: 6, name: "Gaia'nın Çekici", type: "Kılıç", element: "Toprak", dmg: 6000, magic: 500, armor: 300, speed: "Çok Yavaş", desc: "Yere vurulduğunda depremler yaratan devasa bir çekiç.", elemClass: "elem-earth" }
+        ];
 
-function generateWeapons(n){
-for(let i=1;i<=n;i++){
-let damage=Math.random()*80+20;
-let fireRate=Math.random()*2+0.5;
-let reload=Math.random()*2+1;
-let crit=Math.random()*0.5;
-let armorPen=Math.random()*0.4;
-let accuracy=Math.random()*0.3+0.7;
-let weight=Math.random()*10+5;
-let element=elements[Math.floor(Math.random()*elements.length)];
+        // --- 2. 800+ EŞYA ÜRETİCİ (PROCEDURAL GENERATOR) ---
+        // Uygulamanın devasa görünmesi için 800 adet eşyayı otomatik üretiyoruz.
+        const types = ["Kılıç", "Asa", "Zırh", "Hançer", "Yüzük"];
+        const prefixes = ["Kadim", "Alevli", "Lanetli", "Kutsal", "Kırık", "Gölge", "Efsanevi", "Zehirli", "Buzlu", "Kraliyet", "Sihirli", "Kayıp"];
+        const suffixes = ["Kılıcı", "Asası", "Zırhı", "Hançeri", "Yüzüğü", "Pelerini", "Kalkanı", "Mızrağı"];
+        const elements = [
+            { name: "Ateş", cls: "elem-fire" }, { name: "Buz", cls: "elem-ice" }, 
+            { name: "Karanlık", cls: "elem-dark" }, { name: "Aydınlık", cls: "elem-light" }, 
+            { name: "Toprak", cls: "elem-earth" }, { name: "Yok", cls: "elem-none" }
+        ];
+        const speeds = ["Çok Hızlı", "Hızlı", "Orta", "Yavaş", "Çok Yavaş"];
 
-let trueDPS=calcDPS(damage,fireRate,reload,crit,armorPen,accuracy,element);
-let metaScore=Math.min(100,(trueDPS/180)*100);
+        let allItems = [...baseItems];
+        
+        // 800 eşyaya tamamlayana kadar rastgele eşya üret
+        for(let i = baseItems.length + 1; i <= 825; i++) {
+            let type = types[Math.floor(Math.random() * types.length)];
+            let prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+            let suffix = suffixes[Math.floor(Math.random() * suffixes.length)]; // İsim çeşitliliği
+            let elementObj = elements[Math.floor(Math.random() * elements.length)];
+            
+            // Rastgele istatistikler (Kategoriye göre mantıklı dağılım)
+            let dmg = type === "Zırh" || type === "Yüzük" ? Math.floor(Math.random() * 500) : Math.floor(Math.random() * 5000) + 100;
+            let magic = type === "Asa" || type === "Yüzük" ? Math.floor(Math.random() * 7000) + 500 : Math.floor(Math.random() * 1000);
+            let armor = type === "Zırh" ? Math.floor(Math.random() * 8000) + 1000 : Math.floor(Math.random() * 300);
+            
+            allItems.push({
+                id: i,
+                name: `${prefix} ${type} +${Math.floor(Math.random() * 10)}`,
+                type: type,
+                element: elementObj.name,
+                dmg: dmg,
+                magic: magic,
+                armor: armor,
+                speed: speeds[Math.floor(Math.random() * speeds.length)],
+                desc: `Zindanların derinliklerinde bulunmuş rastgele üretilmiş bir eşya. (ID: #${i})`,
+                elemClass: elementObj.cls
+            });
+        }
 
-weapons.push({
-id:i,name:"Weapon "+i,
-damage,fireRate,reload,crit,armorPen,accuracy,weight,element,
-trueDPS,metaScore,level:1
-});
-}
-assignTier();
-}
+        // --- 3. ARAYÜZ KONTROLLERİ ---
+        const itemListEl = document.getElementById('item-list');
+        const detailsPanelEl = document.getElementById('details-panel');
+        const searchInput = document.getElementById('search-input');
+        const categoryFilter = document.getElementById('category-filter');
+        const itemCounter = document.getElementById('item-counter');
 
-function calcDPS(d,f,r,c,a,acc,e){
-let base=d*f;
-let critD=base*(1+c);
-let reloadP=1/(r*0.6);
-let armorB=1+a;
-let elementB=e==="Fire"?1.1:e==="Ice"?1.05:e==="Poison"?1.08:1;
-return critD*reloadP*armorB*elementB*acc*patchMultiplier;
-}
+        // Eşyaları Ekrana Çizme Fonksiyonu
+        function renderItems(itemsToRender) {
+            itemListEl.innerHTML = '';
+            itemCounter.innerText = `Toplam ${itemsToRender.length} Eşya Gösteriliyor (Veritabanı: ${allItems.length})`;
 
-function assignTier(){
-weapons.forEach(w=>{
-if(w.metaScore>=85) w.tier="S";
-else if(w.metaScore>=70) w.tier="A";
-else if(w.metaScore>=55) w.tier="B";
-else if(w.metaScore>=40) w.tier="C";
-else w.tier="D";
-});
-}
+            itemsToRender.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.innerHTML = `
+                    <div class="item-name">${item.name}</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="item-type">${item.type}</span>
+                        <span class="element-badge ${item.elemClass}">${item.element}</span>
+                    </div>
+                `;
+                card.addEventListener('click', () => {
+                    // Tüm kartlardan aktif sınıfını kaldır, tıklanana ekle
+                    document.querySelectorAll('.item-card').forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    showDetails(item);
+                });
+                itemListEl.appendChild(card);
+            });
+        }
 
-function render(list){
-let start=performance.now();
-let grid=document.getElementById("grid");
-grid.innerHTML="";
-let slice=list.slice(0,400);
-slice.forEach(w=>{
-let d=document.createElement("div");
-d.className="card tier-"+w.tier;
-d.innerHTML=`
-<h4>${w.name} <span class="small">Lv.${w.level}</span></h4>
-<p>DPS: ${w.trueDPS.toFixed(1)}</p>
-<p>Meta: ${w.metaScore.toFixed(1)} (${w.tier})</p>
-<p>Mobility: ${(100-w.weight*2).toFixed(0)}</p>
-<p>Element: ${w.element}</p>
-<button onclick="addLoadout(${w.id})">Add</button>
-<button onclick="toggleFav(${w.id})">Fav</button>
-`;
-grid.appendChild(d);
-});
-let end=performance.now();
-document.getElementById("performance").innerText=
-"Render: "+(end-start).toFixed(2)+"ms";
-}
+        // Seçilen Eşyanın Detaylarını Gösterme
+        function showDetails(item) {
+            // İstatistik barlarının genişliğini hesaplama (Maksimum değerlere oranla)
+            const dmgPercent = Math.min((item.dmg / 7000) * 100, 100);
+            const magicPercent = Math.min((item.magic / 9000) * 100, 100);
+            const armorPercent = Math.min((item.armor / 9000) * 100, 100);
 
-function sortMeta(){
-weapons.sort((a,b)=>b.metaScore-a.metaScore);
-render(weapons);
-updateTop();
-}
+            detailsPanelEl.innerHTML = `
+                <h2 style="color: #f8fafc; font-size: 22px; border-bottom: 2px solid #334155; padding-bottom: 10px;">${item.name}</h2>
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <span class="element-badge ${item.elemClass}">${item.element}</span>
+                    <span style="background: #334155; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; color: white;">Hız: ${item.speed}</span>
+                </div>
+                
+                <div class="stat-box">
+                    <div class="stat-title">⚔️ Fiziksel Hasar</div>
+                    <div class="stat-value dmg">${item.dmg.toLocaleString()}</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: ${dmgPercent}%; background: #ef4444;"></div></div>
+                </div>
 
-function addLoadout(id){
-if(loadout.length<3){
-let w=weapons.find(x=>x.id===id);
-loadout.push(w);
-updateLoadout();
-}
-}
+                <div class="stat-box">
+                    <div class="stat-title">✨ Büyü Gücü</div>
+                    <div class="stat-value magic">${item.magic.toLocaleString()}</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: ${magicPercent}%; background: #a855f7;"></div></div>
+                </div>
 
-function updateLoadout(){
-let div=document.getElementById("loadout");
-div.innerHTML="";
-let total=0,mob=0;
-loadout.forEach(w=>{
-div.innerHTML+=w.name+"<br>";
-total+=w.trueDPS;
-mob+=100-w.weight*2;
-});
-let synergy=1+(loadout.length*0.05);
-total*=synergy;
-document.getElementById("combined").innerText=
-"Combined DPS: "+total.toFixed(1)+" | Mobility: "+mob.toFixed(0);
-drawGraph(loadout);
-}
+                <div class="stat-box">
+                    <div class="stat-title">🛡️ Zırh Savunması</div>
+                    <div class="stat-value armor">${item.armor.toLocaleString()}</div>
+                    <div class="progress-bar"><div class="progress-fill" style="width: ${armorPercent}%; background: #10b981;"></div></div>
+                </div>
 
-function clearLoadout(){loadout=[];updateLoadout()}
+                <div class="item-desc">"${item.desc}"</div>
+                
+                <button style="margin-top: auto; padding: 12px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
+                    Envantere Ekle (Görsel)
+                </button>
+            `;
+        }
 
-function upgradeLoadout(){
-loadout.forEach(w=>{
-w.level+=5;
-w.damage*=1.1;
-w.trueDPS=calcDPS(w.damage,w.fireRate,w.reload,w.crit,w.armorPen,w.accuracy,w.element);
-w.metaScore=Math.min(100,(w.trueDPS/180)*100);
-});
-assignTier();
-render(weapons);
-updateLoadout();
-updateTop();
-}
+        // Arama ve Filtreleme Dinleyicileri
+        function filterData() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const category = categoryFilter.value;
 
-function toggleFav(id){
-if(favorites.includes(id)) favorites=favorites.filter(x=>x!==id);
-else favorites.push(id);
-localStorage.setItem("favorites",JSON.stringify(favorites));
-}
+            const filtered = allItems.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(searchTerm);
+                const matchesCategory = category === "all" || item.type === category;
+                return matchesSearch && matchesCategory;
+            });
 
-function favoritesOnly(){
-render(weapons.filter(w=>favorites.includes(w.id)));
-}
+            renderItems(filtered);
+        }
 
-function randomBuild(){
-loadout=[];
-for(let i=0;i<3;i++)
-loadout.push(weapons[Math.floor(Math.random()*weapons.length)]);
-updateLoadout();
-}
+        searchInput.addEventListener('input', filterData);
+        categoryFilter.addEventListener('change', filterData);
 
-function updateTop(){
-let top=weapons.slice().sort((a,b)=>b.metaScore-a.metaScore).slice(0,10);
-let ol=document.getElementById("top");
-ol.innerHTML="";
-top.forEach(w=>ol.innerHTML+="<li>"+w.name+" ("+w.metaScore.toFixed(1)+")</li>");
-}
+        // --- 4. PENCERE VE SÜRÜKLEME KONTROLLERİ ---
+        const floatingIcon = document.getElementById('floating-icon');
+        const mainPanel = document.getElementById('main-panel');
+        const closeBtn = document.getElementById('close-btn');
+        const overlayBg = document.querySelector('.overlay-bg');
 
-function drawGraph(list){
-let c=document.getElementById("graph");
-let ctx=c.getContext("2d");
-ctx.clearRect(0,0,c.width,c.height);
-list.forEach((w,i)=>{
-ctx.fillStyle="cyan";
-ctx.fillRect(i*200+80,200-w.trueDPS/2,50,w.trueDPS/2);
-});
-}
+        floatingIcon.addEventListener('click', () => {
+            mainPanel.classList.add('show');
+            floatingIcon.style.transform = 'scale(0)';
+            overlayBg.style.display = 'block';
+        });
 
-function toggleTheme(){
-let dark=document.body.style.background!=="white";
-if(dark){
-document.body.style.background="white";
-document.body.style.color="black";
-}else{
-document.body.style.background="#0f0f1a";
-document.body.style.color="white";
-}
-}
+        closeBtn.addEventListener('click', () => {
+            mainPanel.classList.remove('show');
+            floatingIcon.style.transform = 'scale(1)';
+            overlayBg.style.display = 'none';
+        });
 
-function simulatePatch(){
-patchMultiplier=patchMultiplier===1?0.9:1;
-weapons.forEach(w=>{
-w.trueDPS=calcDPS(w.damage,w.fireRate,w.reload,w.crit,w.armorPen,w.accuracy,w.element);
-w.metaScore=Math.min(100,(w.trueDPS/180)*100);
-});
-assignTier();
-render(weapons);
-updateTop();
-}
+        // İkon Sürükleme Mantığı (Gelişmiş)
+        let isDragging = false, currentX, currentY, initialX, initialY, xOffset = 0, yOffset = 0;
+        
+        floatingIcon.addEventListener("touchstart", dragStart, {passive: false});
+        floatingIcon.addEventListener("touchend", dragEnd, false);
+        floatingIcon.addEventListener("touchmove", drag, {passive: false});
+        floatingIcon.addEventListener("mousedown", dragStart, false);
+        document.addEventListener("mouseup", dragEnd, false);
+        document.addEventListener("mousemove", drag, false);
 
-document.getElementById("search").addEventListener("input",e=>{
-let val=e.target.value.toLowerCase();
-render(weapons.filter(w=>w.name.toLowerCase().includes(val)));
-});
+        function dragStart(e) {
+            if (e.type === "touchstart") { initialX = e.touches[0].clientX - xOffset; initialY = e.touches[0].clientY - yOffset; } 
+            else { initialX = e.clientX - xOffset; initialY = e.clientY - yOffset; }
+            if (e.target === floatingIcon) { isDragging = true; }
+        }
 
-document.getElementById("tierFilter").addEventListener("change",e=>{
-let v=e.target.value;
-if(!v) render(weapons);
-else render(weapons.filter(w=>w.tier===v));
-});
+        function dragEnd(e) { initialX = currentX; initialY = currentY; isDragging = false; }
 
-document.getElementById("elementFilter").addEventListener("change",e=>{
-let v=e.target.value;
-if(!v) render(weapons);
-else render(weapons.filter(w=>w.element===v));
-});
+        function drag(e) {
+            if (isDragging) {
+                e.preventDefault();
+                if (e.type === "touchmove") { currentX = e.touches[0].clientX - initialX; currentY = e.touches[0].clientY - initialY; } 
+                else { currentX = e.clientX - initialX; currentY = e.clientY - initialY; }
+                xOffset = currentX; yOffset = currentY;
+                setTranslate(currentX, currentY, floatingIcon);
+            }
+        }
 
-/* FPS */
-let frames=0,last=performance.now();
-function fpsLoop(){
-frames++;
-let now=performance.now();
-if(now-last>=1000){
-document.getElementById("fps").innerText="FPS: "+frames;
-frames=0;
-last=now;
-}
-requestAnimationFrame(fpsLoop);
-}
-fpsLoop();
+        function setTranslate(xPos, yPos, el) { el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`; }
 
-generateWeapons(750);
-render(weapons);
-updateTop();
-</script>
+        // Başlangıçta Tüm Eşyaları Yükle
+        renderItems(allItems);
+        overlayBg.style.display = 'none';
 
+    </script>
 </body>
-</html>
+  </html>
+  
