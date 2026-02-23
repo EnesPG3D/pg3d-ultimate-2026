@@ -2,326 +2,485 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>MR Gelişmiş Eşya Veritabanı</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Magic Rampage hayranları için oluşturulmuş, oyun modları, detaylı ekipman ve düşman rehberleri içeren interaktif bir fan sayfası.">
+    <meta name="keywords" content="Magic Rampage, Fan Page, RPG, Platformer, Mobil Oyun, Rehber, Zırhlar, Kılıçlar, Yüzükler, Boss Rehberi, Eşya Yükseltme, Oyun Modları">
+    <title>Magic Rampage Kapsamlı Fan Sayfası</title>
     <style>
-        /* --- TEMEL AYARLAR --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop') center/cover; height: 100vh; overflow: hidden; color: #e2e8f0; }
-        .overlay-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(5px); }
-
-        /* --- YÜZEN İKON --- */
-        #floating-icon {
-            position: absolute; top: 20px; left: 20px; width: 65px; height: 65px;
-            background: linear-gradient(135deg, #fbbf24, #d97706);
-            border: 3px solid #fef3c7; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            color: #451a03; font-weight: 900; font-size: 22px; text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
-            box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
-            z-index: 9999; cursor: grab; transition: transform 0.2s;
+        /* Genel Sayfa Stilleri */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #121212;
+            color: #e0e0e0;
+            line-height: 1.6;
         }
-        #floating-icon:active { cursor: grabbing; transform: scale(0.9); }
 
-        /* --- ANA MENÜ PANELİ --- */
-        #main-panel {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
-            width: 90%; max-width: 800px; height: 85vh;
-            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(15px);
-            border: 2px solid #3b82f6; border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 20px rgba(59, 130, 246, 0.2);
-            z-index: 10000; opacity: 0; pointer-events: none;
-            display: flex; flex-direction: column; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
         }
-        #main-panel.show { transform: translate(-50%, -50%) scale(1); opacity: 1; pointer-events: auto; }
 
-        /* BAŞLIK VE KONTROLLER */
-        .header { background: linear-gradient(90deg, #1e3a8a, #3b82f6); padding: 15px 20px; border-radius: 18px 18px 0 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #60a5fa; }
-        .header h1 { font-size: 20px; font-weight: bold; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        .close-btn { background: #ef4444; color: white; width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; font-weight: bold; cursor: pointer; box-shadow: 0 0 10px #ef4444; transition: 0.2s; }
-        .close-btn:hover { background: #dc2626; transform: scale(1.1); }
+        h1, h2, h3, h4 {
+            color: #ffc107; /* Altın sarısı başlıklar */
+            text-shadow: 1px 1px 2px #000;
+        }
 
-        /* ARAMA VE FİLTRELEME */
-        .controls { padding: 15px; display: flex; gap: 10px; background: rgba(30, 41, 59, 0.9); border-bottom: 1px solid #334155; }
-        .search-box { flex: 1; padding: 10px 15px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 16px; outline: none; transition: 0.3s; }
-        .search-box:focus { border-color: #3b82f6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
-        .filter-select { padding: 10px; border-radius: 8px; border: 1px solid #475569; background: #0f172a; color: white; font-size: 14px; outline: none; cursor: pointer; }
+        a {
+            color: #ffc107;
+            text-decoration: none;
+        }
 
-        /* İÇERİK ALANI (LİSTE VE DETAYLAR) */
-        .content-area { display: flex; flex: 1; overflow: hidden; }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        /* Header ve Navigasyon */
+        .main-header {
+            background: #1f1f1f;
+            padding: 1rem 0;
+            border-bottom: 3px solid #ffc107;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-header .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffc107;
+        }
+
+        .main-nav ul {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .main-nav ul li {
+            margin-left: 20px;
+        }
+
+        .main-nav ul li a {
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav ul li a:hover {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Hero (Ana Karşılama) Bölümü */
+        .hero {
+            background: url('https://via.placeholder.com/1500x600.png?text=Magic+Rampage+Dungeon') no-repeat center center/cover;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+        }
+
+        /* Bölüm Stilleri */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        section:nth-of-type(even) {
+            background-color: #1a1a1a;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        /* Kart Stilleri (Sınıflar, Düşmanlar vb.) */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: #252525;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(255, 193, 7, 0.2);
+        }
+
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .card-content h3, .card-content h4 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
         
-        /* EŞYA LİSTESİ */
-        .item-list { flex: 1; overflow-y: auto; padding: 15px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; border-right: 2px solid #334155; }
-        .item-list::-webkit-scrollbar { width: 8px; }
-        .item-list::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+        .card-content ul {
+            list-style: disc;
+            padding-left: 20px;
+        }
 
-        .item-card { background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid #475569; border-radius: 10px; padding: 12px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; gap: 5px; }
-        .item-card:hover { transform: translateY(-3px); border-color: #fbbf24; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.2); }
-        .item-card.active { border-color: #3b82f6; box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
-        .item-name { font-size: 15px; font-weight: bold; color: #f8fafc; }
-        .item-type { font-size: 12px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+        /* Arama Kutusu Stili */
+        .search-box {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            background-color: #252525;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
 
-        /* DETAY PANELİ */
-        .details-panel { width: 300px; padding: 20px; background: rgba(15, 23, 42, 0.95); overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        @media (max-width: 600px) { .content-area { flex-direction: column; } .details-panel { width: 100%; height: 40%; border-top: 2px solid #334155; border-left: none; } .item-list { height: 60%; } }
+        .search-box:focus {
+            outline: none;
+            border-color: #ffc107;
+        }
+
+        /* Tablo Stilleri (Ekipmanlar için) */
+        .table-container {
+            overflow-x: auto;
+        }
         
-        .stat-box { background: #1e293b; padding: 10px; border-radius: 8px; border-left: 4px solid #3b82f6; }
-        .stat-title { font-size: 11px; color: #94a3b8; text-transform: uppercase; margin-bottom: 3px; }
-        .stat-value { font-size: 18px; font-weight: bold; color: #f1f5f9; }
-        .stat-value.dmg { color: #ef4444; } /* Kırmızı Hasar */
-        .stat-value.magic { color: #a855f7; } /* Mor Büyü */
-        .stat-value.armor { color: #10b981; } /* Yeşil Zırh */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .data-table th, .data-table td {
+            padding: 15px;
+            border: 1px solid #444;
+            text-align: left;
+        }
+
+        .data-table th {
+            background-color: #ffc107;
+            color: #121212;
+            font-size: 1.1rem;
+        }
+
+        .data-table tbody tr:nth-child(odd) {
+            background-color: #252525;
+        }
         
-        .element-badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; color: white; margin-top: 5px; }
-        .elem-fire { background: #ea580c; } .elem-ice { background: #0ea5e9; } .elem-dark { background: #4c1d95; } .elem-light { background: #ca8a04; } .elem-earth { background: #65a30d; } .elem-none { background: #475569; }
+        .data-table tbody tr:hover {
+            background-color: #3d3d3d;
+        }
 
-        .item-desc { font-size: 13px; color: #cbd5e1; font-style: italic; line-height: 1.5; background: #0f172a; padding: 10px; border-radius: 8px; }
-        
-        /* İstatistik Çubukları */
-        .progress-bar { width: 100%; height: 8px; background: #334155; border-radius: 4px; margin-top: 5px; overflow: hidden; }
-        .progress-fill { height: 100%; border-radius: 4px; }
+        /* Galeri Stilleri */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
 
-        /* Alt Bilgi */
-        .footer { text-align: center; padding: 8px; font-size: 12px; color: #64748b; background: #0b1120; border-radius: 0 0 18px 18px; }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 2px solid #444;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
 
+        .gallery-item img:hover {
+            transform: scale(1.05);
+            border-color: #ffc107;
+        }
+
+        /* Topluluk Bölümü */
+        .community-section {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #ffc107;
+            color: #121212;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #ffca2c;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        .main-footer {
+            background: #1f1f1f;
+            color: #aaa;
+            text-align: center;
+            padding: 40px 0;
+            border-top: 3px solid #ffc107;
+        }
+
+        .social-links a {
+            margin: 0 15px;
+            font-size: 1.5rem;
+            color: #aaa;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #ffc107;
+        }
     </style>
 </head>
 <body>
 
-    <div class="overlay-bg"></div>
-
-    <!-- Yüzen Logo -->
-    <div id="floating-icon">MR+</div>
-
-    <!-- Ana Panel -->
-    <div id="main-panel">
-        <div class="header">
-            <h1>👑 MR Veritabanı & Envanter (800+ Eşya)</h1>
-            <div class="close-btn" id="close-btn">X</div>
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Magic Rampage Fan</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#about">Hakkında</a></li>
+                    <li><a href="#gamemodes">Oyun Modları</a></li>
+                    <li><a href="#classes">Sınıflar</a></li>
+                    <li><a href="#equipment">Ekipmanlar</a></li>
+                    <li><a href="#enemies">Düşmanlar</a></li>
+                    <li><a href="#gallery">Galeri</a></li>
+                    <li><a href="#community">Topluluk</a></li>
+                </ul>
+            </nav>
         </div>
+    </header>
 
-        <div class="controls">
-            <input type="text" id="search-input" class="search-box" placeholder="Eşya adı ara... (Örn: Cthulhu)">
-            <select id="category-filter" class="filter-select">
-                <option value="all">Tüm Kategoriler</option>
-                <option value="Kılıç">Kılıçlar</option>
-                <option value="Asa">Asalar</option>
-                <option value="Zırh">Zırhlar</option>
-                <option value="Hançer">Hançerler</option>
-                <option value="Yüzük">Yüzükler</option>
-            </select>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Zindanların Derinliklerine Hoş Geldiniz!</h1>
+            <p>Magic Rampage evrenine adanmış en kapsamlı fan sayfası.</p>
         </div>
+    </section>
 
-        <div class="content-area">
-            <!-- Sol Taraf: Eşya Listesi -->
-            <div class="item-list" id="item-list">
-                <!-- Javascript ile doldurulacak -->
+    <main>
+        <!-- OYUN HAKKINDA BÖLÜMÜ -->
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">Magic Rampage Nedir?</h2>
+                <p style="text-align: center; max-width: 800px; margin: auto;">
+                    Magic Rampage, aksiyon-RPG ve hack 'n' slash oynanışını birleştiren heyecan verici bir platform oyunudur [...](asc_slot://start-slot-20). Oyuncular, karakterlerini özelleştirebilir, düzinelerce silah arasından seçim yapabilir ve büyülü eşyalarla donatabilirler. Zindanları keşfedin, sırları ortaya çıkarın ve kaleyi karanlık büyücü Warlock'tan kurtarmak için zorlu düşmanlarla ve boss'larla savaşın [...](asc_slot://start-slot-22). Her bölümde yeni zorluklar ve keşfedilecek gizli alanlar sizi bekliyor!
+                </p>
             </div>
+        </section>
 
-            <!-- Sağ Taraf: Detaylar -->
-            <div class="details-panel" id="details-panel">
-                <div style="text-align: center; color: #64748b; margin-top: 50px;">
-                    <h2 style="font-size: 40px; margin-bottom: 10px;">👈</h2>
-                    <p>Detaylarını görmek için listeden bir eşya seçin.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer" id="item-counter">Yükleniyor...</div>
-    </div>
-
-    <script>
-        // --- 1. VERİTABANI: ÖZEL VE EFSANEVİ EŞYALAR ---
-        const baseItems = [
-            { id: 1, name: "Cthulhu'nun Kılıcı", type: "Kılıç", element: "Karanlık", dmg: 4500, magic: 200, armor: 0, speed: "Yavaş", desc: "Derinliklerin unutulmuş tanrısından düşen efsanevi bir kılıç. Ruhları emer.", elemClass: "elem-dark" },
-            { id: 2, name: "Işık Getiren Asa", type: "Asa", element: "Aydınlık", dmg: 1200, magic: 8500, armor: 50, speed: "Orta", desc: "Karanlık zindanları aydınlatan kutsal asa. Patlayan ışık topları atar.", elemClass: "elem-light" },
-            { id: 3, name: "Elit Savaşçı Zırhı", type: "Zırh", element: "Fiziksel", dmg: 0, magic: 0, armor: 6500, speed: "Ağır", desc: "Kralın şahsi korumalarının giydiği, delinmez ağır zırh.", elemClass: "elem-none" },
-            { id: 4, name: "Buz Ejderhası Hançeri", type: "Hançer", element: "Buz", dmg: 2800, magic: 1500, armor: 0, speed: "Çok Hızlı", desc: "Düşmanları anında dondurma şansına sahip, suikastçilerin favorisi.", elemClass: "elem-ice" },
-            { id: 5, name: "Cehennem Ateşi Yüzüğü", type: "Yüzük", element: "Ateş", dmg: 500, magic: 3000, armor: 100, speed: "Pasif", desc: "Tüm ateş büyülerinin hasarını %50 artırır.", elemClass: "elem-fire" },
-            { id: 6, name: "Gaia'nın Çekici", type: "Kılıç", element: "Toprak", dmg: 6000, magic: 500, armor: 300, speed: "Çok Yavaş", desc: "Yere vurulduğunda depremler yaratan devasa bir çekiç.", elemClass: "elem-earth" }
-        ];
-
-        // --- 2. 800+ EŞYA ÜRETİCİ (PROCEDURAL GENERATOR) ---
-        // Uygulamanın devasa görünmesi için 800 adet eşyayı otomatik üretiyoruz.
-        const types = ["Kılıç", "Asa", "Zırh", "Hançer", "Yüzük"];
-        const prefixes = ["Kadim", "Alevli", "Lanetli", "Kutsal", "Kırık", "Gölge", "Efsanevi", "Zehirli", "Buzlu", "Kraliyet", "Sihirli", "Kayıp"];
-        const suffixes = ["Kılıcı", "Asası", "Zırhı", "Hançeri", "Yüzüğü", "Pelerini", "Kalkanı", "Mızrağı"];
-        const elements = [
-            { name: "Ateş", cls: "elem-fire" }, { name: "Buz", cls: "elem-ice" }, 
-            { name: "Karanlık", cls: "elem-dark" }, { name: "Aydınlık", cls: "elem-light" }, 
-            { name: "Toprak", cls: "elem-earth" }, { name: "Yok", cls: "elem-none" }
-        ];
-        const speeds = ["Çok Hızlı", "Hızlı", "Orta", "Yavaş", "Çok Yavaş"];
-
-        let allItems = [...baseItems];
-        
-        // 800 eşyaya tamamlayana kadar rastgele eşya üret
-        for(let i = baseItems.length + 1; i <= 825; i++) {
-            let type = types[Math.floor(Math.random() * types.length)];
-            let prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-            let suffix = suffixes[Math.floor(Math.random() * suffixes.length)]; // İsim çeşitliliği
-            let elementObj = elements[Math.floor(Math.random() * elements.length)];
-            
-            // Rastgele istatistikler (Kategoriye göre mantıklı dağılım)
-            let dmg = type === "Zırh" || type === "Yüzük" ? Math.floor(Math.random() * 500) : Math.floor(Math.random() * 5000) + 100;
-            let magic = type === "Asa" || type === "Yüzük" ? Math.floor(Math.random() * 7000) + 500 : Math.floor(Math.random() * 1000);
-            let armor = type === "Zırh" ? Math.floor(Math.random() * 8000) + 1000 : Math.floor(Math.random() * 300);
-            
-            allItems.push({
-                id: i,
-                name: `${prefix} ${type} +${Math.floor(Math.random() * 10)}`,
-                type: type,
-                element: elementObj.name,
-                dmg: dmg,
-                magic: magic,
-                armor: armor,
-                speed: speeds[Math.floor(Math.random() * speeds.length)],
-                desc: `Zindanların derinliklerinde bulunmuş rastgele üretilmiş bir eşya. (ID: #${i})`,
-                elemClass: elementObj.cls
-            });
-        }
-
-        // --- 3. ARAYÜZ KONTROLLERİ ---
-        const itemListEl = document.getElementById('item-list');
-        const detailsPanelEl = document.getElementById('details-panel');
-        const searchInput = document.getElementById('search-input');
-        const categoryFilter = document.getElementById('category-filter');
-        const itemCounter = document.getElementById('item-counter');
-
-        // Eşyaları Ekrana Çizme Fonksiyonu
-        function renderItems(itemsToRender) {
-            itemListEl.innerHTML = '';
-            itemCounter.innerText = `Toplam ${itemsToRender.length} Eşya Gösteriliyor (Veritabanı: ${allItems.length})`;
-
-            itemsToRender.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'item-card';
-                card.innerHTML = `
-                    <div class="item-name">${item.name}</div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span class="item-type">${item.type}</span>
-                        <span class="element-badge ${item.elemClass}">${item.element}</span>
+        <!-- OYUN MODLARI BÖLÜMÜ (YENİ) -->
+        <section id="gamemodes">
+            <div class="container">
+                <h2 class="section-title">Oyun Modları</h2>
+                <p style="text-align: center; max-width: 800px; margin: auto; margin-bottom: 40px;">
+                    Magic Rampage, ana hikaye modunun yanı sıra her biri farklı deneyimler ve ödüller sunan üç özel oyun modu içerir: Hayatta Kalma, Rekabetçi ve Haftalık Zindan [...](asc_slot://start-slot-24).
+                </p>
+                <div class="card-grid">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/400x200.png?text=Survival+Mode" alt="Hayatta Kalma Modu">
+                        <div class="card-content">
+                            <h3>Hayatta Kalma (Survival)</h3>
+                            <ul>
+                                <li><b>Amaç:</b> Kapalı bir arenada, dalgalar halinde gelen düşmanlara karşı ölmeden mümkün olduğunca uzun süre hayatta kalmak [...](asc_slot://start-slot-26).</li>
+                                <li><b>Seviye Tasarımı:</b> Her biri farklı yerleşim ve tuzaklara sahip 6 adet sabit arena bulunur [...](asc_slot://start-slot-28). Bir sonrakini açmak için belirli sayıda düşman öldürmek gerekir [...](asc_slot://start-slot-30).</li>
+                                <li><b>Ödüller:</b> Özellikle yeni başlayanlar için altın ve rün gibi materyaller kasmak için verimlidir [...](asc_slot://start-slot-32). Sandıklardan "Bionic Hammer" gibi nadir ekipmanlar düşebilir [...](asc_slot://start-slot-34). Ayrıca özel başarım ödülleri de vardır [...](asc_slot://start-slot-36):
+                                    <ul>
+                                        <li><b>200 Düşman:</b> Dragon Orb Staff </li>
+                                        <li><b>300 Düşman:</b> Warlock's Ring </li>
+                                        <li><b>1000 Düşman:</b> Sword of 1000 Lies [...](asc_slot://start-slot-38)</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                `;
-                card.addEventListener('click', () => {
-                    // Tüm kartlardan aktif sınıfını kaldır, tıklanana ekle
-                    document.querySelectorAll('.item-card').forEach(c => c.classList.remove('active'));
-                    card.classList.add('active');
-                    showDetails(item);
-                });
-                itemListEl.appendChild(card);
-            });
-        }
-
-        // Seçilen Eşyanın Detaylarını Gösterme
-        function showDetails(item) {
-            // İstatistik barlarının genişliğini hesaplama (Maksimum değerlere oranla)
-            const dmgPercent = Math.min((item.dmg / 7000) * 100, 100);
-            const magicPercent = Math.min((item.magic / 9000) * 100, 100);
-            const armorPercent = Math.min((item.armor / 9000) * 100, 100);
-
-            detailsPanelEl.innerHTML = `
-                <h2 style="color: #f8fafc; font-size: 22px; border-bottom: 2px solid #334155; padding-bottom: 10px;">${item.name}</h2>
-                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                    <span class="element-badge ${item.elemClass}">${item.element}</span>
-                    <span style="background: #334155; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; color: white;">Hız: ${item.speed}</span>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/400x200.png?text=Competitive+Mode" alt="Rekabetçi Mod">
+                        <div class="card-content">
+                            <h3>Rekabetçi (Competitive)</h3>
+                            <ul>
+                                <li><b>Amaç:</b> Rastgele oluşturulmuş zindanlarda diğer oyunculardan daha yüksek puan elde etmek [...](asc_slot://start-slot-40). Puanlama; toplanan XP, kafadan vuruşlar ve süre gibi faktörlere dayanır, hasar almak puan düşürür [...](asc_slot://start-slot-42).</li>
+                                <li><b>Seviye Tasarımı:</b> Zindanlar her seferinde rastgele oluşturulur, bu da her maçın farklı engeller ve düşmanlar içermesi anlamına gelir [...](asc_slot://start-slot-44).</li>
+                                <li><b>Rütbe Sistemi:</b> Unranked'den Diamond'a kadar 7 rütbe bulunur. Rütbe atladıkça maç maliyetleri ve ödüller artar .</li>
+                                <li><b>Ödüller:</b> Galibiyetler jeton, altın ve XP kazandırır [...](asc_slot://start-slot-46). Yüksek sıralamalar, sadece bu moddan elde edilebilen özel ve güçlü ekipmanlar verir [...](asc_slot://start-slot-48). Ayrıca "Duels" adında gerçek zamanlı bir PvP modu da mevcuttur [...](asc_slot://start-slot-50).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/400x200.png?text=Weekly+Dungeon" alt="Haftalık Zindan">
+                        <div class="card-content">
+                            <h3>Haftalık Zindan (Weekly Dungeon)</h3>
+                            <ul>
+                                <li><b>Amaç:</b> Her hafta yenilenen, özel temalı bir zindanı tamamlamak [...](asc_slot://start-slot-52). Genellikle zaman ve toplanan yıldız sayısına dayalı hedefler bulunur [...](asc_slot://start-slot-54).</li>
+                                <li><b>Seviye Tasarımı:</b> Zindanlar, o haftanın özel ekipmanını sergileyecek şekilde tasarlanmış, genellikle hikaye modundaki seviyelerin değiştirilmiş versiyonlarıdır [...](asc_slot://start-slot-56). Kolay, Orta ve Zor olmak üzere 3 zorluk seviyesi vardır [...](asc_slot://start-slot-58).</li>
+                                <li><b>Ödüller:</b> Oyundaki en güçlü "epik" ekipmanları elde etmenin birincil yoludur [...](asc_slot://start-slot-60). Görevleri tamamlayarak bu ekipmanları indirimli alabilirsiniz [...](asc_slot://start-slot-62). Özel etkinliklerde "öz" (essence) gibi nadir materyaller de kazanılabilir [...](asc_slot://start-slot-64).</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="stat-box">
-                    <div class="stat-title">⚔️ Fiziksel Hasar</div>
-                    <div class="stat-value dmg">${item.dmg.toLocaleString()}</div>
-                    <div class="progress-bar"><div class="progress-fill" style="width: ${dmgPercent}%; background: #ef4444;"></div></div>
+            </div>
+        </section>
+
+        <!-- SINIFLAR BÖLÜMÜ -->
+        <section id="classes">
+            <div class="container">
+                <h2 class="section-title">Karakter Sınıfları</h2>
+                <div class="card-grid">
+                    <div class="card">
+                        <img src="https://via.placeholder.com/400x200.png?text=Sava%C5%9F%C3%A7%C4%B1" alt="Savaşçı Sınıfı">
+                        <div class="card-content">
+                            <h3>Savaşçı (Warrior)</h3>
+                            <p>Yakın dövüşte usta olan Savaşçılar, ağır zırhlar ve güçlü silahlar kullanır. Yüksek can ve savunma puanları ile ön saflarda savaşmak için ideallerdir.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/400x200.png?text=B%C3%BCy%C3%BCc%C3%BC" alt="Büyücü Sınıfı">
+                        <div class="card-content">
+                            <h3>Büyücü (Mage)</h3>
+                            <p>Elementlerin gücünü kullanan Büyücüler, düşmanlarını uzaktan büyülerle yok eder. Asaları ve sihirli güçleri en büyük silahlarıdır.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img src="https://via.placeholder.com/400x200.png?text=Haydut" alt="Haydut Sınıfı">
+                        <div class="card-content">
+                            <h3>Haydut (Rogue)</h3>
+                            <p>Hız ve gizlilik üzerine odaklanan Haydutlar, hançerler ve yaylar kullanır. Kritik vuruşlar ve hızlı saldırılarla düşmanlarını gafil avlarlar.</p>
+                        </div>
+                    </div>
+                     <div class="card">
+                        <img src="https://via.placeholder.com/400x200.png?text=Druid" alt="Druid Sınıfı">
+                        <div class="card-content">
+                            <h3>Druid</h3>
+                            <p>Doğanın gücünü kontrol eden Druidler, hem büyü yapabilir hem de yakın dövüşte etkili olabilirler. Genellikle doğa temalı büyüler kullanırlar.</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="stat-box">
-                    <div class="stat-title">✨ Büyü Gücü</div>
-                    <div class="stat-value magic">${item.magic.toLocaleString()}</div>
-                    <div class="progress-bar"><div class="progress-fill" style="width: ${magicPercent}%; background: #a855f7;"></div></div>
-                </div>
+        <!-- EKİPMANLAR BÖLÜMÜ (GENİŞLETİLDİ) -->
+        <section id="equipment">
+            <div class="container">
+                <h2 class="section-title">Ekipman Rehberi</h2>
+                <p style="text-align: center; max-width: 800px; margin: auto; margin-bottom: 40px;">
+                    Magic Rampage'de her oyun tarzına uygun yüzlerce farklı silah, zırh ve sihirli eşya bulunmaktadır. Aşağıdaki tablolarda arama yaparak istediğiniz ekipmanı kolayca bulabilirsiniz. Unutmayın, oyundaki eşyaların istatistikleri güncellemelerle değişebilir ve bu veriler topluluk tarafından derlenmiştir [...](asc_slot://start-slot-66).
+                </p>
 
-                <div class="stat-box">
-                    <div class="stat-title">🛡️ Zırh Savunması</div>
-                    <div class="stat-value armor">${item.armor.toLocaleString()}</div>
-                    <div class="progress-bar"><div class="progress-fill" style="width: ${armorPercent}%; background: #10b981;"></div></div>
-                </div>
-
-                <div class="item-desc">"${item.desc}"</div>
-                
-                <button style="margin-top: auto; padding: 12px; background: #3b82f6; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#2563eb'" onmouseout="this.style.background='#3b82f6'">
-                    Envantere Ekle (Görsel)
-                </button>
-            `;
-        }
-
-        // Arama ve Filtreleme Dinleyicileri
-        function filterData() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const category = categoryFilter.value;
-
-            const filtered = allItems.filter(item => {
-                const matchesSearch = item.name.toLowerCase().includes(searchTerm);
-                const matchesCategory = category === "all" || item.type === category;
-                return matchesSearch && matchesCategory;
-            });
-
-            renderItems(filtered);
-        }
-
-        searchInput.addEventListener('input', filterData);
-        categoryFilter.addEventListener('change', filterData);
-
-        // --- 4. PENCERE VE SÜRÜKLEME KONTROLLERİ ---
-        const floatingIcon = document.getElementById('floating-icon');
-        const mainPanel = document.getElementById('main-panel');
-        const closeBtn = document.getElementById('close-btn');
-        const overlayBg = document.querySelector('.overlay-bg');
-
-        floatingIcon.addEventListener('click', () => {
-            mainPanel.classList.add('show');
-            floatingIcon.style.transform = 'scale(0)';
-            overlayBg.style.display = 'block';
-        });
-
-        closeBtn.addEventListener('click', () => {
-            mainPanel.classList.remove('show');
-            floatingIcon.style.transform = 'scale(1)';
-            overlayBg.style.display = 'none';
-        });
-
-        // İkon Sürükleme Mantığı (Gelişmiş)
-        let isDragging = false, currentX, currentY, initialX, initialY, xOffset = 0, yOffset = 0;
-        
-        floatingIcon.addEventListener("touchstart", dragStart, {passive: false});
-        floatingIcon.addEventListener("touchend", dragEnd, false);
-        floatingIcon.addEventListener("touchmove", drag, {passive: false});
-        floatingIcon.addEventListener("mousedown", dragStart, false);
-        document.addEventListener("mouseup", dragEnd, false);
-        document.addEventListener("mousemove", drag, false);
-
-        function dragStart(e) {
-            if (e.type === "touchstart") { initialX = e.touches[0].clientX - xOffset; initialY = e.touches[0].clientY - yOffset; } 
-            else { initialX = e.clientX - xOffset; initialY = e.clientY - yOffset; }
-            if (e.target === floatingIcon) { isDragging = true; }
-        }
-
-        function dragEnd(e) { initialX = currentX; initialY = currentY; isDragging = false; }
-
-        function drag(e) {
-            if (isDragging) {
-                e.preventDefault();
-                if (e.type === "touchmove") { currentX = e.touches[0].clientX - initialX; currentY = e.touches[0].clientY - initialY; } 
-                else { currentX = e.clientX - initialX; currentY = e.clientY - initialY; }
-                xOffset = currentX; yOffset = currentY;
-                setTranslate(currentX, currentY, floatingIcon);
-            }
-        }
-
-        function setTranslate(xPos, yPos, el) { el.style.transform = `translate3d(${xPos}px, ${yPos}px, 0)`; }
-
-        // Başlangıçta Tüm Eşyaları Yükle
-        renderItems(allItems);
-        overlayBg.style.display = 'none';
-
-    </script>
-</body>
-  </html>
-  
+                <!-- ZIRHLAR -->
+                <h3 style="text-align: center; font-size: 2rem; margin-top: 50px;">Zırhlar (Armors)</h3>
+                <p style="text-align: center; max-width: 800px; margin: auto; margin-bottom: 20px;">
+                    Zırhlar savunma, element dirençleri ve çeşitli saldırı/nitelik bonusları sağlar [...](asc_slot://start-slot-68).
+                </p>
+                <input type="text" class="search-box" onkeyup="filtrele(this, 'armorTable')" placeholder="Zırh adı, element veya bonus ara...">
+                <div class="table-container">
+                    <table class="data-table" id="armorTable">
+                        <thead>
+                            <tr>
+                                <th>Zırh Adı</th>
+                                <th>Maks. Zırh Değeri</th>
+                                <th>Element</th>
+                                <th>Sağladığı Bonuslar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Light Champion Set</td>
+                                <td>90</td>
+                                <td>Işık</td>
+                                <td>%180 Büyü Gücü, %6 Zıplama, %5 Hız .</td>
+                            </tr>
+                            <tr>
+                                <td>Champion Set</td>
+                                <td>120</td>
+                                <td>-</td>
+                                <td>%130 Büyü Gücü, %5 Zıplama, %4 Hız, %65 Kılıç Saldırısı, %30 Hançer Saldırısı .</td>
+                            </tr>
+                            <tr>
+                                <td>Garland Skin</td>
+                                <td>164</td>
+                                <td>-</td>
+                                <td>%100 Büyü Gücü, %3 Zıplama, %6 Hız, %35 Hançer Saldırısı [...](asc_slot://start-slot-70).</td>
+                            </tr>
+                            <tr>
+                                <td>Firestorm Armor</td>
+                                <td>122</td>
+                                <td>Ateş</td>
+                                <td>%120 Büyü Gücü, %6 Zıplama ve Hız, %5 Kılıç ve Hançer Saldırısı [...](asc_slot://start-slot-72).</td>
+                            </tr>
+                            <tr>
+                                <td>Banker's Coat</td>
+                                <td>147</td>
+                                <td>Karanlık</td>
+                                <td>%160 Hançer Saldırı Gücü .</td>
+                            </tr>
+                            <tr>
+                                <td>Elite Assassin Suit</td>
+                                <td>78</td>
+                                <td>Karanlık</td>
+                                <td>%45 Balta Saldırı Gücü .</td>
+                            </tr>
+                            <tr>
+                                <td>Jungle Assassin Suit</td>
+                  
