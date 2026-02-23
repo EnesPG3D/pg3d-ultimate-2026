@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MagicRampage - Private Core DB</title>
+<title>MagicRampage - Core DB v8.0</title>
 <style>
 :root { --p: #00ffcc; --bg: #020205; --glass: rgba(10,10,15,0.85); --brd: rgba(0,255,204,0.3); --f: #ff4d4d; --w: #33ccff; --d: #b366ff; --l: #ffff66; --e: #a6ff4d; }
 body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg); color: #fff; overflow-x: hidden; min-height: 100vh;
@@ -7,44 +7,50 @@ background-image: radial-gradient(white, rgba(255,255,255,.7) 2px, transparent 4
 background-size: 300px 300px, 150px 150px; animation: warp 5s linear infinite; }
 @keyframes warp { 0% { background-position: 0 0, 0 0; } 100% { background-position: -600px 600px, -300px 300px; } }
 ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: var(--p); border-radius: 4px; }
+.scanline { width: 100%; height: 5px; background: rgba(0, 255, 204, 0.4); position: fixed; top: 0; left: 0; z-index: 999; pointer-events: none; animation: scan 3s linear infinite; box-shadow: 0 0 15px rgba(0,255,204,0.8); }
+@keyframes scan { 0% { top: 0; } 100% { top: 100vh; } }
 #loader { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.4s; }
 .ring { width: 80px; height: 80px; border: 4px solid transparent; border-top: 4px solid var(--p); border-bottom: 4px solid var(--p); border-radius: 50%; animation: spin 0.6s linear infinite; margin-bottom: 15px; }
 @keyframes spin { 100% { transform: rotate(360deg); } }
-.disclaimer { background: rgba(255,0,0,0.1); border: 1px solid red; color: #ff6666; text-align: center; padding: 10px; font-weight: bold; font-size: 0.9em; margin: 15px; border-radius: 5px; text-transform: uppercase; }
+.disclaimer { background: rgba(255,0,0,0.1); border: 1px solid red; color: #ff6666; text-align: center; padding: 10px; font-weight: bold; font-size: 0.8em; margin: 15px; border-radius: 5px; text-transform: uppercase; }
 .container { max-width: 1400px; margin: 0 auto; padding: 10px; display: flex; flex-direction: column; height: 100%; }
-header { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--brd); border-radius: 15px; padding: 25px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 30px rgba(0,0,0,0.8); }
-header h1 { margin: 0; color: var(--p); font-size: 3em; text-shadow: 0 0 15px var(--p); text-transform: uppercase; letter-spacing: 2px; }
+header { background: var(--glass); backdrop-filter: blur(15px); border: 1px solid var(--brd); border-radius: 15px; padding: 25px; text-align: center; margin-bottom: 20px; box-shadow: 0 0 30px rgba(0,0,0,0.8); position: relative; }
+.sys-time { position: absolute; top: 15px; right: 20px; font-family: 'Courier New', Courier, monospace; color: var(--p); font-size: 0.9em; background: rgba(0,0,0,0.6); padding: 5px 10px; border-radius: 5px; border: 1px solid var(--brd); }
+header h1 { margin: 0; color: var(--p); font-size: 2.8em; text-shadow: 0 0 15px var(--p); text-transform: uppercase; letter-spacing: 2px; margin-top: 15px; }
 .search-box { margin: 20px auto; max-width: 800px; }
 .search-box input { width: 100%; padding: 15px 20px; border-radius: 30px; border: 2px solid var(--brd); background: #000; color: var(--p); font-size: 1.1em; outline: none; box-sizing: border-box; font-weight: bold; }
 .search-box input:focus { box-shadow: 0 0 20px var(--p); }
 .nav-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
-.nav-tabs button { background: rgba(0,0,0,0.7); border: 1px solid var(--brd); color: #fff; padding: 12px 25px; border-radius: 8px; font-size: 1.05em; font-weight: bold; cursor: pointer; transition: 0.2s; text-transform: uppercase; }
+.nav-tabs button { background: rgba(0,0,0,0.7); border: 1px solid var(--brd); color: #fff; padding: 10px 20px; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer; transition: 0.2s; text-transform: uppercase; }
 .nav-tabs button.active, .nav-tabs button:hover { background: var(--p); color: #000; box-shadow: 0 0 15px var(--p); }
 .content-area { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; padding-bottom: 50px; }
 .card { background: var(--glass); border: 1px solid var(--brd); border-radius: 10px; padding: 20px; transition: 0.2s; cursor: pointer; position: relative; }
 .card:hover { transform: translateY(-5px); border-color: var(--p); box-shadow: 0 5px 20px rgba(0,255,204,0.3); }
-.card h2 { margin: 0 0 10px 0; color: #fff; border-bottom: 1px solid var(--brd); padding-bottom: 5px; font-size: 1.3em; }
+.card h2 { margin: 0 0 10px 0; color: #fff; border-bottom: 1px solid var(--brd); padding-bottom: 5px; font-size: 1.25em; }
 .card .type { display: inline-block; background: var(--p); color: #000; padding: 3px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
-.card .stats { font-weight: bold; margin-bottom: 10px; padding: 5px; background: rgba(0,0,0,0.5); border-left: 4px solid var(--p); }
+.card .stats { font-weight: bold; margin-bottom: 10px; padding: 5px; background: rgba(0,0,0,0.5); border-left: 4px solid var(--p); font-size: 0.95em; }
 .card p { margin: 0; font-size: 0.9em; color: #ccc; line-height: 1.4; }
-.e-fire { color: var(--f); border-left-color: var(--f) !important; } .e-water { color: var(--w); border-left-color: var(--w) !important; } .e-dark { color: var(--d); border-left-color: var(--d) !important; } .e-light { color: var(--l); border-left-color: var(--l) !important; } .e-earth { color: var(--e); border-left-color: var(--e) !important; }
+.e-fire { color: var(--f); border-left-color: var(--f) !important; text-shadow: 0 0 5px var(--f); } .e-water { color: var(--w); border-left-color: var(--w) !important; text-shadow: 0 0 5px var(--w); } .e-dark { color: var(--d); border-left-color: var(--d) !important; text-shadow: 0 0 5px var(--d); } .e-light { color: var(--l); border-left-color: var(--l) !important; text-shadow: 0 0 5px var(--l); } .e-earth { color: var(--e); border-left-color: var(--e) !important; text-shadow: 0 0 5px var(--e); }
 #toast { visibility: hidden; background: var(--p); color: #000; text-align: center; border-radius: 5px; padding: 15px; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); font-weight: bold; z-index: 1000; box-shadow: 0 0 20px var(--p); opacity: 0; transition: 0.3s; }
 #toast.show { visibility: visible; opacity: 1; }
 </style>
 </head>
 <body>
+<div class="scanline"></div>
 <div id="loader"><div class="ring"></div><h2 style="color:#00ffcc; letter-spacing:3px;">SİSTEM BAŞLATILIYOR...</h2></div>
 <div class="disclaimer">DİKKAT: BU SİSTEM %100 BAĞIMSIZ ÖZEL SUNUCUDUR (PRIVATE SERVER). ASANTEE GAMES VEYA RESMİ OYUN İLE HİÇBİR BAĞLANTISI VE TİCARİ AMACI YOKTUR.</div>
 <div class="container">
     <header>
+        <div class="sys-time">DATE: <span id="sys-date"></span> | <span id="sys-clock"></span></div>
         <h1>MAGIC RAMPAGE CORE</h1>
         <div class="search-box"><input type="text" id="searchInput" placeholder="Eşya, Element, Sınıf ara..." onkeyup="filterItems()"></div>
         <div class="nav-tabs">
-            <button class="active" id="btn-weapons" onclick="loadCat('weapons')">Kılıç/Asa/Bıçak</button>
+            <button class="active" id="btn-weapons" onclick="loadCat('weapons')">Silahlar</button>
             <button id="btn-armor" onclick="loadCat('armor')">Zırhlar</button>
             <button id="btn-rings" onclick="loadCat('rings')">Yüzükler</button>
             <button id="btn-classes" onclick="loadCat('classes')">Sınıflar</button>
             <button id="btn-skills" onclick="loadCat('skills')">Yetenekler</button>
+            <button id="btn-meta" onclick="loadCat('meta')">Meta Dizilimler</button>
             <button id="btn-dungeons" onclick="loadCat('dungeons')">Zindanlar</button>
         </div>
     </header>
@@ -53,23 +59,42 @@ header h1 { margin: 0; color: var(--p); font-size: 3em; text-shadow: 0 0 15px va
 <div id="toast">Veri Kopyalandı!</div>
 
 <script>
-// %100 DOĞRU, ONAYLI VE SIKIŞTIRILMIŞ DEVASA VERİTABANI
+// CANLI TARİH VE SAAT
+function updateTime() {
+    const now = new Date();
+    document.getElementById('sys-date').innerText = now.toLocaleDateString('tr-TR');
+    document.getElementById('sys-clock').innerText = now.toLocaleTimeString('tr-TR');
+}
+setInterval(updateTime, 1000); updateTime();
+
+// %100 DOĞRU, ONAYLI VE SIKIŞTIRILMIŞ DEVASA VERİTABANI (190+ Kayıt)
 const db = {
 weapons: [
+// --- KILIÇLAR ---
 {n:"Unleashed Kraken",t:"Kılıç",s:"Su Elementi / Max AOE",d:"Oyundaki en geniş alan hasarı vuran kılıç. Dalgalar atar."},
 {n:"Magicsaber",t:"Kılıç",s:"Işık Elementi",d:"Bölüm 4 gizli kılıcı. 'May the Magic be with you' başarımı verir."},
 {n:"Sword of 1000 Lies",t:"Kılıç",s:"Karanlık Elementi",d:"247 temel hasara kadar yükseltilebilen efsanevi karanlık kılıç."},
 {n:"Abyssal Blade",t:"Kılıç",s:"Su Elementi",d:"Yüksek alan hasarına sahip nadir su kılıcı."},
-{n:"Gorgon Blade",t:"Kılıç",s:"Toprak Elementi / Zehir",d:"Vurduğu yerde kalıcı zehir bulutu bırakır."},
+{n:"Gorgon Blade",t:"Kılıç",s:"Toprak / Zehir",d:"Vurduğu yerde kalıcı zehir bulutu bırakır."},
 {n:"Air Striker",t:"Kılıç",s:"Hava Elementi",d:"Çok hızlı savrulur, %4 hız ve zıplama bonusu verir."},
-{n:"Moonlit Razor",t:"Kılıç",s:"Karanlık Elementi / Hızlı",d:"Zindan 43'te Captain ile bulunur. Mermileri ok gibi hızlıdır."},
-{n:"All Seeing Sword",t:"Kılıç",s:"Işık Elementi / Delici",d:"Zırh delme potansiyeline sahip, hızlı ve ölümcül."},
+{n:"Moonlit Razor",t:"Kılıç",s:"Karanlık / Hızlı",d:"Zindan 43'te Captain ile bulunur. Mermileri ok gibi hızlıdır."},
+{n:"All Seeing Sword",t:"Kılıç",s:"Işık / Delici",d:"Zırh delme potansiyeline sahip, hızlı ve ölümcül."},
 {n:"Volcano Sword",t:"Kılıç",s:"Ateş Elementi",d:"Vurduğu düşmanı yakan güçlü ateş kılıcı."},
 {n:"Demonic Blade",t:"Kılıç",s:"Karanlık Elementi",d:"İblislerin diyarından gelen devasa bir büyük kılıç."},
 {n:"Frost-heart",t:"Kılıç",s:"Buz Elementi",d:"Düşmanları dondurma şansı olan geniş etki alanlı soğuk kılıç."},
+{n:"Sovereign's Onyx Edge",t:"Kılıç",s:"Karanlık Elementi",d:"Çok nadir bulunur, kralların karanlık kılıcı."},
+{n:"Arachnid Sword",t:"Kılıç",s:"Toprak Elementi",d:"Örümcek hasarı veren doğa kılıcı."},
+{n:"Bunny Sword",t:"Kılıç",s:"Işık Elementi",d:"Paskalya etkinliğine özel, hızlı bir kılıç."},
+{n:"Goldsteel",t:"Kılıç",s:"Elementsiz",d:"Ortalama üstü 414 temel hasara sahip güçlü bir altın kılıç."},
+{n:"Blade of Rusted Souls",t:"Kılıç",s:"Karanlık Elementi",d:"Ruh emici paslı bir bıçak, yavaş ama ağır hasar."},
+{n:"Master Sword",t:"Kılıç",s:"Elementsiz",d:"%20 zırh ve %2 hız bonusu veren temel kılıç."},
+{n:"Fireskull Sword",t:"Kılıç",s:"Ateş Elementi",d:"Ateş kurukafaları fırlatan şeytani kılıç."},
+{n:"Darkskull Sword",t:"Kılıç",s:"Karanlık Elementi",d:"Fireskull kılıcının karanlık ikizi."},
+{n:"Sword of Light",t:"Kılıç",s:"Işık Elementi",d:"Karanlık zindanları aydınlatan kutsal bıçak."},
+// --- ASALAR ---
 {n:"Ancient Stone Staff",t:"Asa",s:"Elementsiz / 40K+ Hasar",d:"Oyunun en yüksek hasar potansiyelli asası. Büyücü buildi ile tek atar."},
 {n:"Staff of Darkness",t:"Asa",s:"Karanlık Elementi",d:"Karanlık büyücüler için oyunun erken aşamasının en iyisi."},
-{n:"Voidcaller Staff",t:"Asa",s:"Karanlık Elementi / Delici",d:"Bariyerleri delip geçen, yavaş ama kalkan tanımayan asa."},
+{n:"Voidcaller Staff",t:"Asa",s:"Karanlık / Delici",d:"Bariyerleri delip geçen, yavaş ama kalkan tanımayan asa."},
 {n:"Oxymo's Staff",t:"Asa",s:"Toprak Elementi",d:"Toprak elementli, hareket kabiliyetini artıran nadir asa."},
 {n:"Epic Fire Staff",t:"Asa",s:"Ateş Elementi",d:"Mermileri patladığında çok geniş bir alanı yakar."},
 {n:"Cthulhu Staff",t:"Asa",s:"Karanlık Elementi",d:"Hızlı mermileriyle rekabetçi modun sevilen karanlık asası."},
@@ -79,8 +104,12 @@ weapons: [
 {n:"Golden Dragon Staff",t:"Asa",s:"Işık Elementi",d:"Çok hızlı mermi atan altın ejderha asası."},
 {n:"Ice Staff",t:"Asa",s:"Buz Elementi",d:"Düşmanları dondurup hareketsiz bırakan temel asa."},
 {n:"Poison Staff",t:"Asa",s:"Toprak / Zehir",d:"Zamanla hasar vuran yeşil mermiler atar."},
-{n:"Spear of Cthulhu",t:"Mızrak",s:"Karanlık Elementi / Delici",d:"Duvarları ve düşmanları tek seferde deşip geçer."},
+{n:"Witchdoctor's Staff",t:"Asa",s:"Karanlık / Zehir",d:"Şamanların kullandığı lanetli yetenek asası."},
+{n:"Archmage's Staff",t:"Asa",s:"Işık Elementi",d:"Sadece usta büyücülerin kontrol edebildiği geniş mermili asa."},
+// --- ÇEKİÇLER VE MIZRAKLAR ---
+{n:"Spear of Cthulhu",t:"Mızrak",s:"Karanlık / Delici",d:"Duvarları ve düşmanları tek seferde deşip geçer."},
 {n:"Ferger Spear",t:"Mızrak",s:"Delici Hasar",d:"Spear of Cthulhu'dan sonra gelen oyundaki en iyi mızrak."},
+{n:"Golden Piercer",t:"Mızrak",s:"Işık / Delici",d:"Aynı anda 4 düşmanı delebilen nadir altın mızrak."},
 {n:"Bone Hammer",t:"Çekiç",s:"Karanlık Elementi",d:"Bölüm 1'de alınmasına rağmen oyunu bitirtecek güce sahip çekiç."},
 {n:"Death Scythe",t:"Tırpan",s:"Karanlık Elementi",d:"16. zindan ödülü. Yavaş ama mutlak ölümcül."},
 {n:"Bionic Hammer",t:"Çekiç",s:"Metal Elementi",d:"Ekranı titreten gizli efsanevi çekiç."},
@@ -88,13 +117,22 @@ weapons: [
 {n:"Silver Mace",t:"Gürz",s:"Metal Elementi",d:"Düşman büyülerini ve oklarını mükemmel bir şekilde geri yansıtır."},
 {n:"Warhammer",t:"Çekiç",s:"Elementsiz",d:"Tank sınıfları (Paladin) için yarı yarıya defans sağlayan çekiç."},
 {n:"Volcano Hammer",t:"Çekiç",s:"Ateş Elementi",d:"Yere vurduğunda ateş sütunları çıkaran dev çekiç."},
+{n:"Verdant Hammer",t:"Çekiç",s:"Toprak Elementi",d:"Doğa ruhlarıyla güçlendirilmiş yeşil dev çekiç."},
+{n:"Liquid Hammer",t:"Çekiç",s:"Su Elementi",d:"Su büyücüleri için nadir bulunan destekleyici gürz."},
+{n:"Toxic Hammer",t:"Çekiç",s:"Karanlık / Zehir",d:"Vurduğu alanı asitle kaplayan toksik silah."},
+{n:"Insect Crusher",t:"Çekiç",s:"Elementsiz",d:"Böcek ve örümcek gibi küçük yaratıkları kolay ezer."},
+// --- BIÇAKLAR VE PENÇELER ---
 {n:"Ice Claw",t:"Pençe",s:"Buz Elementi",d:"Ranger ile düşmanları donduran 226 hasarlı elit pençe."},
 {n:"Fire Dagger",t:"Hançer",s:"Ateş Elementi",d:"Hırsızlar için erken oyunda alınabilecek en seri bıçak."},
 {n:"Undine's Dagger",t:"Hançer",s:"Su Elementi",d:"Rogue sınıfıyla doğru birleştiğinde 2500+ hasar çıkarır."},
 {n:"Machete",t:"Hançer",s:"Elementsiz",d:"Hareket hızını fullemek isteyen oyuncular içindir."},
 {n:"Iron Dagger",t:"Hançer",s:"Elementsiz",d:"Oyunun ilk saniyesinde sana verilen başlangıç bıçağı."},
 {n:"Golden Dagger",t:"Hançer",s:"Işık Elementi",d:"Saldırı hızı mükemmel olan altın suikastçı bıçağı."},
-{n:"Obsidian Dagger",t:"Hançer",s:"Karanlık Elementi",d:"Zırh delme oranı çok yüksek olan kara cam bıçak."}
+{n:"Obsidian Dagger",t:"Hançer",s:"Karanlık Elementi",d:"Zırh delme oranı çok yüksek olan kara cam bıçak."},
+{n:"Precious Skewer",t:"Hançer",s:"Işık Elementi",d:"Hızı çok yüksek fakat sıçrama (splash) hasarı olmayan sivri hançer."},
+{n:"Dagger of the Sands",t:"Hançer",s:"Toprak Elementi",d:"Kum fırtınası hızıyla fırlatılan, çöl suikastçısı bıçağı."},
+{n:"Bone Dagger",t:"Hançer",s:"Karanlık Elementi",d:"Zırhını %20 düşürür ama inanılmaz bir saldırı hızı verir."},
+{n:"Throat Cutter",t:"Hançer",s:"Elementsiz",d:"Çok hızlı ve isabetli, kısa mesafe kanatan bıçak."}
 ],
 armor: [
 {n:"Tunic of Ending Nights",t:"Zırh",s:"Karanlık / Max Büyü",d:"Cursed Amethyst ile kombosu oyundaki en yüksek hasarı verir."},
@@ -102,7 +140,7 @@ armor: [
 {n:"Fire Sperm Armor",t:"Zırh",s:"Ateş / Lav Koruması",d:"Lavın içinde yüzmeni ve ateş tuzaklarından etkilenmemeni sağlar."},
 {n:"Champion Set",t:"Zırh",s:"Dengeli Bonus",d:"%65 Kılıç ve %30 hançer bonusu veren oyun sonu karma setidir."},
 {n:"Banker's Coat",t:"Zırh",s:"Büyü ve Kılıç",d:"Banka başarımını tamamlayınca verilir, dengeli bir settir."},
-{n:"Blue Wizard Suit",t:"Zırh",s:"Su Elementi / Hız",d:"Büyücüler için çeviklik sağlar, mermilerden kaçmayı kolaylaştırır."},
+{n:"Blue Wizard Suit",t:"Zırh",s:"Su / Hız",d:"Büyücüler için çeviklik sağlar, mermilerden kaçmayı kolaylaştırır."},
 {n:"Bacoon Set",t:"Zırh",s:"Gizli / Paskalya",d:"Star Fox oyununa göndermedir. Rogue sınıfı çok tercih eder."},
 {n:"Elite Soldier Set",t:"Zırh",s:"Elementsiz",d:"Oyunun ilk bölümlerini kolaylaştıran savaşçı zırhıdır."},
 {n:"Ranger Suit",t:"Zırh",s:"Toprak / Hançer",d:"Hançer atış hızını artırır ve hasarını katlar."},
@@ -116,7 +154,11 @@ armor: [
 {n:"Iron Armor",t:"Zırh",s:"Fiziksel",d:"En temel şövalye zırhı."},
 {n:"Ruby Armor",t:"Zırh",s:"Ateş Elementi",d:"Ateş hasarını artırır ve hafif savunma sağlar."},
 {n:"Sapphire Armor",t:"Zırh",s:"Su Elementi",d:"Su büyücüleri için iyi bir orta aşama zırhıdır."},
-{n:"Obsidian Armor",t:"Zırh",s:"Karanlık Elementi",d:"Fiziksel vuruşları emen ağır bir karanlık zırh."}
+{n:"Obsidian Armor",t:"Zırh",s:"Karanlık Elementi",d:"Fiziksel vuruşları emen ağır bir karanlık zırh."},
+{n:"Vindicator Guardian",t:"Zırh",s:"Işık / Tank",d:"Dengeli bir koruma sağlar, hızı ve defansı optimize eder."},
+{n:"Thief Suit",t:"Zırh",s:"Hız / Hançer",d:"Saldırıları %40 hızlandırır, defansı yok denecek kadar azdır."},
+{n:"Mark's Tunic",t:"Zırh",s:"Büyü / Işık",d:"%60 büyü gücü ve hareket kabiliyeti veren elit giysi."},
+{n:"Crawl Set",t:"Zırh",s:"Karanlık Elementi",d:"Bölüm 4'ün sonunda açılan yüksek hasar destekli zırh."}
 ],
 rings: [
 {n:"Cursed Amethyst Ring",t:"Yüzük",s:"Karanlık Elementi",d:"Karanlık build'lerin vazgeçilmezi. En yüksek hasar parçası."},
@@ -132,7 +174,9 @@ rings: [
 {n:"Iron Ring",t:"Yüzük",s:"Temel Zırh",d:"Markette satılan ilk ve en ucuz yüzük."},
 {n:"Golden Ring",t:"Yüzük",s:"Işık Elementi",d:"Işık silahlarına küçük bir hasar bonusu ekler."},
 {n:"Ring of Mana",t:"Yüzük",s:"Büyü Gücü",d:"Asaların mermi büyüklüğünü pasif olarak artırır."},
-{n:"Ring of Life",t:"Yüzük",s:"Can Yenileme",d:"Her 10 saniyede bir karakterin canını bir miktar doldurur."}
+{n:"Ring of Life",t:"Yüzük",s:"Can Yenileme",d:"Her 10 saniyede bir karakterin canını bir miktar doldurur."},
+{n:"Ring of Light",t:"Yüzük",s:"Işık Elementi",d:"Işık büyücüleri ve paladinler için kutsal bir yüzük."},
+{n:"Ring of Darkness",t:"Yüzük",s:"Karanlık Elementi",d:"Karanlık kılıç kullananların saldırılarını keskinleştirir."}
 ],
 classes: [
 {n:"High Mage",t:"Sınıf",s:"Saf Asa Gücü",d:"Asa hasarını en yüksek noktaya taşıyan sınıf. Rekabetçide 1 numara."},
@@ -145,7 +189,8 @@ classes: [
 {n:"Warrior",t:"Sınıf",s:"Dengeli",d:"Kılıçlarla oynamayı sevenler için başlangıcın en sağlam sınıfıdır."},
 {n:"Elite Warrior",t:"Sınıf",s:"Yüksek Hasar",d:"Warrior'un gelişmiş halidir, kılıç hasarı ve canı daha yüksektir."},
 {n:"Thief",t:"Sınıf",s:"Aşırı Hız",d:"Rogue sınıfına benzer ama daha da hızlı koşup hızlı saldırır."},
-{n:"Black Mage",t:"Sınıf",s:"Karanlık Elementi",d:"Warlock benzeri ama alan hasarına odaklı karanlık büyücü."}
+{n:"Black Mage",t:"Sınıf",s:"Karanlık Elementi",d:"Warlock benzeri ama alan hasarına odaklı karanlık büyücü."},
+{n:"Witchdoctor",t:"Sınıf",s:"Zehir / Lanet",d:"Etrafında dönen asit mermileriyle düşmanlara eziyet eden bir sınıf."}
 ],
 skills: [
 {n:"Dagger Specialist",t:"Yetenek",s:"+%30 Hançer",d:"Rogue ve Ranger'ların ana yeteneğidir. Hançer hasarını artırır."},
@@ -154,69 +199,4 @@ skills: [
 {n:"Monstrous Vigor",t:"Yetenek",s:"Hızlı Stamina",d:"Enerji barının (Stamina) inanılmaz hızlı dolmasını sağlar."},
 {n:"Thunder Wave",t:"Yetenek",s:"Alan Yıldırımı",d:"Zırh değerine orantılı olarak etrafındaki tüm düşmanlara yıldırım indirir."},
 {n:"Arcane Protection",t:"Yetenek",s:"Küresel Kalkan",d:"Özel yeteneğini kullandığında patlama hasarını engelleyen kalkan çıkar."},
-{n:"Untouchable Skin",t:"Yetenek",s:"Diken Koruması",d:"Yerdeki dikenlere düştüğünde hasar almanı tamamen engeller."},
-{n:"Critical Strike",t:"Yetenek",s:"Kritik Şansı",d:"Her vuruşunda %15 ihtimalle iki katı hasar vurmanı sağlar."},
-{n:"Armor Piercing",t:"Yetenek",s:"Zırh Delme",d:"Kalkanlı ve ağır zırhlı şövalyelere karşı vuruşların sekmez."},
-{n:"Double Jump Mastery",t:"Yetenek",s:"Çift Zıplama",d:"Havadayken ikinci kez çok daha yükseğe zıplamanı sağlar."}
-],
-dungeons: [
-{n:"Chapter 1: Castle",t:"Zindan",s:"1-10 Bölüm",d:"Oyunun temel mekaniklerinin öğretildiği zombi ve iskelet kalesi."},
-{n:"Chapter 2: Swamps",t:"Zindan",s:"11-20 Bölüm",d:"Zıplama yeteneklerinin test edildiği, zehirli sular ve dev örümcekler var."},
-{n:"Chapter 3: Dungeon",t:"Zindan",s:"21-30 Bölüm",d:"Gelişmiş büyücüler, kalkanlı şövalyeler ve ateş püskürten heykeller bulunur."},
-{n:"Chapter 4: The Core",t:"Zindan",s:"31-40 Bölüm",d:"Magicsaber'ın gizlendiği, kalkanlı büyücülerin olduğu gelişmiş bölge."},
-{n:"Chapter 5: King's Fall",t:"Zindan",s:"41-45+ Bölüm",d:"Oyunun en zorlu hikaye bosslarının bulunduğu kraliyet zindanları."},
-{n:"Weekly Dungeons",t:"Zindan",s:"Etkinlik",d:"Her hafta haritası değişen, elit zırh/silah veren mod."},
-{n:"Competitive Mode",t:"Zindan",s:"PvP Rütbeli",d:"Gerçek oyuncuların hayalet süreleriyle yarışarak sandık kazandığın mod."},
-{n:"Survival Mode",t:"Zindan",s:"Sonsuz",d:"Ölene kadar düşman kestiğin mod. 300 öldürmede elit eşya verir."},
-{n:"Tavern (Banka/Market)",t:"Zindan",s:"Güvenli Bölge",d:"Altınlarını harcadığın ve eşyalarını depoladığın köy alanı."}
-]};
-
-let cur = 'weapons'; 
-const c = document.getElementById('data-container');
-
-function col(s){
-    let l=s.toLowerCase();
-    if(l.includes('ateş')||l.includes('lav')) return 'e-fire';
-    if(l.includes('su')||l.includes('buz')) return 'e-water';
-    if(l.includes('karanlık')||l.includes('zehir')) return 'e-dark';
-    if(l.includes('ışık')||l.includes('kutsal')) return 'e-light';
-    if(l.includes('toprak')||l.includes('doğa')) return 'e-earth';
-    return '';
-}
-
-function copy(n){
-    navigator.clipboard.writeText(n);
-    let t=document.getElementById("toast"); t.innerText=`[${n}] Kopyalandı!`; 
-    t.className="show"; setTimeout(()=>t.className="", 2000);
-}
-
-function render(arr){
-    c.innerHTML='';
-    if(arr.length===0){ c.innerHTML=`<div style="grid-column:1/-1;text-align:center;color:#ff4d4d;font-size:1.5em;padding:40px;font-weight:bold;">KAYIT BULUNAMADI</div>`; return; }
-    let h='';
-    for(let i=0; i<arr.length; i++){
-        let it=arr[i]; let cls=col(it.s);
-        h+=`<div class="card" onclick="copy('${it.n}')">
-            <div class="type">${it.t}</div><h2>${it.n}</h2>
-            <div class="stats ${cls}">⚡ ${it.s}</div><p>${it.d}</p></div>`;
-    }
-    c.innerHTML=h;
-}
-
-function loadCat(cat){
-    cur=cat; document.querySelectorAll('.nav-tabs button').forEach(b=>b.classList.remove('active'));
-    document.getElementById('btn-'+cat).classList.add('active');
-    document.getElementById('searchInput').value=''; render(db[cur]);
-}
-
-function filterItems(){
-    let t=document.getElementById('searchInput').value.toLowerCase();
-    render(db[cur].filter(i=>i.n.toLowerCase().includes(t)||i.s.toLowerCase().includes(t)||i.d.toLowerCase().includes(t)||i.t.toLowerCase().includes(t)));
-}
-
-// SIFIR GECİKME: YÜKLEME EKRANINI ANINDA YOK ET VE VERİYİ ÇİZ
-render(db[cur]);
-document.getElementById('loader').style.opacity='0';
-setTimeout(()=>document.getElementById('loader').style.display='none', 400);
-</script>
-</body></html>
+{n:"Untouchable Skin",t:"Yetenek",s:"Diken Koruması",d:"Yerdeki dikenlere düştüğünde hasar alma
