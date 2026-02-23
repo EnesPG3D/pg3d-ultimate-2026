@@ -24,33 +24,33 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* Genel Sayfa Stilleri */
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0; padding: 0; color: #e0e0e0; line-height: 1.6;
-            background-color: #121212;
+            background-color: #000;
         }
         
-        /* === SAF CSS İLE ANİMASYONLU ARKA PLAN (PERFORMANSLI) === */
-        .main-container {
-            position: relative;
-            z-index: 1;
-        }
-        .main-container::before {
-            content: '';
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(-45deg, #0a0a0a, #2c2c2c, #1a1a1a, #3a3a3a);
-            background-size: 400% 400%;
-            animation: animated-gradient 15s ease infinite;
+        /* === SAF CSS İLE ANİMASYONLU YILDIZLI ARKA PLAN === */
+        .background {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
         }
-        @keyframes animated-gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .stars, .stars2, .stars3 {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%; display: block;
         }
+        .stars {
+            background: transparent;
+            background-image: radial-gradient(white, rgba(255, 255, 255, 0.2)), radial-gradient(white, rgba(255, 255, 255, 0.2)), radial-gradient(white, rgba(255, 255, 255, 0.2));
+            background-repeat: repeat;
+            background-size: 1px 1px, 2px 2px, 3px 3px;
+            background-position: 50% 50%, 20% 20%, 80% 80%;
+            animation: animStar 150s linear infinite;
+        }
+        @keyframes animStar { from { transform: translateY(0px); } to { transform: translateY(-2000px); } }
 
+        .main-container { position: relative; z-index: 1; }
         .container { width: 90%; max-width: 1200px; margin: auto; padding: 0 20px; }
         h1, h2, h3, h4 { color: #ffc107; text-shadow: 1px 1px 2px #000; }
         a { color: #ffc107; text-decoration: none; }
@@ -76,30 +76,25 @@
             to { text-shadow: 1px 1px 1px #000, 0 0 15px rgba(255, 193, 7, 0.7); }
         }
 
-        .main-nav ul { display: flex; flex-wrap: wrap; justify-content: flex-end; }
+        .main-nav ul { display: flex; flex-wrap: wrap; justify-content: flex-end; margin: 0; padding: 0; }
         .main-nav ul li { margin-left: 20px; }
         .main-nav ul li a { font-size: 1.1rem; transition: color 0.3s ease; }
         .main-nav ul li a:hover { color: #fff; text-decoration: none; }
 
         /* Hero (Ana Karşılama) Bölümü */
         .hero {
-            height: 80vh; position: relative; display: flex;
+            height: 100vh; position: relative; display: flex;
             justify-content: center; align-items: center; text-align: center; color: #fff;
-        }
-        #hero-video {
-            position: absolute; top: 50%; left: 50%;
-            min-width: 100%; min-height: 100%;
-            width: auto; height: auto; z-index: 0;
-            transform: translateX(-50%) translateY(-50%);
-            object-fit: cover;
-        }
-        .hero::after {
-            content: ''; position: absolute; top: 0; left: 0;
-            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 1;
         }
         .hero-content { position: relative; z-index: 2; }
         .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
         .hero p { font-size: 1.5rem; }
+        .enter-btn {
+            display: inline-block; background: #ffc107; color: #121212; padding: 15px 35px;
+            border-radius: 5px; font-size: 1.3rem; font-weight: bold; margin-top: 30px;
+            transition: all 0.3s ease; border: 2px solid #ffc107; cursor: pointer;
+        }
+        .enter-btn:hover { background: transparent; color: #ffc107; transform: scale(1.05); }
 
         /* Bölüm Stilleri */
         section { padding: 60px 0; border-bottom: 1px solid #333; background-color: rgba(26, 26, 26, 0.85); }
@@ -110,15 +105,13 @@
         .card {
             background: #252525; border-radius: 8px; border: 1px solid #333;
             overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex; flex-direction: column;
+            transition: all 0.3s ease; display: flex; flex-direction: column;
         }
         .card:hover { transform: translateY(-10px); box-shadow: 0 8px 16px rgba(255, 193, 7, 0.2); border-color: #ffc107; }
         .card img { width: 100%; height: 180px; object-fit: cover; }
         .card-content { padding: 20px; flex-grow: 1; }
         .card-content h3 { margin-top: 0; font-size: 1.5rem; }
-        .card-content ul { list-style: disc; padding-left: 20px; }
-
+        
         /* Arama Kutusu Stili */
         .search-box {
             width: 100%; padding: 12px 15px; margin-bottom: 20px;
@@ -155,12 +148,16 @@
         <p>Zindanlar Yükleniyor...</p>
     </div>
     
+    <div class="background">
+        <div class="stars"></div>
+    </div>
+
     <div class="main-container">
         <!-- HEADER -->
         <header class="main-header">
             <div class="container">
                 <div class="header-left">
-                    <a href="#" class="logo">Magic Rampage Fan</a>
+                    <a href="#hero" class="logo">Magic Rampage Fan</a>
                     <div id="datetime"></div>
                 </div>
                 <nav class="main-nav">
@@ -178,13 +175,10 @@
         <main>
             <!-- HERO SECTION / GİRİŞ EKRANI -->
             <section class="hero" id="hero">
-                <video autoplay muted loop id="hero-video">
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-fire-burning-on-a-black-background-1346-large.mp4" type="video/mp4">
-                    Tarayıcınız video etiketini desteklemiyor.
-                </video>
                 <div class="hero-content">
-                    <h1>Zindanların Derinliklerine Hoş Geldiniz!</h1>
+                    <h1>Zindanların Derinlikleri Seni Bekliyor</h1>
                     <p>Magic Rampage evrenine adanmış en kapsamlı fan sayfası.</p>
+                    <a href="#gamemodes" class="enter-btn">Zindanı Keşfet</a>
                 </div>
             </section>
 
@@ -249,22 +243,24 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </section>
-
-            <!-- DÜŞMANLAR VE BOSS'LAR BÖLÜMÜ -->
-            <section id="enemies">
-                <div class="container">
-                    <h2 class="section-title">Düşman ve Boss Rehberi</h2>
-                    <div class="card-grid">
-                        <div class="card"><div class="card-content"><h4>Warlock (Büyücü)</h4><p><b>Strateji:</b> Sürekli ışınlanır. Işınlandıktan sonraki kısa boşluklarda saldırın. Mermilerinden kaçının.</p></div></div>
-                        <div class="card"><div class="card-content"><h4>Great Red Dragon</h4><p><b>Strateji:</b> Ateşe karşı dirençlidir. Ateş korumalı zırh giyin. Yere indiğinde kafasına odaklanın.</p></div></div>
-                        <div class="card"><div class="card-content"><h4>Spider Queen</h4><p><b>Strateji:</b> Ateş elementli silahlar etkilidir. Çağırdığı küçük örümcekleri temizleyin ve yere indiğinde saldırın.</p></div></div>
-                        <div class="card"><div class="card-content"><h4>Ghost (Hayalet)</h4><p><b>Strateji:</b> Sadece Karanlık (Dark) elementli bir zırh veya yüzük giyerken görülebilir ve saldırılabilirler.</p></div></div>
+                    
+                    <!-- YÜZÜKLER -->
+                    <h3 style="text-align: center; font-size: 2rem; margin-top: 60px;">Yüzükler (Rings)</h3>
+                    <input type="text" class="search-box" onkeyup="filtrele(this, 'ringTable')" placeholder="Yüzük adı, element veya özellik ara...">
+                    <div class="table-container">
+                        <table class="data-table" id="ringTable">
+                            <thead><tr><th>Yüzük İsmi</th><th>Element</th><th>Pasif Bonuslar</th><th>Nasıl Elde Edilir?</th></tr></thead>
+                            <tbody>
+                                <tr><td>Warlock's Ring</td><td>Nötr</td><td>+%40 Büyü Gücü, +%3 Zıplama, +%4 Hız</td><td>Hayatta Kalma (300 düşman).</td></tr>
+                                <tr><td>SuperSonic Ring</td><td>Nötr</td><td>+%70 Hız, -%90 Zırh & Büyü Gücü</td><td>Mağaza, Sandıklar.</td></tr>
+                                <tr><td>Whisper of Death</td><td>Karanlık</td><td>Bir kafatası hayaleti çağırır.</td><td>Haftalık Zindan, Mağaza.</td></tr>
+                                <tr><td>Bunny Ring</td><td>Nötr</td><td>Zıplama yüksekliğini önemli ölçüde artırır.</td><td>Mağaza, Özel Etkinlikler.</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
-            
+
             <!-- GALERİ BÖLÜMÜ -->
             <section id="gallery">
                 <div class="container">
@@ -282,8 +278,8 @@
         <!-- FOOTER -->
         <footer class="main-footer">
             <div class="container">
+                <p>v5.1 Final Build</p>
                 <p>&copy; 2026 Magic Rampage Fan Sayfası. Tüm Hakları Saklıdır.</p>
-                <p>Bu site bir hayran yapımıdır ve Asantee Games ile resmi bir bağlantısı yoktur.</p>
             </div>
         </footer>
     </div>
@@ -336,7 +332,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const loadingScreen = document.getElementById('loading-screen');
         
-        // Yükleme ekranını 1.5 saniye sonra kaldır. Bu, sayfanın takılmasını engeller.
+        // Yükleme ekranını 1.5 saniye sonra kaldır.
         setTimeout(() => {
             loadingScreen.classList.add('hidden');
         }, 1500);
@@ -358,5 +354,5 @@
     </script>
 
 </body>
-                        </html>
-    
+                                                                                                                     </html>
+                                                                                                                     
