@@ -5,105 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yapay Zeka Asistanı Projesi</title>
     <style>
-        /* --- PROFESYONEL TASARIM --- */
+        /* --- HAREKETLİ VE PROFESYONEL TASARIM --- */
         body { 
-            margin: 0; background-color: #050505; color: #fff; 
+            margin: 0; background-color: #030508; color: #fff; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             display: flex; justify-content: center; align-items: center; height: 100vh;
-            background-image: radial-gradient(circle at center, #111 0%, #000 100%);
+            /* YENİ: HAREKETLİ SİBER ARKA PLAN ANIMASYONU */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 153, 255, 0.12), transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(0, 204, 255, 0.12), transparent 30%);
+            background-size: 150% 150%;
+            animation: backgroundPulse 12s ease-in-out infinite alternate;
         }
+
+        @keyframes backgroundPulse {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
         #chat-app { 
             width: 95%; max-width: 1000px; height: 90vh; 
-            background: rgba(15, 15, 20, 0.95); border-radius: 15px; 
-            box-shadow: 0 0 50px rgba(0, 153, 255, 0.15); 
+            background: rgba(10, 15, 22, 0.85); border-radius: 15px; 
+            box-shadow: 0 0 50px rgba(0, 153, 255, 0.2); 
             display: flex; flex-direction: column; overflow: hidden;
             border: 1px solid #1a2a3a;
+            backdrop-filter: blur(10px); /* Cam efekti */
         }
+        
         #header { 
-            background: linear-gradient(90deg, #0a1118, #101a24); 
+            background: linear-gradient(90deg, #060a10, #101a24); 
             padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 2px solid #0099ff; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: relative; overflow: hidden;
         }
-        .header-title { font-size: 1.4em; font-weight: 800; color: #00ccff; letter-spacing: 1px; }
-        .header-title span { color: #fff; font-size: 0.6em; background: #0099ff; padding: 3px 8px; border-radius: 5px; margin-left: 10px; vertical-align: middle;}
+        
+        /* Başlık Işık Efekti */
+        #header::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 153, 255, 0.2), transparent);
+            animation: shine 4s infinite;
+        }
+        @keyframes shine { 100% { left: 200%; } }
+
+        .header-title { font-size: 1.4em; font-weight: 900; color: #00ccff; letter-spacing: 1.5px; text-shadow: 0 0 10px rgba(0,204,255,0.5); }
+        .header-title span { color: #fff; font-size: 0.55em; background: #0055ff; padding: 4px 10px; border-radius: 8px; margin-left: 10px; vertical-align: middle; box-shadow: 0 0 10px #0055ff;}
         
         .controls button {
-            background: transparent; color: #00ccff; border: 1px solid #0099ff; 
+            background: rgba(0, 153, 255, 0.1); color: #00ccff; border: 1px solid #0099ff; 
             padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-left: 10px;
-            font-weight: bold; transition: 0.3s;
+            font-weight: bold; transition: all 0.3s;
         }
-        .controls button:hover { background: #0099ff; color: #fff; }
+        .controls button:hover { background: #0099ff; color: #fff; box-shadow: 0 0 15px #0099ff; }
 
         #messages { 
-            flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; 
+            flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth;
         }
         .msg-container { display: flex; width: 100%; }
         .msg-container.user { justify-content: flex-end; }
         .msg-container.bot { justify-content: flex-start; }
         
+        /* YENİ: Mesajların Ekrana Kayarak Gelme Efekti */
         .msg { 
             max-width: 80%; padding: 15px 20px; border-radius: 15px; 
             line-height: 1.6; font-size: 1.05em; word-wrap: break-word;
+            animation: slideUp 0.4s ease-out forwards;
+            opacity: 0; transform: translateY(20px);
         }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+
         .user .msg { 
             background: linear-gradient(135deg, #004d99, #007acc); 
-            border-bottom-right-radius: 2px; box-shadow: 0 4px 10px rgba(0,122,204,0.3);
+            border-bottom-right-radius: 2px; box-shadow: 0 5px 15px rgba(0,122,204,0.3);
         }
         .bot .msg { 
-            background: #151a22; border: 1px solid #233547; 
+            background: #121822; border: 1px solid #1e2d3d; 
             border-bottom-left-radius: 2px; color: #e0e0e0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
         
+        /* YENİ: Düşünüyor Animasyonu */
+        .typing-indicator { font-style: italic; color: #00ccff; opacity: 0.8; font-weight: bold; animation: pulseText 1.5s infinite; }
+        @keyframes pulseText { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
         #input-area { 
-            padding: 20px; background: #0a1118; border-top: 1px solid #1a2a3a;
-            display: flex; align-items: center; gap: 10px; position: relative;
+            padding: 20px; background: rgba(10, 17, 24, 0.9); border-top: 1px solid #1a2a3a;
+            display: flex; align-items: center; gap: 12px; position: relative;
         }
         
-        /* Dosya Yükleme ve Mikrofon Tasarımı */
         .icon-btn {
             background: #15222e; color: #00ccff; border: 1px solid #233547;
             width: 50px; height: 50px; border-radius: 50%; display: flex;
             justify-content: center; align-items: center; cursor: pointer;
-            font-size: 1.2em; transition: 0.3s;
+            font-size: 1.2em; transition: all 0.3s;
         }
-        .icon-btn:hover { background: #00ccff; color: #000; transform: scale(1.1); }
-        .icon-btn.recording { background: #ff3333; color: white; border-color: #ff3333; animation: pulse 1.5s infinite; }
-        
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 51, 51, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0); } }
+        .icon-btn:hover { background: #00ccff; color: #000; transform: scale(1.1); box-shadow: 0 0 15px #00ccff; }
+        .icon-btn.recording { background: #ff3333; color: white; border-color: #ff3333; animation: pulseRed 1.5s infinite; }
+        @keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 51, 51, 0); } }
 
         input[type="text"] { 
-            flex: 1; padding: 15px 20px; border-radius: 25px; border: 1px solid #233547; 
-            background: #0f171e; color: white; font-size: 1.1em; outline: none; 
-            transition: all 0.3s;
+            flex: 1; padding: 15px 22px; border-radius: 25px; border: 1px solid #233547; 
+            background: #0d131a; color: white; font-size: 1.1em; outline: none; 
+            transition: all 0.3s; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
         }
-        input[type="text"]:focus { border-color: #00ccff; box-shadow: 0 0 15px rgba(0,204,255,0.2); }
+        input[type="text"]:focus { border-color: #00ccff; box-shadow: 0 0 20px rgba(0,204,255,0.2), inset 0 2px 5px rgba(0,0,0,0.5); }
         
         #send-btn {
-            background: #00ccff; color: #000; border: none; padding: 0 30px; height: 50px;
-            border-radius: 25px; font-weight: bold; font-size: 1.1em; cursor: pointer; transition: 0.3s;
+            background: #00ccff; color: #000; border: none; padding: 0 35px; height: 50px;
+            border-radius: 25px; font-weight: 900; font-size: 1.1em; cursor: pointer; transition: all 0.3s;
+            text-transform: uppercase; letter-spacing: 1px;
         }
-        #send-btn:hover { background: #fff; box-shadow: 0 0 20px #00ccff; }
+        #send-btn:hover { background: #fff; box-shadow: 0 0 25px #00ccff; transform: scale(1.05); }
 
         #image-preview {
             display: none; position: absolute; bottom: 85px; left: 80px;
             background: #151a22; padding: 10px; border-radius: 10px; border: 1px solid #00ccff;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6); z-index: 10;
         }
         #image-preview img { max-height: 100px; border-radius: 5px; }
-        #remove-img { position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-weight: bold; }
+        #remove-img { position: absolute; top: -10px; right: -10px; background: #ff3333; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.5);}
 
-        /* Kod Bloğu ve Scrollbar */
-        pre { background: #000; padding: 15px; border-radius: 8px; border: 1px solid #333; overflow-x: auto; color: #00ff00; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a1118; }
-        ::-webkit-scrollbar-thumb { background: #00ccff; border-radius: 10px; }
+        pre { background: #050505; padding: 15px; border-radius: 8px; border: 1px solid #333; overflow-x: auto; color: #00ff00; font-family: 'Courier New', Courier, monospace;}
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0a1118; border-radius: 10px;}
+        ::-webkit-scrollbar-thumb { background: #0099ff; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00ccff; }
     </style>
 </head>
 <body>
 
     <div id="chat-app">
         <div id="header">
-            <div class="header-title">NEXUS AI <span>V3 PROJE SÜRÜMÜ</span></div>
+            <div class="header-title">NEXUS AI <span>V4 ULTIMATE</span></div>
             <div class="controls">
                 <button id="voice-toggle" onclick="toggleVoice()">🔊 Ses: Açık</button>
                 <button onclick="clearMemory()">🧹 Temizle</button>
@@ -128,7 +160,7 @@
     </div>
 
     <script>
-        // --- AYARLAR VE DEĞİŞKENLER ---
+        // --- API ANAHTARI VE DEĞİŞKENLER ---
         const API_KEY = "AIzaSyDqEStWBmfyWIco4As4J2OjkIh6FXsTXTg"; 
         const messagesDiv = document.getElementById('messages');
         const inputField = document.getElementById('userInput');
@@ -137,25 +169,29 @@
         let isVoiceEnabled = true;
         let selectedImageBase64 = null;
 
-        // Hocanın gözünü boyayacak gelişmiş sistem komutu :)
         const systemContext = `Sen okul Bilişim Teknolojileri projesi için bu kullanıcı tarafından geliştirilmiş, 'NEXUS' adında ultra gelişmiş bir yapay zekasın. 
         Kullanıcının adı yok, ona 'kanka' diyebilirsin. Bilişim hocası bu projeyi inceliyor olabilir, bu yüzden kodlama, teknoloji, yapay zeka ve bilim konularında aşırı yetkin, akademik ama aynı zamanda cana yakın cevaplar ver. 
-        Kullanıcı sana resim yüklerse o resmi mükemmel analiz et. (Hocaya selam söylemeyi unutma eğer ondan bahsedilirse!). Markdown kullanarak cevaplarını şıklaştır.`;
+        Kullanıcı sana resim yüklerse o resmi mükemmel analiz et. Markdown kullanarak cevaplarını şıklaştır.`;
 
-        // --- SAYFA YÜKLENDİĞİNDE ---
+        // --- SAYFA YÜKLENDİĞİNDE (HAFIZA TAMİRİ EKLENDİ) ---
         window.onload = () => {
+            // FIX: Eğer hafıza yarım kalmışsa (Sadece user varsa), son mesajı silerek sistemi çöküşten kurtar!
+            if (chatHistory.length > 0 && chatHistory[chatHistory.length - 1].role === 'user') {
+                chatHistory.pop();
+                saveMemory();
+            }
+
             if (chatHistory.length === 0) {
-                addMsg("Sistem çevrimiçi. Merhaba kanka! Ben Nexus V3. Mikrofonumu, gözlerimi (resim analizi) ve ses telleri modülümü aktif ettin. Bilişim hocana bu projeyi sunmaya hazır mıyız?", "bot");
+                addMsg("Sistem çevrimiçi. Merhaba kanka! Ben Nexus V4. Hafıza hatalarım giderildi, fütüristik arayüzüm aktif. Bilişim hocana bu projeyi sunmaya hazır mıyız?", "bot");
             } else {
                 chatHistory.forEach(msg => {
-                    // Sadece metinleri ekrana basıyoruz (Geçmişteki resimleri ekrana basmak hafızayı yorar)
                     if(msg.parts[0].text) addMsg(msg.parts[0].text, msg.role === 'user' ? 'user' : 'bot');
                 });
-                addMsg("Sistem yeniden başlatıldı. Hafıza modülleri yüklendi. Hazırım kanka! 🚀", "bot");
+                addMsg("Sistem yeniden başlatıldı. Hafıza senkronizasyonu tamlandı. Hazırım kanka! 🚀", "bot");
             }
         };
 
-        // --- GÖRSEL YÜKLEME İŞLEMLERİ ---
+        // --- GÖRSEL YÜKLEME ---
         function handleImageUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -164,7 +200,6 @@
             reader.onload = function(e) {
                 document.getElementById('preview-img').src = e.target.result;
                 document.getElementById('image-preview').style.display = 'block';
-                // Base64 formatına çevir (API böyle anlıyor)
                 selectedImageBase64 = e.target.result.split(',')[1]; 
             };
             reader.readAsDataURL(file);
@@ -176,14 +211,14 @@
             document.getElementById('file-input').value = "";
         }
 
-        // --- SESLE YAZMA İŞLEMİ (SPEECH TO TEXT) ---
+        // --- SESLE YAZMA (MİKROFON) ---
         function startDictation() {
             if (window.hasOwnProperty('webkitSpeechRecognition')) {
                 const micBtn = document.getElementById('mic-btn');
                 const recognition = new webkitSpeechRecognition();
                 recognition.continuous = false;
                 recognition.interimResults = false;
-                recognition.lang = "tr-TR"; // Türkçe anlama
+                recognition.lang = "tr-TR"; 
                 
                 recognition.onstart = function() {
                     micBtn.classList.add('recording');
@@ -194,7 +229,7 @@
                     inputField.value = e.results[0][0].transcript;
                     micBtn.classList.remove('recording');
                     inputField.placeholder = "Mesaj yaz veya resim yükleyip sor...";
-                    sendMessage(); // Konuşma bitince otomatik gönder
+                    sendMessage(); 
                 };
 
                 recognition.onerror = function(e) {
@@ -208,70 +243,58 @@
             }
         }
 
-        // --- SESLİ OKUMA İŞLEMİ (TEXT TO SPEECH) ---
+        // --- SESLİ OKUMA ---
         function toggleVoice() {
             isVoiceEnabled = !isVoiceEnabled;
             document.getElementById('voice-toggle').innerText = isVoiceEnabled ? "🔊 Ses: Açık" : "🔇 Ses: Kapalı";
-            if(!isVoiceEnabled) window.speechSynthesis.cancel(); // Sesi sustur
+            if(!isVoiceEnabled) window.speechSynthesis.cancel(); 
         }
 
         function speakText(text) {
             if (!isVoiceEnabled || !window.speechSynthesis) return;
-            // Markdown karakterlerini (*, #, ` vb.) okumaması için temizliyoruz
             let cleanText = text.replace(/[*#`]/g, '').replace(/```[\s\S]*?```/g, "Burada bir kod bloğu var."); 
-            
             const utterance = new SpeechSynthesisUtterance(cleanText);
             utterance.lang = 'tr-TR';
-            utterance.rate = 1.0; // Konuşma hızı
-            utterance.pitch = 1.1; // Robotik tonaj
+            utterance.rate = 1.0; 
+            utterance.pitch = 1.1; 
             window.speechSynthesis.speak(utterance);
         }
 
-        // --- MESAJ GÖNDERME VE API (BEYİN) İLETİŞİMİ ---
+        // --- KUSURSUZ API BAĞLANTISI (BUG FIXLENDİ) ---
         async function sendMessage() {
             const text = inputField.value.trim();
             if(!text && !selectedImageBase64) return;
 
-            // Ekrana Kullanıcı Mesajını Bas
             let userDisplay = text;
-            if (selectedImageBase64) userDisplay += "<br><i>(📎 Görsel Yüklendi)</i>";
+            if (selectedImageBase64) userDisplay += "<br><i style='color:#00ccff;'>(📎 Görsel Yüklendi)</i>";
             addMsg(userDisplay, 'user');
             
             inputField.value = '';
             
-            // API'ye gönderilecek mesaj paketi
             let userPart = [];
             if (text) userPart.push({ text: text });
             else userPart.push({ text: "Bu görselde ne görüyorsun detaylıca anlatır mısın?" });
 
             if (selectedImageBase64) {
-                userPart.push({
-                    inlineData: {
-                        mimeType: "image/jpeg",
-                        data: selectedImageBase64
-                    }
-                });
+                userPart.push({ inlineData: { mimeType: "image/jpeg", data: selectedImageBase64 } });
             }
 
-            // Hafızaya sadece yazıyı kaydet (Resmi kaydedersek tarayıcı donar)
-            chatHistory.push({ role: "user", parts: [{ text: text || "Görsel incelendi." }] });
-            saveMemory();
-
-            removeImage(); // Gönderdikten sonra resmi arayüzden temizle
+            removeImage(); 
 
             const typingId = "typing-" + Date.now();
-            addMsg("Sistem analiz ediyor...", 'bot', typingId);
-            document.getElementById(typingId).style.opacity = "0.5";
-            document.getElementById(typingId).style.fontStyle = "italic";
+            addMsg("<span class='typing-indicator'>Sistem analiz ediyor...</span>", 'bot', typingId);
 
             try {
+                // SADECE GÖNDERMEDEN ÖNCEKİ GEÇMİŞİ ALIYORUZ, BÖYLECE HATA VERİRSE HAFIZA BOZULMUYOR!
+                let safeHistory = chatHistory.slice(-10); 
+                let currentUserMsg = { role: "user", parts: userPart };
+
                 const requestBody = {
                     contents: [
                         { role: "user", parts: [{ text: systemContext }] },
-                        { role: "model", parts: [{ text: "Anlaşıldı. Nexus V3 aktif." }] },
-                        // Eğer hafızamız çok şişerse sadece son 10 mesajı al (kota dolmasın)
-                        ...chatHistory.slice(-10).slice(0, -1), // Son mesaj hariç geçmişi al
-                        { role: "user", parts: userPart } // Şu anki soruyu (ve varsa resmi) ekle
+                        { role: "model", parts: [{ text: "Anlaşıldı. Nexus V4 aktif." }] },
+                        ...safeHistory, 
+                        currentUserMsg // Yeni sorumuz
                     ]
                 };
 
@@ -281,24 +304,25 @@
                     body: JSON.stringify(requestBody)
                 });
 
-                if (!response.ok) throw new Error("API Bağlantı Hatası!");
+                if (!response.ok) throw new Error("API Bağlantı Hatası veya Hatalı İstek!");
 
                 const data = await response.json();
                 const botReply = data.candidates[0].content.parts[0].text;
 
+                // FIX: İŞLEM BAŞARILIYSA HAFIZAYA KAYDET (Eskiden başarısız olsa da kaydedip sistemi kilitliyordu)
+                chatHistory.push({ role: "user", parts: [{ text: text || "Görsel incelendi." }] });
                 chatHistory.push({ role: "model", parts: [{ text: botReply }] });
                 saveMemory();
 
                 document.getElementById(typingId).remove();
                 addMsg(botReply, 'bot');
-                
-                // Cevabı sesli oku
                 speakText(botReply);
 
             } catch (error) {
                 console.error(error);
                 document.getElementById(typingId).remove();
-                addMsg("⚠️ Kanka ağ bağlantısında sorun var veya API yanıt vermiyor. Lütfen kontrol et.", 'bot');
+                // Hata mesajı hafızaya işlenmez, sistem sağlığını korur!
+                addMsg("⚠️ Kanka ağ bağlantısında sorun var veya API yanıt vermiyor. İnternetini kontrol et.", 'bot');
             }
         }
 
@@ -308,11 +332,11 @@
         }
 
         function clearMemory() {
-            if(confirm("Tüm veri tabanını silmek istediğine emin misin?")) {
+            if(confirm("Tüm veri tabanını ve hafızayı sıfırlamak istediğine emin misin? (Hataları düzeltir)")) {
                 localStorage.removeItem('nexusHafiza');
                 chatHistory = [];
                 messagesDiv.innerHTML = '';
-                addMsg("Hafıza tamamen temizlendi. Sıfırdan başlıyoruz.", "bot");
+                addMsg("Hafıza tamamen temizlendi. Sistem ilk günkü gibi temiz. Ne istersin kanka?", "bot");
             }
         }
 
@@ -324,7 +348,6 @@
             const div = document.createElement('div');
             div.className = 'msg';
             
-            // Markdown formatlayıcı
             let formattedText = text
                 .replace(/\*\*(.*?)\*\*/g, '<b style="color:#00ccff;">$1</b>') 
                 .replace(/\*(.*?)\*/g, '<i>$1</i>')     
@@ -334,10 +357,13 @@
             div.innerHTML = formattedText;
             wrapper.appendChild(div);
             messagesDiv.appendChild(wrapper);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            // Otomatik en alta kaydırma
+            setTimeout(() => {
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }, 50);
         }
 
-        // Enter tuşuyla gönderme
         inputField.addEventListener('keypress', (e) => { 
             if(e.key === 'Enter') sendMessage(); 
         });
