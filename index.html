@@ -2,279 +2,345 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Galaktik Veritabanı | Kompakt Mod</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapay Zeka Asistanı Projesi</title>
     <style>
-        /* ================= KOMPAKT TEMA DEĞİŞKENLERİ ================= */
-        :root {
-            --bg-color: #08090a;
-            --text-color: #d1d1d1;
-            --primary-color: #66fcf1;
-            --secondary-color: #45a29e;
-            --glass-bg: rgba(20, 25, 30, 0.8);
-            --glass-border: rgba(102, 252, 241, 0.15);
-            --card-gap: 12px; /* Boşluklar daraltıldı */
-            --rarity-yaygin: #808080; --rarity-nadir: #3498db; --rarity-destansi: #8e44ad;
-            --rarity-efsanevi: #f39c12; --rarity-mitik: #e74c3c;
+        /* --- PROFESYONEL TASARIM --- */
+        body { 
+            margin: 0; background-color: #050505; color: #fff; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            display: flex; justify-content: center; align-items: center; height: 100vh;
+            background-image: radial-gradient(circle at center, #111 0%, #000 100%);
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        #chat-app { 
+            width: 95%; max-width: 1000px; height: 90vh; 
+            background: rgba(15, 15, 20, 0.95); border-radius: 15px; 
+            box-shadow: 0 0 50px rgba(0, 153, 255, 0.15); 
+            display: flex; flex-direction: column; overflow: hidden;
+            border: 1px solid #1a2a3a;
+        }
+        #header { 
+            background: linear-gradient(90deg, #0a1118, #101a24); 
+            padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid #0099ff; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .header-title { font-size: 1.4em; font-weight: 800; color: #00ccff; letter-spacing: 1px; }
+        .header-title span { color: #fff; font-size: 0.6em; background: #0099ff; padding: 3px 8px; border-radius: 5px; margin-left: 10px; vertical-align: middle;}
         
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            overflow-x: hidden;
-            line-height: 1.2;
+        .controls button {
+            background: transparent; color: #00ccff; border: 1px solid #0099ff; 
+            padding: 8px 15px; border-radius: 8px; cursor: pointer; margin-left: 10px;
+            font-weight: bold; transition: 0.3s;
         }
+        .controls button:hover { background: #0099ff; color: #fff; }
 
-        /* Arka Plan Yıldızları - Daha Az Belirgin */
-        .stars-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0.5; }
-        .star { position: absolute; background: white; border-radius: 50%; animation: twinkle 3s infinite alternate; }
-        @keyframes twinkle { from { opacity: 0.1; } to { opacity: 0.6; } }
-
-        /* Navbar - Daha İnce */
-        nav {
-            position: sticky; top: 0; z-index: 1000;
-            background: rgba(11, 12, 16, 0.95); backdrop-filter: blur(5px);
-            border-bottom: 1px solid var(--glass-border);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 8px 15px;
+        #messages { 
+            flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; 
         }
-        .logo { font-family: 'Orbitron'; font-size: 18px; color: var(--primary-color); }
-        .nav-links { display: flex; gap: 10px; }
-        .nav-links button {
-            background: none; border: 1px solid var(--glass-border); color: var(--text-color);
-            padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 13px;
-        }
-
-        /* Ana Yapı - Kenar Boşlukları Sıfıra Yakın */
-        .container {
-            display: flex; width: 100%; max-width: 100%; /* Boşlukları yok etmek için 100% */
-            margin: 0 auto; padding: 10px; gap: var(--card-gap);
-        }
-
-        /* Sidebar - Daraltılmış */
-        .sidebar {
-            flex: 0 0 240px; background: var(--glass-bg); padding: 12px;
-            border-radius: 8px; border: 1px solid var(--glass-border);
-            height: fit-content; position: sticky; top: 60px;
-        }
-        .filter-group { margin-bottom: 12px; }
-        .filter-group label { font-size: 13px; color: var(--primary-color); display: block; margin-bottom: 4px; text-transform: uppercase; }
-        .filter-group select, .filter-group input {
-            width: 100%; padding: 6px; background: #000; border: 1px solid var(--glass-border);
-            color: #fff; font-size: 14px; border-radius: 3px;
-        }
-
-        /* Grid Sistemi - Daha Yoğun */
-        .main-content { flex: 1; }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); /* Daha küçük kartlar */
-            gap: var(--card-gap);
-        }
-
-        /* Kart Tasarımı - Kompakt */
-        .card {
-            background: var(--glass-bg); border: 1px solid var(--glass-border);
-            border-radius: 8px; padding: 10px; position: relative;
-            transition: 0.2s; overflow: hidden;
-        }
-        .card:hover { border-color: var(--primary-color); transform: translateY(-3px); }
+        .msg-container { display: flex; width: 100%; }
+        .msg-container.user { justify-content: flex-end; }
+        .msg-container.bot { justify-content: flex-start; }
         
-        .rarity-line { position: absolute; top: 0; left: 0; width: 100%; height: 3px; }
-        
-        .card-image {
-            width: 100%; height: 90px; background: rgba(0,0,0,0.4);
-            display: flex; justify-content: center; align-items: center;
-            font-size: 30px; border-radius: 4px; margin-bottom: 8px;
+        .msg { 
+            max-width: 80%; padding: 15px 20px; border-radius: 15px; 
+            line-height: 1.6; font-size: 1.05em; word-wrap: break-word;
+        }
+        .user .msg { 
+            background: linear-gradient(135deg, #004d99, #007acc); 
+            border-bottom-right-radius: 2px; box-shadow: 0 4px 10px rgba(0,122,204,0.3);
+        }
+        .bot .msg { 
+            background: #151a22; border: 1px solid #233547; 
+            border-bottom-left-radius: 2px; color: #e0e0e0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
         }
         
-        .card-title { font-family: 'Orbitron'; font-size: 14px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .card-cat { font-size: 11px; color: var(--secondary-color); margin-bottom: 8px; }
-        
-        .stat-mini { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 2px; }
-        .bar-mini { height: 4px; background: #333; border-radius: 2px; margin-bottom: 6px; overflow: hidden; }
-        .bar-fill { height: 100%; background: var(--primary-color); }
-
-        .card-footer { display: flex; justify-content: space-between; margin-top: 5px; padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .btn-card { background: none; border: none; color: #555; cursor: pointer; font-size: 14px; }
-        .btn-card.active-fav { color: #ff4757; }
-
-        /* Mobil Uyumluluk */
-        @media (max-width: 768px) {
-            .container { flex-direction: column; padding: 8px; }
-            .sidebar { flex: none; width: 100%; position: static; margin-bottom: 10px; padding: 10px; }
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } /* Mobilde yan yana 2 kart */
-            .card-image { height: 70px; font-size: 24px; }
-            .card-title { font-size: 13px; }
+        #input-area { 
+            padding: 20px; background: #0a1118; border-top: 1px solid #1a2a3a;
+            display: flex; align-items: center; gap: 10px; position: relative;
         }
+        
+        /* Dosya Yükleme ve Mikrofon Tasarımı */
+        .icon-btn {
+            background: #15222e; color: #00ccff; border: 1px solid #233547;
+            width: 50px; height: 50px; border-radius: 50%; display: flex;
+            justify-content: center; align-items: center; cursor: pointer;
+            font-size: 1.2em; transition: 0.3s;
+        }
+        .icon-btn:hover { background: #00ccff; color: #000; transform: scale(1.1); }
+        .icon-btn.recording { background: #ff3333; color: white; border-color: #ff3333; animation: pulse 1.5s infinite; }
+        
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 51, 51, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 51, 51, 0); } }
 
-        /* Detay Modalı */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; z-index: 2000; padding: 20px; align-items: center; justify-content: center; }
-        .modal.active { display: flex; }
-        .modal-content { background: #111; border: 1px solid var(--primary-color); width: 100%; max-width: 500px; padding: 20px; border-radius: 10px; position: relative; }
-        .close { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; }
+        input[type="text"] { 
+            flex: 1; padding: 15px 20px; border-radius: 25px; border: 1px solid #233547; 
+            background: #0f171e; color: white; font-size: 1.1em; outline: none; 
+            transition: all 0.3s;
+        }
+        input[type="text"]:focus { border-color: #00ccff; box-shadow: 0 0 15px rgba(0,204,255,0.2); }
+        
+        #send-btn {
+            background: #00ccff; color: #000; border: none; padding: 0 30px; height: 50px;
+            border-radius: 25px; font-weight: bold; font-size: 1.1em; cursor: pointer; transition: 0.3s;
+        }
+        #send-btn:hover { background: #fff; box-shadow: 0 0 20px #00ccff; }
+
+        #image-preview {
+            display: none; position: absolute; bottom: 85px; left: 80px;
+            background: #151a22; padding: 10px; border-radius: 10px; border: 1px solid #00ccff;
+        }
+        #image-preview img { max-height: 100px; border-radius: 5px; }
+        #remove-img { position: absolute; top: -10px; right: -10px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-weight: bold; }
+
+        /* Kod Bloğu ve Scrollbar */
+        pre { background: #000; padding: 15px; border-radius: 8px; border: 1px solid #333; overflow-x: auto; color: #00ff00; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a1118; }
+        ::-webkit-scrollbar-thumb { background: #00ccff; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo"><i class="fa-solid fa-bolt"></i> WIKI.IO</div>
-        <div class="nav-links">
-            <button onclick="filterFavs()"><i class="fa-solid fa-heart"></i> <span class="hide-mob">Favoriler</span></button>
-            <button onclick="toggleTheme()"><i class="fa-solid fa-circle-half-stroke"></i></button>
+    <div id="chat-app">
+        <div id="header">
+            <div class="header-title">NEXUS AI <span>V3 PROJE SÜRÜMÜ</span></div>
+            <div class="controls">
+                <button id="voice-toggle" onclick="toggleVoice()">🔊 Ses: Açık</button>
+                <button onclick="clearMemory()">🧹 Temizle</button>
+            </div>
         </div>
-    </nav>
+        
+        <div id="messages"></div>
+        
+        <div id="image-preview">
+            <button id="remove-img" onclick="removeImage()">X</button>
+            <img id="preview-img" src="" alt="Yüklenen Görsel">
+        </div>
 
-    <div class="stars-container" id="stars"></div>
-
-    <div class="container">
-        <aside class="sidebar">
-            <div class="filter-group">
-                <label>Hızlı Arama</label>
-                <input type="text" id="q" placeholder="İsim..." oninput="update()">
-            </div>
-            <div class="filter-group">
-                <label>Kategori</label>
-                <select id="c" onchange="update()">
-                    <option value="all">Tümü</option>
-                    <option value="Silah">Silahlar</option>
-                    <option value="Zırh">Zırhlar</option>
-                    <option value="Aksesuar">Aksesuarlar</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Nadirlik</label>
-                <select id="r" onchange="update()">
-                    <option value="all">Tümü</option>
-                    <option value="Yaygın">Yaygın</option>
-                    <option value="Mitik">Mitik</option>
-                </select>
-            </div>
-            <button style="width:100%; padding:8px; background:var(--primary-color); border:none; border-radius:4px; font-weight:bold; cursor:pointer;" onclick="reset()">Sıfırla</button>
-        </aside>
-
-        <main class="main-content">
-            <div style="margin-bottom:10px; font-size:14px; opacity:0.7;">Bulunan Öğeler: <span id="count">0</span></div>
-            <div class="grid" id="g"></div>
-        </main>
-    </div>
-
-    <!-- Detay Modalı -->
-    <div class="modal" id="m" onclick="if(event.target==this)this.classList.remove('active')">
-        <div class="modal-content" id="mc"></div>
+        <div id="input-area">
+            <input type="file" id="file-input" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+            <button class="icon-btn" onclick="document.getElementById('file-input').click()" title="Resim Yükle">📎</button>
+            <button class="icon-btn" id="mic-btn" onclick="startDictation()" title="Sesli Soru Sor">🎙️</button>
+            
+            <input type="text" id="userInput" placeholder="Mesaj yaz veya resim yükleyip sor..." autocomplete="off">
+            <button id="send-btn" onclick="sendMessage()">Gönder</button>
+        </div>
     </div>
 
     <script>
-        // Örnek Veri (Kompakt yapıda 50+ öğe için otomatik üretim)
-        const categories = ["Silah", "Zırh", "Aksesuar"];
-        const rarities = ["Yaygın", "Nadir", "Destansı", "Efsanevi", "Mitik"];
-        const icons = ["fa-gun", "fa-shield-halved", "fa-hat-wizard", "fa-bolt", "fa-fire"];
+        // --- AYARLAR VE DEĞİŞKENLER ---
+        const API_KEY = "AIzaSyDqEStWBmfyWIco4As4J2OjkIh6FXsTXTg"; 
+        const messagesDiv = document.getElementById('messages');
+        const inputField = document.getElementById('userInput');
         
-        let data = [];
-        for(let i=1; i<=60; i++) {
-            let r = rarities[Math.floor(Math.random()*rarities.length)];
-            data.push({
-                id: i,
-                n: "Öğe #" + i,
-                c: categories[Math.floor(Math.random()*categories.length)],
-                r: r,
-                p: Math.floor(Math.random()*100),
-                m: Math.floor(Math.random()*100),
-                i: icons[Math.floor(Math.random()*icons.length)]
-            });
+        let chatHistory = JSON.parse(localStorage.getItem('nexusHafiza')) || [];
+        let isVoiceEnabled = true;
+        let selectedImageBase64 = null;
+
+        // Hocanın gözünü boyayacak gelişmiş sistem komutu :)
+        const systemContext = `Sen okul Bilişim Teknolojileri projesi için bu kullanıcı tarafından geliştirilmiş, 'NEXUS' adında ultra gelişmiş bir yapay zekasın. 
+        Kullanıcının adı yok, ona 'kanka' diyebilirsin. Bilişim hocası bu projeyi inceliyor olabilir, bu yüzden kodlama, teknoloji, yapay zeka ve bilim konularında aşırı yetkin, akademik ama aynı zamanda cana yakın cevaplar ver. 
+        Kullanıcı sana resim yüklerse o resmi mükemmel analiz et. (Hocaya selam söylemeyi unutma eğer ondan bahsedilirse!). Markdown kullanarak cevaplarını şıklaştır.`;
+
+        // --- SAYFA YÜKLENDİĞİNDE ---
+        window.onload = () => {
+            if (chatHistory.length === 0) {
+                addMsg("Sistem çevrimiçi. Merhaba kanka! Ben Nexus V3. Mikrofonumu, gözlerimi (resim analizi) ve ses telleri modülümü aktif ettin. Bilişim hocana bu projeyi sunmaya hazır mıyız?", "bot");
+            } else {
+                chatHistory.forEach(msg => {
+                    // Sadece metinleri ekrana basıyoruz (Geçmişteki resimleri ekrana basmak hafızayı yorar)
+                    if(msg.parts[0].text) addMsg(msg.parts[0].text, msg.role === 'user' ? 'user' : 'bot');
+                });
+                addMsg("Sistem yeniden başlatıldı. Hafıza modülleri yüklendi. Hazırım kanka! 🚀", "bot");
+            }
+        };
+
+        // --- GÖRSEL YÜKLEME İŞLEMLERİ ---
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview-img').src = e.target.result;
+                document.getElementById('image-preview').style.display = 'block';
+                // Base64 formatına çevir (API böyle anlıyor)
+                selectedImageBase64 = e.target.result.split(',')[1]; 
+            };
+            reader.readAsDataURL(file);
         }
 
-        let favs = JSON.parse(localStorage.getItem('favs')) || [];
-
-        function update() {
-            const q = document.getElementById('q').value.toLowerCase();
-            const c = document.getElementById('c').value;
-            const r = document.getElementById('r').value;
-            
-            let filtered = data.filter(x => 
-                (x.n.toLowerCase().includes(q)) &&
-                (c === 'all' || x.c === c) &&
-                (r === 'all' || x.r === r)
-            );
-
-            const g = document.getElementById('g');
-            g.innerHTML = '';
-            document.getElementById('count').innerText = filtered.length;
-
-            filtered.forEach(x => {
-                const isFav = favs.includes(x.id);
-                g.innerHTML += `
-                    <div class="card" onclick="openDetail(${x.id})">
-                        <div class="rarity-line" style="background:var(--rarity-${x.r.toLowerCase().replace('ı','i')})"></div>
-                        <div class="card-image"><i class="fa-solid ${x.i}"></i></div>
-                        <div class="card-title">${x.n}</div>
-                        <div class="card-cat">${x.c} | ${x.r}</div>
-                        
-                        <div class="stat-mini">Güç <span>${x.p}</span></div>
-                        <div class="bar-mini"><div class="bar-fill" style="width:${x.p}%"></div></div>
-                        
-                        <div class="card-footer">
-                            <span style="font-size:10px; opacity:0.5">ID: ${x.id}</span>
-                            <button class="btn-card ${isFav?'active-fav':''}" onclick="toggleF(event, ${x.id})">
-                                <i class="fa-solid fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
+        function removeImage() {
+            selectedImageBase64 = null;
+            document.getElementById('image-preview').style.display = 'none';
+            document.getElementById('file-input').value = "";
         }
 
-        function toggleF(e, id) {
-            e.stopPropagation();
-            if(favs.includes(id)) favs = favs.filter(i => i!==id);
-            else favs.push(id);
-            localStorage.setItem('favs', JSON.stringify(favs));
-            update();
-        }
+        // --- SESLE YAZMA İŞLEMİ (SPEECH TO TEXT) ---
+        function startDictation() {
+            if (window.hasOwnProperty('webkitSpeechRecognition')) {
+                const micBtn = document.getElementById('mic-btn');
+                const recognition = new webkitSpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = "tr-TR"; // Türkçe anlama
+                
+                recognition.onstart = function() {
+                    micBtn.classList.add('recording');
+                    inputField.placeholder = "Seni dinliyorum, konuş...";
+                };
 
-        function openDetail(id) {
-            const x = data.find(item => item.id === id);
-            document.getElementById('mc').innerHTML = `
-                <span class="close" onclick="document.getElementById('m').classList.remove('active')">&times;</span>
-                <h2 style="font-family:Orbitron; color:var(--primary-color)">${x.n}</h2>
-                <hr style="margin:10px 0; opacity:0.2">
-                <p>Kategori: ${x.c}</p>
-                <p>Nadirlik: ${x.r}</p>
-                <p>Güç Değeri: ${x.p}</p>
-                <p>Hareketlilik: ${x.m}</p>
-                <p style="margin-top:10px; font-size:14px; opacity:0.7">Bu öğe veritabanındaki teknik verilere göre simüle edilmiştir.</p>
-            `;
-            document.getElementById('m').classList.add('active');
-        }
+                recognition.onresult = function(e) {
+                    inputField.value = e.results[0][0].transcript;
+                    micBtn.classList.remove('recording');
+                    inputField.placeholder = "Mesaj yaz veya resim yükleyip sor...";
+                    sendMessage(); // Konuşma bitince otomatik gönder
+                };
 
-        function reset() {
-            document.getElementById('q').value = '';
-            document.getElementById('c').value = 'all';
-            document.getElementById('r').value = 'all';
-            update();
-        }
+                recognition.onerror = function(e) {
+                    micBtn.classList.remove('recording');
+                    inputField.placeholder = "Ses anlaşılamadı...";
+                };
 
-        function createStars() {
-            const container = document.getElementById('stars');
-            for(let i=0; i<30; i++) {
-                let star = document.createElement('div');
-                star.className = 'star';
-                star.style.width = star.style.height = Math.random()*2+1+'px';
-                star.style.left = Math.random()*100+'vw';
-                star.style.top = Math.random()*100+'vh';
-                star.style.animationDelay = Math.random()*5+'s';
-                container.appendChild(star);
+                recognition.start();
+            } else {
+                alert("Tarayıcın ses tanımayı desteklemiyor. (Google Chrome önerilir)");
             }
         }
 
-        window.onload = () => { createStars(); update(); };
+        // --- SESLİ OKUMA İŞLEMİ (TEXT TO SPEECH) ---
+        function toggleVoice() {
+            isVoiceEnabled = !isVoiceEnabled;
+            document.getElementById('voice-toggle').innerText = isVoiceEnabled ? "🔊 Ses: Açık" : "🔇 Ses: Kapalı";
+            if(!isVoiceEnabled) window.speechSynthesis.cancel(); // Sesi sustur
+        }
+
+        function speakText(text) {
+            if (!isVoiceEnabled || !window.speechSynthesis) return;
+            // Markdown karakterlerini (*, #, ` vb.) okumaması için temizliyoruz
+            let cleanText = text.replace(/[*#`]/g, '').replace(/```[\s\S]*?```/g, "Burada bir kod bloğu var."); 
+            
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = 'tr-TR';
+            utterance.rate = 1.0; // Konuşma hızı
+            utterance.pitch = 1.1; // Robotik tonaj
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // --- MESAJ GÖNDERME VE API (BEYİN) İLETİŞİMİ ---
+        async function sendMessage() {
+            const text = inputField.value.trim();
+            if(!text && !selectedImageBase64) return;
+
+            // Ekrana Kullanıcı Mesajını Bas
+            let userDisplay = text;
+            if (selectedImageBase64) userDisplay += "<br><i>(📎 Görsel Yüklendi)</i>";
+            addMsg(userDisplay, 'user');
+            
+            inputField.value = '';
+            
+            // API'ye gönderilecek mesaj paketi
+            let userPart = [];
+            if (text) userPart.push({ text: text });
+            else userPart.push({ text: "Bu görselde ne görüyorsun detaylıca anlatır mısın?" });
+
+            if (selectedImageBase64) {
+                userPart.push({
+                    inlineData: {
+                        mimeType: "image/jpeg",
+                        data: selectedImageBase64
+                    }
+                });
+            }
+
+            // Hafızaya sadece yazıyı kaydet (Resmi kaydedersek tarayıcı donar)
+            chatHistory.push({ role: "user", parts: [{ text: text || "Görsel incelendi." }] });
+            saveMemory();
+
+            removeImage(); // Gönderdikten sonra resmi arayüzden temizle
+
+            const typingId = "typing-" + Date.now();
+            addMsg("Sistem analiz ediyor...", 'bot', typingId);
+            document.getElementById(typingId).style.opacity = "0.5";
+            document.getElementById(typingId).style.fontStyle = "italic";
+
+            try {
+                const requestBody = {
+                    contents: [
+                        { role: "user", parts: [{ text: systemContext }] },
+                        { role: "model", parts: [{ text: "Anlaşıldı. Nexus V3 aktif." }] },
+                        // Eğer hafızamız çok şişerse sadece son 10 mesajı al (kota dolmasın)
+                        ...chatHistory.slice(-10).slice(0, -1), // Son mesaj hariç geçmişi al
+                        { role: "user", parts: userPart } // Şu anki soruyu (ve varsa resmi) ekle
+                    ]
+                };
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) throw new Error("API Bağlantı Hatası!");
+
+                const data = await response.json();
+                const botReply = data.candidates[0].content.parts[0].text;
+
+                chatHistory.push({ role: "model", parts: [{ text: botReply }] });
+                saveMemory();
+
+                document.getElementById(typingId).remove();
+                addMsg(botReply, 'bot');
+                
+                // Cevabı sesli oku
+                speakText(botReply);
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById(typingId).remove();
+                addMsg("⚠️ Kanka ağ bağlantısında sorun var veya API yanıt vermiyor. Lütfen kontrol et.", 'bot');
+            }
+        }
+
+        // --- YARDIMCI FONKSİYONLAR ---
+        function saveMemory() {
+            localStorage.setItem('nexusHafiza', JSON.stringify(chatHistory));
+        }
+
+        function clearMemory() {
+            if(confirm("Tüm veri tabanını silmek istediğine emin misin?")) {
+                localStorage.removeItem('nexusHafiza');
+                chatHistory = [];
+                messagesDiv.innerHTML = '';
+                addMsg("Hafıza tamamen temizlendi. Sıfırdan başlıyoruz.", "bot");
+            }
+        }
+
+        function addMsg(text, type, id = null) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `msg-container ${type}`;
+            if(id) wrapper.id = id;
+            
+            const div = document.createElement('div');
+            div.className = 'msg';
+            
+            // Markdown formatlayıcı
+            let formattedText = text
+                .replace(/\*\*(.*?)\*\*/g, '<b style="color:#00ccff;">$1</b>') 
+                .replace(/\*(.*?)\*/g, '<i>$1</i>')     
+                .replace(/```(.*?)```/gs, '<pre><code>$1</code></pre>') 
+                .replace(/\n/g, '<br>'); 
+                
+            div.innerHTML = formattedText;
+            wrapper.appendChild(div);
+            messagesDiv.appendChild(wrapper);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        // Enter tuşuyla gönderme
+        inputField.addEventListener('keypress', (e) => { 
+            if(e.key === 'Enter') sendMessage(); 
+        });
     </script>
 </body>
-                        </html>
-                        
+</html>
