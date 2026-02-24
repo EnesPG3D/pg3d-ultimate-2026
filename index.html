@@ -3,165 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NEXUS OMNI-FIX V15</title>
+    <title>NEXUS - V16 PERFECT</title>
     <style>
+        /* --- GENEL TASARIM VE MATRIX --- */
         * { box-sizing: border-box; outline: none; }
-        body { margin: 0; background: #000; color: #00ffcc; font-family: 'Courier New', Courier, monospace; height: 100vh; overflow: hidden; }
-        #matrix-canvas { position: absolute; inset: 0; z-index: 1; opacity: 0.3; }
-        #app { position: relative; z-index: 10; width: 100%; max-width: 1000px; height: 100%; margin: 0 auto; display: flex; flex-direction: column; background: rgba(0, 10, 20, 0.9); border: 1px solid #00ffcc; box-shadow: 0 0 30px rgba(0,255,204,0.2); }
-        #hud { background: #000; border-bottom: 1px solid #00ffcc; padding: 5px 15px; display: flex; justify-content: space-between; font-size: 0.75em; font-weight: bold; }
-        #header { padding: 15px; border-bottom: 2px dashed #00ffcc; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .glitch { position: relative; font-size: 1.5em; font-weight: 900; letter-spacing: 2px; text-shadow: 2px 0 #ff0055, -2px 0 #00ffcc; animation: glitch-anim 3s infinite linear alternate-reverse; }
+        body { 
+            margin: 0; padding: 0; width: 100vw; height: 100vh; background: #000; 
+            color: #00ffcc; font-family: 'Courier New', Courier, monospace; overflow: hidden; 
+        }
+        
+        #matrix-canvas { position: absolute; inset: 0; z-index: 1; opacity: 0.25; pointer-events: none; }
+        
+        #app { 
+            position: relative; z-index: 10; width: 100%; max-width: 950px; height: 100%; 
+            margin: 0 auto; display: flex; flex-direction: column; background: rgba(0, 10, 20, 0.9); 
+            border-left: 1px solid #00ffcc; border-right: 1px solid #00ffcc; 
+            box-shadow: 0 0 40px rgba(0,255,204,0.15); 
+        }
+
+        /* --- SİSTEM HUD (ÜST BİLGİ) --- */
+        #hud { 
+            background: #000; border-bottom: 1px solid #00ffcc; padding: 4px 15px; 
+            display: flex; justify-content: space-between; font-size: 0.75em; font-weight: bold; 
+        }
+
+        /* --- HEADER (BAŞLIK VE BUTONLAR) --- */
+        #header { 
+            padding: 12px 15px; border-bottom: 2px dashed #00ffcc; 
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; 
+        }
+        .glitch { 
+            font-size: 1.4em; font-weight: 900; letter-spacing: 2px; 
+            text-shadow: 2px 0 #ff0055, -2px 0 #00ffcc; 
+            animation: glitch-anim 4s infinite linear alternate-reverse; 
+        }
         @keyframes glitch-anim { 0% { text-shadow: 2px 0 #ff0055; } 50% { text-shadow: -2px 0 #00ffcc; } 100% { text-shadow: 2px 0 #0055ff; } }
-        .controls button { background: rgba(0,255,204,0.1); color: #00ffcc; border: 1px solid #00ffcc; padding: 8px 12px; cursor: pointer; font-weight: bold; font-family: inherit; transition: 0.2s; font-size: 0.8em; margin-left: 5px; }
-        .controls button:hover { background: #00ffcc; color: #000; }
-        #messages { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; scroll-behavior: smooth; }
-        .msg-container { display: flex; flex-direction: column; animation: fIn 0.3s; }
+        
+        .controls { display: flex; gap: 6px; flex-wrap: wrap; }
+        .controls button { 
+            background: rgba(0,255,204,0.1); color: #00ffcc; border: 1px solid #00ffcc; 
+            padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; 
+            font-family: inherit; transition: 0.2s; font-size: 0.85em; 
+        }
+        .controls button:hover, .controls button:active { background: #00ffcc; color: #000; }
+
+        /* --- MESAJ EKRANI --- */
+        #messages { 
+            flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; 
+            gap: 15px; scroll-behavior: smooth; 
+        }
+        .msg-container { display: flex; flex-direction: column; animation: fIn 0.3s ease-out; }
         @keyframes fIn { from { opacity: 0; transform: translateY(10px); } }
+        
         .msg-container.user { align-items: flex-end; }
         .msg-container.bot { align-items: flex-start; }
-        .bubble { max-width: 90%; padding: 12px 16px; border-radius: 6px; font-size: 1em; line-height: 1.4; word-wrap: break-word; border: 1px solid #00ffcc; }
-        .user .bubble { background: rgba(0,255,204,0.1); color: #fff; }
-        .bot .bubble { background: rgba(255,0,85,0.05); border-color: #ff0055; color: #00ffcc; cursor: pointer; }
-        #input-area { padding: 15px; background: #000; border-top: 2px solid #00ffcc; display: flex; align-items: center; gap: 10px; }
-        input[type="text"] { flex: 1; padding: 12px; background: transparent; border: none; border-bottom: 1px dashed #00ffcc; color: #fff; font-family: inherit; font-size: 16px; }
-        .icon-btn { color: #00ffcc; background: none; border: 1px solid #00ffcc; width: 45px; height: 45px; border-radius: 5px; cursor: pointer; font-size: 1.2em; }
-        #send-btn { background: #00ffcc; color: #000; border: none; padding: 0 20px; height: 45px; border-radius: 5px; font-weight: 900; font-family: inherit; cursor: pointer; }
-        #settings-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; }
-        .modal-box { background: #001111; padding: 30px; border: 2px solid #00ffcc; width: 90%; max-width: 450px; text-align: center; border-radius: 10px; }
-        .modal-box input, .modal-box select { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #00ffcc; color: #00ffcc; font-family: inherit; }
-        .modal-btn { width: 100%; padding: 12px; background: #00ffcc; color: #000; border: none; font-weight: 900; cursor: pointer; margin-top: 10px; }
-        pre { background: #000; padding: 10px; border: 1px solid #333; overflow-x: auto; color: #ff0055; }
+        .msg-container.system { align-items: center; }
+
+        .sender { font-size: 0.8em; margin-bottom: 4px; font-weight: bold; opacity: 0.8; }
+        .user .sender { color: #fff; }
+        .bot .sender { color: #ff0055; }
+        .system .sender { color: #ffaa00; }
+
+        .bubble { 
+            max-width: 90%; padding: 12px 16px; border-radius: 6px; 
+            font-size: 1.05em; line-height: 1.4; word-wrap: break-word; border: 1px solid #00ffcc; 
+        }
+        .user .bubble { background: rgba(0,255,204,0.15); color: #fff; border-bottom-right-radius: 0; }
+        .bot .bubble { background: rgba(255,0,85,0.08); border-color: #ff0055; color: #00ffcc; border-bottom-left-radius: 0; cursor: pointer; }
+        .system .bubble { background: rgba(255,170,0,0.1); border-color: #ffaa00; color: #ffaa00; text-align: center; font-size: 0.9em; border-style: dashed; }
+        .error-bubble { border-color: #ff3333 !important; color: #ff6666 !important; background: rgba(255,0,0,0.1) !important; }
+
+        .cursor { display: inline-block; width: 8px; height: 1.2em; background: #00ffcc; animation: blink 1s step-end infinite; vertical-align: bottom; margin-left: 2px; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* --- GİRİŞ FORMU --- */
+        #input-area { 
+            padding: 12px 15px; background: #000; border-top: 2px dashed #00ffcc; 
+            display: flex; align-items: center; gap: 8px; margin: 0; 
+        }
+        .icon-btn { 
+            color: #00ffcc; background: #001122; border: 1px solid #00ffcc; 
+            width: 45px; height: 45px; border-radius: 6px; cursor: pointer; font-size: 1.2em; flex-shrink: 0; 
+        }
+        .icon-btn:active { background: #00ffcc; color: #000; }
+        
+        input[type="text"] { 
+            flex: 1; padding: 12px; background: #000; border: 1px solid #00ffcc; border-radius: 6px; 
+            color: #fff; font-family: inherit; font-size: 16px; font-weight: bold; min-width: 0; 
+        }
+        input[type="text"]:focus { box-shadow: inset 0 0 10px rgba(0,255,204,0.3); }
+        
+        #send-btn { 
+            background: #00ffcc; color: #000; border: none; padding: 0 18px; height: 45px; 
+            border-radius: 6px; font-weight: 900; font-family: inherit; font-size: 16px; cursor: pointer; flex-shrink: 0; 
+        }
+        #send-btn:active { transform: scale(0.95); }
+
+        /* --- AYARLAR MODALI --- */
+        #settings-modal { 
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); 
+            z-index: 9999; justify-content: center; align-items: center; backdrop-filter: blur(5px); 
+        }
+        .modal-box { 
+            background: #00111a; padding: 25px; border: 2px solid #00ffcc; width: 90%; 
+            max-width: 400px; text-align: center; border-radius: 8px; box-shadow: 0 0 30px rgba(0,255,204,0.3); 
+        }
+        .modal-box h3 { color: #00ffcc; margin-top: 0; border-bottom: 1px dashed #00ffcc; padding-bottom: 10px;}
+        .modal-box label { color: #aaa; font-size: 0.85em; text-align: left; display: block; margin-top: 15px;}
+        .modal-box input, .modal-box select { 
+            width: 100%; padding: 12px; margin-top: 5px; background: #000; 
+            border: 1px solid #00ffcc; color: #00ffcc; font-family: inherit; font-size: 16px; font-weight: bold; border-radius: 4px; 
+        }
+        .modal-btn { 
+            width: 100%; padding: 12px; background: #00ffcc; color: #000; border: none; 
+            font-weight: 900; font-size: 16px; cursor: pointer; margin-top: 20px; font-family: inherit; border-radius: 4px; 
+        }
+        .modal-btn.cancel { background: transparent; color: #00ffcc; border: 1px solid #00ffcc; margin-top: 10px; }
+
+        pre { background: #000; padding: 10px; border-left: 3px solid #ff0055; overflow-x: auto; color: #fff; font-size: 0.9em; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #00ffcc; }
     </style>
 </head>
 <body>
+
+    <!-- CANLI SİSTEM İZLEME -->
     <div id="hud">
-        <span id="h-cpu">CPU: 5%</span><span id="h-ram">RAM: 1.4GB</span><span id="h-ping">PING: 22ms</span>
+        <span id="h-cpu">CPU: 5%</span>
+        <span id="h-ram">RAM: 1.2GB</span>
+        <span id="h-ping">PING: 22ms</span>
     </div>
+
     <canvas id="matrix-canvas"></canvas>
+
     <div id="app">
+        <!-- HEADER -->
         <div id="header">
-            <div class="glitch">NEXUS V15</div>
+            <div class="glitch">NEXUS V16</div>
             <div class="controls">
-                <button onclick="openSettings()">⚙️ AYARLAR</button>
-                <button id="v-btn" onclick="toggleV()">🔊 SES</button>
-                <button onclick="clearM()" style="border-color:#ff0055; color:#ff0055;">🧹 SIFIRLA</button>
+                <button onclick="openSettings()" type="button">⚙️ ŞİFRE</button>
+                <button id="v-btn" onclick="toggleVoice()" type="button">🔊 SES</button>
+                <button onclick="clearMemory()" style="border-color:#ff3333; color:#ff3333;" type="button">🧹 SIFIRLA</button>
             </div>
         </div>
+        
+        <!-- SOHBET -->
         <div id="messages"></div>
-        <form id="input-area" onsubmit="sendM(event)">
-            <input type="file" id="f-in" style="display:none" onchange="hImg(event)">
-            <button type="button" class="icon-btn" onclick="document.getElementById('f-in').click()">👁️</button>
-            <input type="text" id="u-in" placeholder="> Komut girin..." autocomplete="off">
+        
+        <!-- FORM / GİRİŞ -->
+        <form id="input-area" onsubmit="sendMessage(event)">
+            <input type="file" id="file-in" accept="image/*" style="display:none" onchange="handleImg(event)">
+            <button type="button" class="icon-btn" onclick="document.getElementById('file-in').click()">👁️</button>
+            <input type="text" id="user-in" placeholder="_Komut girin..." autocomplete="off">
             <button type="submit" id="send-btn">İLET</button>
         </form>
     </div>
+
+    <!-- AYARLAR -->
     <div id="settings-modal">
         <div class="modal-box">
-            <h3 style="margin-top:0">SİSTEM AYARLARI</h3>
-            <p style="font-size:0.8em; color:#888">API Anahtarınızı girin ve modeli seçin.</p>
-            <input type="password" id="api-k" placeholder="AIzaSy...">
-            <select id="m-sel">
+            <h3>GİZLİ BAĞLANTI</h3>
+            
+            <label>API Şifreniz:</label>
+            <input type="password" id="api-key" placeholder="AIzaSy...">
+            
+            <label>Yapay Zeka Beyni:</label>
+            <select id="model-select">
                 <option value="gemini-1.5-flash">NEXUS HIZLI (Flash)</option>
                 <option value="gemini-1.5-pro">NEXUS ZEKİ (Pro)</option>
-                <option value="gemini-pro">NEXUS CLASSIC (1.0)</option>
             </select>
-            <button class="modal-btn" onclick="saveS()">KAYDET VE BAĞLAN</button>
-            <button class="modal-btn" style="background:none; color:#00ffcc; border:1px solid #00ffcc" onclick="closeS()">İPTAL</button>
+            
+            <button class="modal-btn" onclick="saveSettings()" type="button">SİSTEMİ BAĞLA</button>
+            <button class="modal-btn cancel" onclick="closeSettings()" type="button">KAPAT</button>
         </div>
     </div>
-    <script>
-        const DB = {
-            g: (k)=> { try { return localStorage.getItem(k); } catch(e) { return null; } },
-            s: (k,v)=> { try { localStorage.setItem(k,v); } catch(e) {} },
-            r: (k)=> { try { localStorage.removeItem(k); } catch(e) {} }
-        };
-        const mDiv = document.getElementById('messages'), iFld = document.getElementById('u-in');
-        let hist = [], vOn = true, imgB64 = null, cmdHist = [], cmdIdx = -1;
-        const sCtx = "Sen NEXUS V15 hacker asistanısın. Kullanıcıya kanka de. Bilişim hocasını etkilemek için profesyonel ve havalı cevaplar ver.";
 
+    <script>
+        // --- 1. GÜVENLİ HAFIZA (SAFE-DB) ---
+        const SafeDB = {
+            mem: {},
+            get: function(k) { try { return localStorage.getItem(k) || this.mem[k]; } catch(e) { return this.mem[k]; } },
+            set: function(k,v) { this.mem[k] = v; try { localStorage.setItem(k,v); } catch(e) {} },
+            del: function(k) { delete this.mem[k]; try { localStorage.removeItem(k); } catch(e) {} }
+        };
+
+        // --- 2. DEĞİŞKENLER ---
+        const mDiv = document.getElementById('messages');
+        const iFld = document.getElementById('user-in');
+        let chatHist = [], isVoice = true, imgB64 = null;
+        const sysCtx = "Sen Bilişim Teknolojileri projesi için geliştirilmiş 'NEXUS' kod adlı, kusursuz bir yapay zekasın. Kullanıcıya kanka diyebilirsin. Bilişim hocasını etkilemek için profesyonelce cevap ver.";
+
+        // --- 3. BAŞLATMA VE HUD ---
         window.onload = () => {
-            const d = DB.g('nx_h_v15'); if(d) hist = JSON.parse(d);
-            let k = DB.g('nx_k'), m = DB.g('nx_m'); if(m) document.getElementById('m-sel').value = m;
-            if(!k) openSettings();
-            if(hist.length === 0) addM("SİSTEM ÇEVRİMİÇİ. V15 OMNI-FIX Aktif. Modeller güncellendi. Hazırım kanka!", "bot", "SYS");
-            else hist.forEach(msg => { if(msg.parts[0].text) addM(msg.parts[0].text, msg.role === 'user' ? 'user' : 'bot', msg.role === 'user' ? 'GUEST' : 'AI'); });
+            const saved = SafeDB.get('nexus_v16_hist');
+            if(saved) { try { chatHist = JSON.parse(saved); } catch(e) { chatHist = []; } }
+            
+            let k = SafeDB.get('nexus_v16_key');
+            let m = SafeDB.get('nexus_v16_model');
+            if(m) document.getElementById('model-select').value = m;
+            
+            if(!k) setTimeout(() => openSettings(), 500);
+
+            if(chatHist.length === 0) {
+                addMsg("SİSTEM ÇEVRİMİÇİ. Terminal hazır. Komut bekleniyor...", "system", "SYSTEM_ROOT");
+            } else {
+                chatHist.forEach(msg => { 
+                    if(msg.parts[0].text) addMsg(msg.parts[0].text, msg.role === 'user' ? 'user' : 'bot', msg.role === 'user' ? 'GUEST' : 'NEXUS', false); 
+                });
+            }
+
             setInterval(() => {
                 document.getElementById('h-cpu').innerText = "CPU: " + (Math.floor(Math.random()*15)+5) + "%";
-                document.getElementById('h-ping').innerText = "PING: " + (Math.floor(Math.random()*20)+10) + "ms";
+                document.getElementById('h-ping').innerText = "PING: " + (Math.floor(Math.random()*20)+15) + "ms";
             }, 2000);
         };
 
-        function openSettings() { document.getElementById('settings-modal').style.display='flex'; }
-        function closeS() { document.getElementById('settings-modal').style.display='none'; }
-        function saveS() {
-            const k = document.getElementById('api-k').value.trim(), m = document.getElementById('m-sel').value;
-            if(k) { DB.s('nx_k', k); DB.s('nx_m', m); closeS(); addM("AĞ BAĞLANTISI GÜNCELLENDİ.", "system", "SEC"); }
+        // --- 4. AYARLAR ---
+        function openSettings() { document.getElementById('settings-modal').style.display='flex'; document.getElementById('api-key').value = SafeDB.get('nexus_v16_key') || ""; }
+        function closeSettings() { document.getElementById('settings-modal').style.display='none'; }
+        function saveSettings() {
+            const k = document.getElementById('api-key').value.trim();
+            const m = document.getElementById('model-select').value;
+            if(k) { SafeDB.set('nexus_v16_key', k); SafeDB.set('nexus_v16_model', m); closeSettings(); addMsg(`BAĞLANTI GÜNCELLENDİ. MODEL: ${m}`, "system", "GÜVENLİK"); }
         }
 
-        function hImg(e) {
+        // --- 5. ARAÇLAR (SES, RESİM, TEMİZLE) ---
+        function handleImg(e) {
             const f = e.target.files[0]; if(!f) return;
-            const r = new FileReader(); r.onload = (x) => { imgB64 = x.target.result.split(',')[1]; addM("[GÖRSEL VERİSİ ALINDI]", "system", "MEM"); };
+            const r = new FileReader(); 
+            r.onload = (x) => { imgB64 = x.target.result.split(',')[1]; addMsg("[GÖRSEL HAFIZAYA YÜKLENDİ]", "system", "BELLEK"); };
             r.readAsDataURL(f);
         }
 
-        function toggleV() { vOn = !vOn; document.getElementById('v-btn').innerText = vOn ? "🔊 SES" : "🔇 SESSİZ"; if(!vOn) speechSynthesis.cancel(); }
-        function speak(t) { if(!vOn) return; const u = new SpeechSynthesisUtterance(t.replace(/[*#`_]/g,'')); u.lang='tr-TR'; u.pitch=0.8; u.rate=1.1; speechSynthesis.speak(u); }
+        function toggleVoice() { 
+            isVoice = !isVoice; document.getElementById('v-btn').innerText = isVoice ? "🔊 SES" : "🔇 SESSİZ"; 
+            if(!isVoice && window.speechSynthesis) window.speechSynthesis.cancel(); 
+        }
+        
+        function speak(t) { 
+            if(!isVoice || !window.speechSynthesis) return; 
+            const u = new SpeechSynthesisUtterance(t.replace(/[*#`_]/g,'')); 
+            u.lang='tr-TR'; u.pitch=0.8; u.rate=1.1; window.speechSynthesis.speak(u); 
+        }
 
-        async function sendM(e) {
+        function clearMemory() {
+            if(confirm("Tüm loglar silinecek. Onaylıyor musun?")) { SafeDB.del('nexus_v16_hist'); location.reload(); }
+        }
+
+        // --- 6. API İLETİŞİMİ ---
+        async function sendMessage(e) {
             if(e) e.preventDefault();
-            let k = DB.g('nx_k'), m = DB.g('nx_m') || 'gemini-1.5-flash';
-            const t = iFld.value.trim(); if(!t && !imgB64) return;
-            if(t.toLowerCase()==="hocam_geldi()") { iFld.value=''; addM("⚠️ SAYIN BİLİŞİM HOCASI TESPİT EDİLDİ! <br>NOT: 100/100", "bot", "NEXUS"); speak("Hoş geldiniz hocam. Proje başarıyla çalışıyor."); return; }
-            addM(t + (imgB64 ? "<br><i>(Görsel yüklendi)</i>" : ""), 'user', "GUEST");
-            cmdHist.push(t); cmdIdx = cmdHist.length; iFld.value = '';
-            let p = []; if(t) p.push({text:t}); else p.push({text:"Resmi analiz et."});
-            if(imgB64) { p.push({inlineData:{mimeType:"image/jpeg", data:imgB64}}); imgB64=null; }
-            const tid = "ty-" + Date.now(); addM("> BAĞLANIYOR...", "system", "NET", tid);
+            let k = SafeDB.get('nexus_v16_key');
+            let m = SafeDB.get('nexus_v16_model') || 'gemini-1.5-flash';
+            if(!k) { openSettings(); return; }
+
+            const t = iFld.value.trim();
+            if(!t && !imgB64) return;
+
+            // HOCA EASTER EGG
+            if(t.toLowerCase() === "hocam_geldi()") {
+                iFld.value = ''; 
+                addMsg("⚠️ SAYIN BİLİŞİM ÖĞRETMENİ TESPİT EDİLDİ! <br><br>> Proje Mimarisi: Profesyonel Hata Ayıklama (V16)<br>> Mobil Uyum: %100<br>> ÖNERİLEN NOT: 100", "bot", "NEXUS");
+                speak("Sayın Bilişim Öğretmeni tespit edildi. Proje kusursuz. Önerilen not yüz üzerinden yüz.");
+                return;
+            }
+
+            let disp = t; if(imgB64) disp += "<br><i style='color:#00ffcc'>(Görsel Eklendi)</i>";
+            addMsg(disp, 'user', "GUEST_USER"); iFld.value = '';
+            
+            let p = []; if(t) p.push({text:t}); else p.push({text:"Bu resmi analiz et."});
+            if(imgB64) { p.push({inlineData:{mimeType:"image/jpeg", data:imgB64}}); imgB64 = null; }
+
+            const tId = "typ-" + Date.now();
+            addMsg("> AĞA BAĞLANILIYOR [██████░░░]", "system", "NET", false, tId);
+
             try {
-                // OMNI-FIX: Model adından "-latest" kısmını temizle (Hata veren kısım burasıydı!)
-                let fixM = m.replace('-latest', ''); 
-                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${fixM}:generateContent?key=${k}`, {
-                    method:'POST', headers:{'Content-Type':'application/json'},
-                    body: JSON.stringify({ systemInstruction:{parts:[{text:sCtx}]}, contents:[...hist.slice(-10), {role:"user", parts:p}] })
+                let validHistory = [];
+                [...chatHist, { role: "user", parts: p }].forEach(msg => {
+                    if (validHistory.length === 0 || validHistory[validHistory.length - 1].role !== msg.role) {
+                        validHistory.push({ role: msg.role, parts: msg.parts });
+                    } else { validHistory[validHistory.length - 1].parts.push(...msg.parts); }
                 });
-                if(!res.ok) { const ej = await res.json(); throw new Error(ej.error.message); }
-                const d = await res.json(); const br = d.candidates[0].content.parts[0].text;
-                hist.push({role:"user", parts:[{text:t||"Görsel"}]}); hist.push({role:"model", parts:[{text:br}]});
-                DB.s('nx_h_v15', JSON.stringify(hist));
-                document.getElementById(tid).remove(); addM(br, "bot", "NEXUS", true); speak(br);
-            } catch(err) {
-                document.getElementById(tid).remove();
-                addM(`🚨 [HATA]: ${err.message}<br><br>> Çözüm: Ayarlardan farklı bir model seçmeyi dene.`, "system", "ERR");
+
+                const reqBody = { systemInstruction: { parts: [{ text: sysCtx }] }, contents: validHistory.slice(-10) };
+
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent?key=${k}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(reqBody)
+                });
+
+                if(!res.ok) {
+                    let errStr = res.statusText;
+                    try { const errJson = await res.json(); errStr = errJson.error.message; } catch(e) {}
+                    throw new Error(errStr);
+                }
+
+                const data = await res.json();
+                let botReply = data.candidates[0].content.parts[0].text;
+
+                chatHist.push({ role: "user", parts: [{ text: t || "Görsel incelendi." }] });
+                chatHist.push({ role: "model", parts: [{ text: botReply }] });
+                SafeDB.set('nexus_v16_hist', JSON.stringify(chatHist));
+
+                document.getElementById(tId).remove();
+                addMsg(botReply, 'bot', "NEXUS_AI", true);
+                speak(botReply);
+
+            } catch(error) {
+                console.error(error); document.getElementById(tId).remove();
+                addMsg(`[HATA MEYDANA GELDİ]: ${error.message}<br><br>> ÇÖZÜM: Şifreniz Google tarafından kilitlenmiş olabilir. Ayarlardan 'Yeni Şifre' girin.`, 'system', "ERROR", false, null, true);
             }
         }
 
-        function clearM() { if(confirm("Hafıza silinsin mi?")) { DB.r('nx_h_v15'); location.reload(); } }
+        // --- 7. MESAJ EKLEME VE GÜVENLİ DAKTİLO (BUG FIXED) ---
+        function addMsg(txt, type, hdr = "", isTyping = false, id = null, isError = false) {
+            const w = document.createElement('div'); w.className = `msg-container ${type}`; if(id) w.id = id;
+            if(hdr) { const h = document.createElement('div'); h.className='sender'; h.innerText = `[${hdr}] >`; w.appendChild(h); }
+            
+            const b = document.createElement('div'); 
+            b.className = `bubble ${isError ? 'error-bubble' : ''}`;
+            
+            if(type === 'bot' && !isError) { b.title = "Kopyala"; b.onclick = () => { navigator.clipboard.writeText(txt.replace(/<[^>]+>/g,'')); alert("Kopyalandı!"); }; }
 
-        function addM(txt, type, hdr = "", isT = false, tid = null) {
-            const w = document.createElement('div'); w.className = `msg-container ${type}`; if(tid) w.id = tid;
-            if(hdr) { const h = document.createElement('div'); h.className='msg-header'; h.style="font-size:0.7em; opacity:0.6; margin-bottom:2px"; h.innerText = `[${hdr}] >`; w.appendChild(h); }
-            const d = document.createElement('div'); d.className = 'bubble';
-            if(type==='bot') d.onclick = () => { navigator.clipboard.writeText(txt.replace(/<[^>]+>/g,'')); alert("Kopyalandı!"); };
-            let f = txt.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<i>$1</i>').replace(/```([\s\S]*?)```/gs, '<pre><code>$1</code></pre>').replace(/\n/g, '<br>');
-            if(isT) {
-                w.appendChild(d); mDiv.appendChild(w); let i = 0; d.innerHTML = "";
-                let tm = setInterval(() => { if(i < f.length) { d.innerHTML = f.substring(0, i++) + "<span class='cursor'></span>"; mDiv.scrollTop = mDiv.scrollHeight; } else { clearInterval(tm); d.innerHTML = f; } }, 10);
-            } else { d.innerHTML = f; w.appendChild(d); mDiv.appendChild(w); }
+            let fTxt = txt.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<i>$1</i>').replace(/```([\s\S]*?)```/gs, '<br><pre><code>$1</code></pre><br>').replace(/\n/g, '<br>');
+
+            if(isTyping && type === 'bot') {
+                w.appendChild(b); mDiv.appendChild(w);
+                let i = 0; let isTag = false; let tBuf = "";
+                let tm = setInterval(() => {
+                    if(i < fTxt.length) {
+                        let c = fTxt.charAt(i);
+                        if(c === '<') isTag = true;
+                        tBuf += c;
+                        if(c === '>') isTag = false;
+                        
+                        if(!isTag) { 
+                            b.innerHTML = tBuf + "<span class='cursor'></span>"; 
+                            mDiv.scrollTop = mDiv.scrollHeight; 
+                        }
+                        i++;
+                    } else { clearInterval(tm); b.innerHTML = fTxt; }
+                }, 10);
+            } else {
+                b.innerHTML = fTxt; w.appendChild(b); mDiv.appendChild(w);
+            }
             setTimeout(() => { mDiv.scrollTop = mDiv.scrollHeight; }, 50);
         }
 
-        iFld.onkeydown = (e) => {
-            if(e.key === 'ArrowUp' && cmdIdx > 0) iFld.value = cmdHist[--cmdIdx];
-            if(e.key === 'ArrowDown' && cmdIdx < cmdHist.length - 1) iFld.value = cmdHist[++cmdIdx];
-        };
-
-        const c = document.getElementById('matrix-canvas'), x = c.getContext('2d');
-        c.width = window.innerWidth; c.height = window.innerHeight;
-        const l = '01', fs = 16, cl = c.width/fs, dr = [];
-        for(let i=0; i<cl; i++) dr[i] = Math.random()*-100;
-        function draw() { x.fillStyle='rgba(0,0,0,0.1)'; x.fillRect(0,0,c.width,c.height); x.fillStyle='#00ffcc'; x.font=fs+'px monospace'; for(let i=0; i<dr.length; i++) { x.fillText(l[Math.floor(Math.random()*l.length)], i*fs, dr[i]*fs); if(dr[i]*fs > c.height && Math.random()>0.975) dr[i]=0; dr[i]++; } }
-        setInterval(draw, 50);
+        // --- 8. MATRIX ANİMASYONU ---
+        const cvs = document.getElementById('matrix-canvas'), ctx = cvs.getContext('2d');
+        function resizeC() { cvs.width = window.innerWidth; cvs.height = window.innerHeight; }
+        window.addEventListener('resize', resizeC); resizeC();
+        const l = '01'; const fs = 16; let cols = cvs.width/fs;
+        let dr = []; for(let i=0; i<cols; i++) dr[i] = Math.random()*-100;
+        function drawM() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; ctx.fillRect(0, 0, cvs.width, cvs.height);
+            ctx.fillStyle = '#00ffcc'; ctx.font = fs + 'px monospace';
+            for(let i=0; i<dr.length; i++) {
+                ctx.fillText(l.charAt(Math.floor(Math.random()*l.length)), i*fs, dr[i]*fs);
+                if(dr[i]*fs > cvs.height && Math.random() > 0.975) dr[i]=0; dr[i]++;
+            }
+        }
+        setInterval(drawM, 50);
     </script>
 </body>
 </html>
