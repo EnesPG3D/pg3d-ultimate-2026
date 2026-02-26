@@ -12,49 +12,292 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!-- SEO & Site Bilgileri -->
-    <title>Cosova Bey | Web Tasarım & Yazılım Geliştirme</title>
+    <title>Cosova Bey | Profesyonel Web Tasarım & Yazılım Çözümleri</title>
     <meta name="author" content="Cosova Bey (Eren Kara)">
-    <meta name="description" content="Web Tasarımcı, Geliştirici, Sosyal Medya Uzmanı ve Dijital Pazarlama Danışmanı.">
-    <meta name="keywords" content="Eren Kara, Eren, Developer, Web design, Sosyal Medya Uzmanı, Yazılım">
+    <meta name="description" content="Web Tasarımcı, Geliştirici, Sosyal Medya Uzmanı ve Dijital Pazarlama Danışmanı. İşletmenizi dijitale taşıyın.">
+    <meta name="keywords" content="Eren Kara, Developer, Web design, Sosyal Medya Uzmanı, Yazılım, Web Geliştirme, SEO">
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow">
 
-    <!-- Open Graph (Sosyal Medya Paylaşım Görünümleri İçin) -->
+    <!-- Open Graph -->
     <meta property="og:title" content="Cosova Bey | Web Tasarım & Geliştirme">
-    <meta property="og:description" content="Web Siteme Hoşgeldiniz. Dijital Dünyadaki Çözüm Ortağınız.">
+    <meta property="og:description" content="Dijital Dünyadaki Çözüm Ortağınız. Web Siteme Hoşgeldiniz.">
+    <meta property="og:image" content="assets/image/eren.jpg">
     <meta property="og:type" content="website">
     
-    <!-- CSS Dosyaları (Bootstrap & Font Awesome CDN Destekli Daha Hızlı Yükleme) -->
+    <!-- CSS Kütüphaneleri -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
-    <!-- Yerel CSS Dosyaları (Kendi temanızın dosyaları) -->
+    <!-- Yerel CSS Dosyaları -->
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/media.css">
     
-    <!-- Favicon -->
     <link rel="shortcut icon" href="assets/image/eren.jpg">
     
-    <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:100,300,400,500,600,700,800,900">
+    <!-- Google Fontları -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Raleway:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-    <!-- Eski Tarayıcı Destekleri -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]--> 
+    <!-- YAYINA HAZIR PREMIUM CSS DÜZENLEMELERİ -->
+    <style>
+        :root {
+            --primary-color: #669999;
+            --primary-dark: #4a7777;
+            --dark-bg: #1f1f1f;
+            --light-bg: #f8faff;
+            --text-dark: #2d3436;
+            --text-gray: #636e72;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #ffffff;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+        }
+
+        .slider {
+            position: relative;
+            background: linear-gradient(135deg, #111 0%, #222 100%);
+            color: #fff;
+            padding-bottom: 80px;
+        }
+        
+        .header-content h3.text-1 { 
+            color: var(--primary-color); 
+            font-weight: 500; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            font-size: 16px;
+        }
+        .header-content h1.myname { 
+            font-size: 5rem; 
+            font-weight: 800; 
+            margin-bottom: 20px; 
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5); 
+        }
+        .typed-text { 
+            font-size: 2.2rem; 
+            font-weight: 300; 
+            color: #ddd; 
+        }
+        
+        .btn-custom {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid var(--primary-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 153, 153, 0.4);
+            margin-right: 15px;
+        }
+        .btn-custom:hover {
+            background-color: transparent;
+            color: var(--primary-color);
+            box-shadow: 0 6px 20px rgba(102, 153, 153, 0.6);
+            transform: translateY(-3px);
+        }
+        .btn-outline {
+            background-color: transparent;
+            border-color: #fff;
+            color: #fff;
+            box-shadow: none;
+        }
+        .btn-outline:hover {
+            background-color: #fff;
+            color: #222;
+        }
+
+        .heading-section {
+            font-size: 3.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+        .heading-section::after {
+            content: '';
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        .sub-title { 
+            color: var(--text-gray); 
+            font-size: 1.6rem; 
+            margin-top: 20px; 
+            font-weight: 300; 
+        }
+
+        .about-secation { padding: 100px 0; background-color: #fff; }
+        .img-text img {
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            transition: transform 0.5s ease;
+        }
+        .img-text img:hover { transform: scale(1.03); }
+        .skill span {
+            display: inline-block;
+            width: 8%;
+            height: 10px;
+            background: #eee;
+            margin-right: 2%;
+            border-radius: 5px;
+        }
+        .skill span.active-skill { 
+            background: var(--primary-color); 
+            box-shadow: 0 0 8px rgba(102,153,153,0.5); 
+        }
+
+        .section-services { padding: 100px 0; background-color: var(--light-bg); }
+        .block-service {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: all 0.4s ease;
+            margin-bottom: 30px;
+            border-bottom: 4px solid transparent;
+        }
+        .block-service:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-bottom: 4px solid var(--primary-color);
+        }
+        .icon-text .icon i {
+            font-size: 4rem;
+            color: var(--primary-color);
+            transition: transform 0.3s;
+        }
+        .block-service:hover .icon i { transform: scale(1.2); }
+        .icon-text .text h4 { font-size: 2rem; margin-bottom: 15px; color: var(--text-dark); }
+        .icon-text .text p { color: var(--text-gray); line-height: 1.7; font-size: 1.4rem; }
+
+        .section-blog { padding: 100px 0; background-color: #fff; }
+        .post {
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+            transition: all 0.4s ease;
+            margin-bottom: 30px;
+            border: 1px solid #f0f0f0;
+        }
+        .post:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+        .post img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .post:hover img { transform: scale(1.08); }
+        .post-content { padding: 25px; background: #fff; position: relative; z-index: 2; }
+        .post-content h3 { font-size: 2rem; margin-top: 0; color: var(--text-dark); font-weight: 600; }
+        .post-content h3:hover { color: var(--primary-color); }
+        .post-content .meta { color: #aaa; font-size: 1.25rem; margin-bottom: 15px; display: flex; gap: 15px; }
+        .post-content .meta i { color: var(--primary-color); }
+        .post-content p { color: var(--text-gray); line-height: 1.7; font-size: 1.4rem; margin-bottom: 20px; }
+        .read {
+            display: inline-block;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        .read:hover { color: var(--primary-dark); letter-spacing: 2px; }
+
+        .section-contact {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #2d3436 100%);
+            color: #fff;
+        }
+        .section-contact .heading-section { color: #fff; }
+        .section-contact .sub-title { color: #b2bec3; }
+        .contact-info li { font-size: 1.6rem; margin-bottom: 20px; display: flex; align-items: center; }
+        .contact-info li i { font-size: 2rem; color: var(--primary-color); width: 40px; }
+        
+        .form-control {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 20px 15px;
+            border-radius: 8px;
+            height: auto;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        .form-control:focus {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(102, 153, 153, 0.3);
+            color: #fff;
+        }
+        .form-control::placeholder { color: #999; }
+        
+        footer {
+            background-color: #111;
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-icons a {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border-radius: 50%;
+            margin: 0 10px;
+            font-size: 1.8rem;
+            transition: all 0.4s ease;
+        }
+        .social-icons a:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(102, 153, 153, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .header-content h1.myname { font-size: 3.5rem; }
+            .typed-text { font-size: 1.8rem; }
+            .heading-section { font-size: 2.8rem; }
+            .block-service { text-align: center; }
+            .icon-text .col-md-3, .icon-text .col-md-9 { width: 100%; float: none; }
+            .icon-text .icon { margin-bottom: 15px; }
+        }
+    </style>
 </head>
     
-<body data-spy="scroll" data-target="#menu" data-offset="70" class="back-color">
+<body data-spy="scroll" data-target="#menu" data-offset="70">
 
-    <!-- Yukarı Çık Butonu -->
     <div class="to_top" id="to_top">
         <i class="fa fa-long-arrow-up" aria-hidden="true"></i>
     </div>
     
-    <!-- Yükleme Ekranı (Preloader) -->
     <div class="Loading">
         <div class="content">
             <div class="rect1"></div>
@@ -65,243 +308,146 @@
         </div>
     </div>
     
-    <!-- Ana Ekran / Slider -->
     <section id="home" class="slider">
         <div class="container">
             <div class="row">
-                <!-- Navigasyon Menüsü -->
-                <div class="navbar">
-                    <div class="col-md-6 col-xs-6">
+                <div class="navbar" data-aos="fade-down" data-aos-duration="1000">
+                    <div class="col-md-6 col-xs-8">
                         <div class="brand">
-                            <a href="#home"><h4><span>C</span>osova <span>B</span>ey</h4></a> 
+                            <a href="#home">
+                                <h4 style="font-weight: 800; font-size: 24px; color:#fff;">
+                                    <span>C</span>osova <span>B</span>ey
+                                </h4>
+                            </a> 
                          </div>
                     </div>
-                    <div class="col-md-6 col-xs-6">
+                    <div class="col-md-6 col-xs-4 text-right">
                         <a href="#menu" id="toggle"><span></span></a>
                         <div id="menu">
                           <ul>
-                              <li class="item"><a data-scroll href="#home"><i class="fa fa-home fa-lg" aria-hidden="true"></i></a><span><a data-scroll class="menu-item" href="#home">Ana Sayfa</a></span></li>
-                              <li class="item"><a data-scroll href="#about"><i class="fa fa-user fa-lg" aria-hidden="true"></i></a><span><a data-scroll class="menu-item" href="#about">Hakkımda</a></span></li>
-                              <li class="item"><a data-scroll href="#services"><i class="fa fa-server fa-lg" aria-hidden="true"></i></a><span><a data-scroll class="menu-item" href="#services">Uzmanlık Alanlarım</a></span></li>
-                              <li class="item"><a data-scroll href="#blog"><i class="fa fa-th-large fa-lg" aria-hidden="true"></i></a><span><a data-scroll class="menu-item" href="#blog">Yazılım Bilgileri</a></span></li>
-                              <li class="item"><a data-scroll href="#contact"><i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i></a><span><a data-scroll class="menu-item" href="#contact">İletişim</a></span></li>       
+                              <li class="item">
+                                  <a data-scroll href="#home"><i class="fa fa-home" aria-hidden="true"></i></a>
+                                  <span><a data-scroll class="menu-item" href="#home">Ana Sayfa</a></span>
+                              </li>
+                              <li class="item">
+                                  <a data-scroll href="#about"><i class="fa fa-user" aria-hidden="true"></i></a>
+                                  <span><a data-scroll class="menu-item" href="#about">Hakkımda</a></span>
+                              </li>
+                              <li class="item">
+                                  <a data-scroll href="#services"><i class="fa fa-server" aria-hidden="true"></i></a>
+                                  <span><a data-scroll class="menu-item" href="#services">Uzmanlık Alanlarım</a></span>
+                              </li>
+                              <li class="item">
+                                  <a data-scroll href="#blog"><i class="fa fa-th-large" aria-hidden="true"></i></a>
+                                  <span><a data-scroll class="menu-item" href="#blog">Yazılım Bilgileri</a></span>
+                              </li>
+                              <li class="item">
+                                  <a data-scroll href="#contact"><i class="fa fa-envelope-o" aria-hidden="true"></i></a>
+                                  <span><a data-scroll class="menu-item" href="#contact">İletişim</a></span>
+                              </li>       
                           </ul>
                         </div>
                     </div>
                 </div>
 
-                <!-- Başlık ve İçerik -->
-                <div class="col-md-6 header-content">    
-                    <h3 class="text-1">Merhaba Dostum :)</h3>
-                    <h1 class="myname">Web Siteme Hoşgeldin...</h1>
+                <div class="col-md-8 header-content" data-aos="fade-right" data-aos-duration="1200" style="margin-top: 10vh;">    
+                    <h3 class="text-1">Merhaba Dostum 👋</h3>
+                    <h1 class="myname">Dijital Dünyama<br>Hoşgeldin.</h1>
                     
-                    <!-- Dinamik Yazı Efekti Metinleri -->
                     <div id="typed-strings" style="display:none;">
-                        <h3>Digital Marketing Specialist</h3>
-                        <h3>Social Media Expert</h3>
-                        <h3>Code Developer</h3>
-                        <h3>Instagram And Facebook Client</h3>
+                        <h3>Digital Marketing Specialist.</h3>
+                        <h3>Social Media Expert.</h3>
+                        <h3>Code Developer.</h3>
+                        <h3>Creative Designer.</h3>
                     </div>
-                    <h3 class="typed-text"><span class="span_color"></span><span id="typed"></span><i class="fa fa-i-cursor" aria-hidden="true"></i></h3>
                     
-                    <div class="buttons" style="margin-top: 20px;">
-                        <button type="button" onClick="location.href='#blog'" class="btn btn-custom">Blog Oku</button>
-                        <button type="button" onClick="location.href='#about'" class="btn btn-custom">Devamı Aşağıda</button>
+                    <h3 class="typed-text">
+                        <span class="span_color">Ben Bir </span>
+                        <span id="typed"></span>
+                        <i class="fa fa-i-cursor" aria-hidden="true"></i>
+                    </h3>
+                    
+                    <div class="buttons" style="margin-top: 40px;">
+                        <button type="button" onClick="location.href='#services'" class="btn btn-custom">Neler Yapıyorum?</button>
+                        <button type="button" onClick="location.href='#contact'" class="btn btn-custom btn-outline">İletişime Geç</button>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Arkaplan Animasyonu -->
         <canvas id="swift-canvas"></canvas>
     </section>
     
-    <!-- Hakkımda Bölümü -->
-    <section id="about" class="about-secation" style="padding: 80px 0;">
-        <div class="about">
-            <div class="container">
-                <div class="row">
-                    <h2 class="heading-section text-center">Hakkımda</h2>
-                    <p class="sub-title text-center">"Kendiniz için değil, bağlı bulunduğunuz ulus için elbirliği ile çalışınız."</p>
-                    <p class="sub-title text-center" style="font-style: italic;">Mustafa Kemal Atatürk</p>
+    <section id="about" class="about-secation">
+        <div class="container">
+            <div class="row text-center" data-aos="fade-up">
+                <h2 class="heading-section">Hakkımda</h2>
+                <p class="sub-title">
+                    "Kendiniz için değil, bağlı bulunduğunuz ulus için elbirliği ile çalışınız." <br>
+                    <strong style="color:var(--text-dark)">- Mustafa Kemal Atatürk</strong>
+                </p>
+            </div>
 
-                    <div class="col-lg-4 col-md-5">
-                        <div class="img-text">
-                            <img src="assets/image/eren.jpg" alt="Eren Kara" class="img-responsive" style="border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);"/>
-                            <div class="Continue" style="margin-top: 20px;">
-                                <ul style="list-style: none; padding: 0;">
-                                    <li><h4><i class="fa fa-hashtag" aria-hidden="true" style="color:#669999;"></i> Social Media Expert</h4></li>
-                                    <li><h4><i class="fa fa-trophy" aria-hidden="true" style="color:#669999;"></i> I'm Legend :)</h4></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-8 col-md-7 content">
-                        <h3 style="margin-top: 0;">Aşağıdakiler Dışında Birçok Konuda Hakimiyetim Var, Öncelik Verdiklerim:</h3>
-                        <p style="line-height: 1.8;">Yaklaşık 3 yıldır Web Tasarımı & Programlama ile uğraşıyorum. Çocukluğumdan beri bir şeyler geliştirmek hayalimdi. Sosyal Medya Uzmanlığı konusunda gerek yazılım ve siber güvenlik alanında yaptığım işlerin yanı sıra; güvenli hesap alım satımı, reklam hizmeti, web tasarımı gibi hizmetler ile bugüne dek yaptığım her işin kalitesi ile söz ettiren bir kişiyim. Bu süreçte kendimi çok geliştirdim ve şu an bulunduğum seviyeye kadar geldim.</p>
-                        
-                        <h3 style="margin-top: 30px; margin-bottom: 20px;">Yetenek Sıralaması</h3>
-                        <div class="row">
-                            <div class="col-lg-6 col-sm-6"> 
-                                <h4>HTML 5</h4>
-                                <div class="skill show-7">
-                                    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                </div>
-                                <h4>CSS 3</h4>
-                                <div class="skill show-6">
-                                    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                </div>
-                                <h4>JavaScript</h4>
-                                <div class="skill show-8">
-                                    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                </div>
-                                <h4>jQuery</h4>
-                                <div class="skill show-2">
-                                    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-sm-6">
-                                <h4>PHP</h4>
-                                <div class="skill show-6">
-                                    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                </div>
-                                <h4>WordPress</h4>
-                                <div class="skill show-4">
-                                   <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                </div>
-                                <h4>Laravel</h4>
-                                <div class="skill show-3">
-                                   <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                </div>
-                                <h4>Bootstrap</h4>
-                                <div class="skill show-2">
-                                   <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                                </div>
-                            </div>
+            <div class="row" style="margin-top: 60px;">
+                <div class="col-lg-4 col-md-5" data-aos="fade-right" data-aos-delay="200">
+                    <div class="img-text">
+                        <img src="assets/image/eren.jpg" alt="Eren Kara" class="img-responsive"/>
+                        <div class="Continue" style="margin-top: 25px; background: var(--light-bg); padding: 20px; border-radius: 10px; border-left: 4px solid var(--primary-color);">
+                            <ul style="list-style: none; padding: 0; margin: 0;">
+                                <li style="margin-bottom: 10px;">
+                                    <h4>
+                                        <i class="fa fa-hashtag" aria-hidden="true" style="color:var(--primary-color); width: 25px;"></i> 
+                                        Social Media Expert
+                                    </h4>
+                                </li>
+                                <li>
+                                    <h4>
+                                        <i class="fa fa-trophy" aria-hidden="true" style="color:var(--primary-color); width: 25px;"></i> 
+                                        I'm Legend :)
+                                    </h4>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Hizmetler / Dallarım Bölümü -->
-    <section id="services" class="section-services">
-        <div class="services overlay-parallax" style="padding: 80px 0;">
-            <div class="container">
-                <div class="row">
-                    <h2 class="heading-section text-center">Kendimi Geliştirdiğim Dallar</h2>
-                    <p class="sub-title text-center">"En büyük savaş, cahilliğe karşı yapılan savaştır."</p>
-                    <p class="sub-title text-center" style="font-style: italic;">Mustafa Kemal Atatürk</p>
+
+                <div class="col-lg-8 col-md-7 content" data-aos="fade-left" data-aos-delay="400">
+                    <h3 style="margin-top: 0; font-size: 2.2rem; margin-bottom: 20px;">Merhaba, Ben Eren Kara (Cosova Bey)</h3>
+                    <p style="font-size: 1.5rem; color: var(--text-gray); line-height: 1.8; margin-bottom: 30px;">
+                        Yaklaşık 3 yıldır Web Tasarımı & Programlama ile uğraşıyorum. Çocukluğumdan beri bir şeyler geliştirmek hayalimdi. 
+                        Sosyal Medya Uzmanlığı konusunda gerek yazılım ve siber güvenlik alanında yaptığım işlerin yanı sıra; 
+                        güvenli hesap alım satımı, reklam hizmeti ve kurumsal web tasarımı gibi hizmetler ile kaliteden ödün vermeden çalışıyorum. 
+                        Bu süreçte kendimi çok geliştirdim ve teknolojiye olan tutkumla projelere hayat veriyorum.
+                    </p>
                     
-                    <div class="col-md-4" style="margin-top: 40px;">
-                        <div class="services-row">
-                            <div class="col-md-12 block-service border1">
-                                <div class="icon-text">
-                                    <div class="col-md-3 icon">
-                                        <i class="fa fa-code" aria-hidden="true"></i>     
-                                    </div>
-                                    <div class="col-md-9 text">
-                                        <h4>Web Developer</h4>
-                                        <p>Web sitesi geliştiren kişi anlamında kullanılan bir terimdir. Kodlama ve altyapı inşası uzmanlık gerektirir.</p>
-                                    </div>
-                                </div>
+                    <h3 style="margin-bottom: 25px; font-size: 2.2rem;">Yetenek & Uzmanlık Seviyem</h3>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-6"> 
+                            <h4 style="font-size: 1.4rem; font-weight: 600; margin-bottom: 8px;">HTML 5 / CSS 3</h4>
+                            <div class="skill" style="margin-bottom: 20px;">
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span></span>
                             </div>
-                            <div class="col-md-12 block-service border2" style="margin-top: 30px;">
-                                <div class="icon-text">
-                                    <div class="col-md-3 icon">
-                                        <i class="fa fa-desktop" aria-hidden="true"></i>    
-                                    </div>
-                                    <div class="col-md-9 text">
-                                        <h4>Web Tasarım</h4>
-                                        <p>Tasarımın her dalında olduğu gibi web tasarımı içinde de belli ana hatlar oluşturularak profesyonel çalışmalar yapılır.</p>
-                                    </div>
-                                </div>
+                            
+                            <h4 style="font-size: 1.4rem; font-weight: 600; margin-bottom: 8px;">JavaScript / jQuery</h4>
+                            <div class="skill" style="margin-bottom: 20px;">
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span class="active-skill"></span>
+                                <span></span>
+                                <span></span>
                             </div>
                         </div>
-                    </div> 
-                    
-                    <div class="col-md-4 text-center hidden-sm hidden-xs" style="margin-top: 40px;">
-                        <img src="https://abhishekkothari.in/wp-content/uploads/2016/12/website-developer.png" alt="Developer Illustration" class="img-responsive" style="margin:0 auto; filter: drop-shadow(0px 5px 10px rgba(0,0,0,0.2));">
-                    </div> 
-                    
-                    <div class="col-md-4" style="margin-top: 40px;">
-                        <div class="services-row">
-                            <div class="col-md-12 block-service border3">
-                                <div class="icon-text">
-                                    <div class="col-md-3 icon">
-                                        <i class="fa fa-android" aria-hidden="true"></i>       
-                                    </div>
-                                    <div class="col-md-9 text">
-                                        <h4>Android Developer</h4>
-                                        <p>Mobil dünyada kullanıcı deneyimini zirveye taşıyan, performans odaklı native ve hybrid mobil uygulamalar geliştirme süreci.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 block-service border4" style="margin-top: 30px;">
-                               <div class="icon-text">
-                                   <div class="col-md-3 icon">
-                                       <i class="fa fa-paint-brush" aria-hidden="true"></i>    
-                                   </div>
-                                   <div class="col-md-9 text">
-                                       <h4>Grafik Tasarım</h4>
-                                       <p>Görselleştirme ve sanal manipülasyonlarla markaların dijital imzasını oluşturmak. Logodan arayüze kadar yaratıcı tasarımlar.</p>
-                                   </div>
-                                </div>
-                           </div>
-                        </div>
-                    </div> 
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Blog / Bilgi Bölümü -->
-    <section id="blog" class="section-blog" style="padding: 80px 0; background-color: #f9f9f9;">
-        <div class="blog">
-            <div class="container">
-                <div class="row">
-                    <h2 class="heading-section text-center" style="color: #333;">Yazılım Programları Hakkında Bilgiler</h2>
-                    <p class="sub-title text-center" style="color: #666;">Sosyal Medya Uzmanlığı ve Yazılım Konusunda Kendimi Geliştirmiş, Bilgi Birikimim ve Tecrübelere Bağlı Bir Yazılım Uzmanıyım.</p>
-                    
-                    <div class="posts" style="margin-top: 50px;">
-                        <!-- Blog 1 -->
-                        <div class="col-md-4">
-                            <div class="post" style="background:#fff; border-radius:5px; overflow:hidden; box-shadow:0 0 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
-                                <a href="#">
-                                    <img src="https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?q=80&w=600&auto=format&fit=crop" alt="CSS Nedir?" class="img-responsive" />
-                                </a>
-                                <div class="post-content" style="padding: 20px;">
-                                    <a href="#"><h3 style="margin-top:0; color:#333;">CSS Nedir?</h3></a>
-                                    <div style="margin-bottom: 15px; color:#888; font-size:13px;">
-                                        <span style="margin-right:10px;"><i class="fa fa-user" aria-hidden="true"></i> Yönetici</span>
-                                        <span><i class="fa fa-calendar" aria-hidden="true"></i> 17.10.2020</span>
-                                    </div>
-                                    <p style="color:#555;">CSS “Cascading Style Sheets” kısaltmasıdır ve web masterlara stil oluşturma ve farklı içerik türlerinin gösterilme şeklini ayarlama şansı tanır. Bunu HTML’de her bir öğe için manuel yapmak yerine CSS ile tasarlayarak zamandan tasarruf sağlarsınız.</p>
-                                    <a href="#" class="read" style="color:#669999; font-weight:bold;">Devamı <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Blog 2 -->
-                        <div class="col-md-4">
-                            <div class="post" style="background:#fff; border-radius:5px; overflow:hidden; box-shadow:0 0 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
-                                <a href="#">
-                                    <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=600&auto=format&fit=crop" alt="HTML Nedir?" class="img-responsive" />
-                                </a>
-                                <div class="post-content" style="padding: 20px;">
-                                    <a href="#"><h3 style="margin-top:0; color:#333;">HTML Nedir?</h3></a>
-                                    <div style="margin-bottom: 15px; color:#888; font-size:13px;">
-                                        <span style="margin-right:10px;"><i class="fa fa-user" aria-hidden="true"></i> Yönetici</span>
-                                        <span><i class="fa fa-calendar" aria-hidden="true"></i> 17.10.2020</span>
-                                    </div>
-                                    <!-- HTML etiketi hatası düzeltildi ( &lt; ve &gt; kullanıldı ) -->
-                                    <p style="color:#555;">“Hypertext Markup Language” kısaltması olan HTML, internetteki en popüler işaretleme dillerinden birisidir ve bir web sayfasının ana iskeletini oluşturur. Örnek olarak paragraflar için <strong>&lt;p&gt;</strong>, resimler için <strong>&lt;img&gt;</strong> etiketleri verilebilir.</p>
-                                    <a href="#" class="read" style="color:#669999; font-weight:bold;">Devamı <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Blog 3 (Görsel Simetriyi Korumak İçin Eklendi) -->
-                        <div class="col-md-4">
-                            <div class="post" style="background:
+             
